@@ -1,3 +1,8 @@
+# Contents:
+# - Python bytecode and cache directories.
+# - Build, packaging, test, and tool-generated artifacts.
+# - Local environments and machine-specific settings.
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

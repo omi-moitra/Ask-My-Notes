@@ -1,0 +1,15 @@
+ASK MY NOTES SAMPLE NOTE
+========================
+
+CONTENTS
+--------
+1. Readability and the standard library
+2. Tests as executable examples
+
+1. Readability and the standard library
+
+Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand.
+
+2. Tests as executable examples
+
+Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.

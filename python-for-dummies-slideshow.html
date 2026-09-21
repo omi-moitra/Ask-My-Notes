@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python for Dummies · Ask My Notes</title>
+<style>
+:root{color-scheme:dark;--bg:#10202c;--text:#f5f0e7;--muted:#b6c6cc;--accent:#f2bd65;--line:#40515b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,a,select{touch-action:manipulation}a{color:var(--accent)}a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.slide{min-height:calc(100svh - 88px);padding:clamp(24px,5vw,76px);padding-bottom:24px;max-width:1600px;margin:auto}.slide[hidden],.notes[hidden]{display:none}.eyebrow{font-size:14px;letter-spacing:.18em;color:var(--accent);margin:0 0 24px}h1{font-size:clamp(32px,4.1vw,60px);line-height:1.08;letter-spacing:-.035em;max-width:1100px;margin:0 0 40px;font-weight:650}.content{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(220px,1fr);gap:clamp(24px,4vw,70px);align-items:center}pre{margin:0;padding:22px 0 22px 22px;border-left:3px solid var(--accent);white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font-size:clamp(14px,1.45vw,22px);line-height:1.6;color:#d5e8ec}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}ul{padding-left:24px;margin:0}li{font-size:clamp(19px,2vw,29px);line-height:1.4;margin:0 0 24px;padding-left:6px}li::marker{color:var(--accent)}.source{color:var(--muted);font-size:14px;line-height:1.6;margin:36px 0 0}.notes{border-top:1px solid var(--line);margin-top:24px;padding-top:12px;max-width:1100px}.notes h2{font-size:18px;color:var(--accent)}.notes p{font-size:18px;line-height:1.6}nav{position:sticky;bottom:0;background:#10202cf5;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}button,select{font:inherit;color:var(--text);background:#1c3442;border:1px solid #647986;border-radius:4px;padding:9px 13px;cursor:pointer}button:hover,select:hover{background:#2a4858}button:disabled{opacity:.4;cursor:default}#counter{font-variant-numeric:tabular-nums;min-width:62px;text-align:center}.spacer{flex:1}label{font-size:14px;color:var(--muted)}#jump{max-width:290px}.help{font-size:12px;color:var(--muted);margin:0 24px 16px}progress{display:block;width:100%;height:4px;border:0;accent-color:var(--accent)}progress::-webkit-progress-bar{background:var(--line)}progress::-webkit-progress-value{background:var(--accent)}
+@media(max-width:760px){.content{grid-template-columns:1fr}h1{margin-bottom:24px}li{margin-bottom:12px}.slide{padding:28px 22px;min-height:auto}nav{position:relative;padding:12px;gap:8px}#jump{max-width:220px}.spacer{display:none}pre{font-size:14px}.source{margin-top:24px}}
+@media print{@page{size:landscape;margin:12mm}:root{color-scheme:light}body{background:white;color:#142430}nav,.help,progress,.notes{display:none!important}.slide,.slide[hidden]{display:block;min-height:0;height:175mm;max-width:none;padding:7mm;break-after:page;page-break-after:always}.slide:last-child{break-after:auto;page-break-after:auto}.eyebrow,li::marker,a{color:#775010}h1{font-size:30pt;margin-bottom:24px}.content{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px}pre{font-size:11pt;color:#142430;border-color:#775010}li{font-size:16pt;margin-bottom:16px}.source{color:#37434c;font-size:10pt;margin-top:22px}}
+</style></head><body>
+<main aria-label="Python lesson slides"><section class="slide" id="slide-1" aria-labelledby="title-1" >
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 01</p>
+    <h1 id="title-1">The program you are learning</h1>
+    <div class="content"><div class="example"><h2>Example: Search a tiny note</h2><pre><code>from src.models import DocumentChunk
+from src.search import KeywordRetriever
+
+chunk = DocumentChunk(&quot;note.txt&quot;, 1, &quot;Python makes notes searchable&quot;)
+results = KeywordRetriever([chunk]).search(&quot;python&quot;)
+print(results[0].chunk.source)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>note.txt</samp></pre></details></div><ul aria-label="Key points"><li>Read local notes</li><li>Split text into overlapping passages</li><li>Rank passages by matching words</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>What does the search return: a passage or a generated answer?</p><details><summary>Show answer</summary><p>A matching passage with its source and score.</p></details></details>
+<p class="source">src/cli.py · main · <a href="python-for-dummies.md#chapter-1">Guide chapter 1</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>We will learn Python by following one note through this program. First we read the note, then split it, then rank its passages against a question. Each step introduces a small piece of Python. You do not need to memorize the whole program. Keep asking: what value goes in, what happens to it, and what value comes out?</p><p><strong>Ask:</strong> What does the search return: a passage or a generated answer?</p><p><strong>Answer:</strong> A matching passage with its source and score.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 1.</p><h2>Explain the example</h2><ol><li>`DocumentChunk(...)` creates one searchable passage. Its three arguments are the filename, chunk number, and text.</li><li>`[chunk]` puts that passage in a list. `KeywordRetriever([chunk])` prepares the list for searching.</li><li>`.search(&quot;python&quot;)` returns matching results. `[0]` selects the first result.</li><li>`result.chunk.source` follows the result to its passage and then its filename. `print(...)` displays it.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-2" aria-labelledby="title-2" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 02</p>
+    <h1 id="title-2">Files, modules, and imports</h1>
+    <div class="content"><div class="example"><h2>Example: Import a function</h2><pre><code>from src.search import tokenize
+
+print(tokenize(&quot;Hello Python!&quot;))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>[&#x27;hello&#x27;, &#x27;python&#x27;]</samp></pre></details></div><ul aria-label="Key points"><li>A .py file is a module</li><li>An import makes another module’s names available</li><li>A leading dot means the current package</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>What does the dot in from .models import Document mean?</p><details><summary>Show answer</summary><p>Look for models inside the current package.</p></details></details>
+<p class="source">src/__init__.py · imports across src/ and tests/ · <a href="python-for-dummies.md#chapter-2">Guide chapter 2</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Think of modules as labeled drawers. Import opens access to a tool in another drawer. Math stays under its module name; Path is imported directly. The dot before models says to look within this package. That is why our command uses python dash m src dot cli: it tells Python which package the module belongs to.</p><p><strong>Ask:</strong> What does the dot in from .models import Document mean?</p><p><strong>Answer:</strong> Look for models inside the current package.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 2.</p><h2>Explain the example</h2><ol><li>`from src.search import tokenize` makes the project’s tokenize function available by name.</li><li>`tokenize(&quot;Hello Python!&quot;)` passes text to that function.</li><li>The function returns a list of lowercase words. `print(...)` displays that returned list.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-3" aria-labelledby="title-3" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 03</p>
+    <h1 id="title-3">Indentation, comments, and docstrings</h1>
+    <div class="content"><div class="example"><h2>Example: Read an indented block</h2><pre><code>size = 4
+# Only print when the size is positive.
+if size &gt; 0:
+    print(&quot;Ready&quot;)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>Ready</samp></pre></details></div><ul aria-label="Key points"><li>A colon starts a block</li><li>Indentation shows what belongs inside it</li><li># comments and docstrings explain intent</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>What happens if size becomes 0?</p><details><summary>Show answer</summary><p>The condition is false, so the indented print statement does not run.</p></details></details>
+<p class="source">src/chunker.py · chunk_document · <a href="python-for-dummies.md#chapter-3">Guide chapter 3</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Look at the left edge of the code. The spaces tell you what is inside what. The error is inside the condition, and the condition is inside the function. The hash comment explains a decision to people. The triple-quoted docstring describes the function to people and Python tools. When a call spans several lines, its parentheses keep it together.</p><p><strong>Ask:</strong> What happens if size becomes 0?</p><p><strong>Answer:</strong> The condition is false, so the indented print statement does not run.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 3.</p><h2>Explain the example</h2><ol><li>`size = 4` stores the number 4 under the name size.</li><li>`#` introduces a comment. Python does not execute the comment.</li><li>`if size &gt; 0:` asks whether size is greater than zero. The colon begins its block.</li><li>The indented `print` runs because the condition is true. Remove the indentation and it no longer belongs to the condition.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-4" aria-labelledby="title-4" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 04</p>
+    <h1 id="title-4">Names, values, and basic types</h1>
+    <div class="content"><div class="example"><h2>Example: Assign a value</h2><pre><code>chunk_size = 120
+overlap = 20
+step = chunk_size - overlap
+print(step)
+print(step == 100)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>100
+True</samp></pre></details></div><ul aria-label="Key points"><li>= assigns; == compares</li><li>Text, numbers, and booleans are different types</li><li>Names refer to objects</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Which symbol assigns a value: = or ==?</p><details><summary>Show answer</summary><p>= assigns. == compares values.</p></details></details>
+<p class="source">src/chunker.py · src/models.py · src/cli.py · <a href="python-for-dummies.md#chapter-4">Guide chapter 4</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>An equals sign gives a value a name. Two equals signs ask whether values are equal. Here step becomes one hundred because one hundred twenty minus twenty is one hundred. Dot text reads an attribute; dot split followed by parentheses runs a method. Names can refer to the same object, so assigning a list to another name does not make a new list.</p><p><strong>Ask:</strong> Which symbol assigns a value: = or ==?</p><p><strong>Answer:</strong> = assigns. == compares values.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 4.</p><h2>Explain the example</h2><ol><li>The first two assignments name the window size and overlap.</li><li>`chunk_size - overlap` subtracts 20 from 120. The result is assigned to step.</li><li>`print(step)` displays 100.</li><li>`step == 100` compares two values. Its result is the Boolean value True.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-5" aria-labelledby="title-5" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 05</p>
+    <h1 id="title-5">Functions, arguments, and return values</h1>
+    <div class="content"><div class="example"><h2>Example: Call a function</h2><pre><code>def advance(size, overlap=1):
+    return size - overlap
+
+print(advance(4))
+print(advance(4, overlap=2))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>3
+2</samp></pre></details></div><ul aria-label="Key points"><li>def defines reusable work</li><li>Defaults apply when arguments are omitted</li><li>return sends a value back to the caller</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Which overlap value is used by advance(4)?</p><details><summary>Show answer</summary><p>The default value, 1.</p></details></details>
+<p class="source">src/chunker.py · chunk_document and chunk_documents · <a href="python-for-dummies.md#chapter-5">Guide chapter 5</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>A function is a reusable recipe. Its definition lists the ingredients it accepts. The caller can use the default portion sizes or name replacements, as we do with chunk size four and overlap one. Return hands the finished result back. Notice that defining the recipe and actually cooking it are separate operations.</p><p><strong>Ask:</strong> Which overlap value is used by advance(4)?</p><p><strong>Answer:</strong> The default value, 1.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 5.</p><h2>Explain the example</h2><ol><li>`def advance(size, overlap=1):` defines a function with two parameters. The second has a default.</li><li>`return size - overlap` calculates a value and sends it back to the caller.</li><li>`advance(4)` uses the default overlap of 1, so it returns 3.</li><li>`advance(4, overlap=2)` replaces the default, so it returns 2. This small teaching function illustrates the subtraction used by the chunker.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-6" aria-labelledby="title-6" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 06</p>
+    <h1 id="title-6">Type hints describe expected values</h1>
+    <div class="content"><div class="example"><h2>Example: Read a type hint</h2><pre><code>def label(text: str) -&gt; str:
+    return text
+
+print(label(&quot;notes&quot;))
+print(label(42))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>notes
+42</samp></pre></details></div><ul aria-label="Key points"><li>name: Type describes a value</li><li>→ in prose corresponds to -&gt; in Python</li><li>Type hints do not automatically validate inputs</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Why does label(42) still run?</p><details><summary>Show answer</summary><p>Type hints describe expected types. This function has no runtime type check.</p></details></details>
+<p class="source">src/models.py · src/chunker.py · src/search.py · <a href="python-for-dummies.md#chapter-6">Guide chapter 6</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Read the colon as “is expected to be,” and the arrow as “returns.” Tokenize expects text and returns a list of strings. These labels help readers and development tools. They do not stop someone from passing the wrong thing. Actual validation is performed by the if statements that raise errors.</p><p><strong>Ask:</strong> Why does label(42) still run?</p><p><strong>Answer:</strong> Type hints describe expected types. This function has no runtime type check.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 6.</p><h2>Explain the example</h2><ol><li>`text: str` describes the expected input type. `-&gt; str` describes the expected return type.</li><li>`return text` gives back exactly what was passed in.</li><li>The first call passes a string. The second deliberately passes an integer.</li><li>Both run because annotations do not insert runtime checks. The second call violates the hint, which a type checker can flag.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-7" aria-labelledby="title-7" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 07</p>
+    <h1 id="title-7">Lists, tuples, sets, and dictionaries</h1>
+    <div class="content"><div class="example"><h2>Example: Choose a collection</h2><pre><code>words = [&quot;python&quot;, &quot;python&quot;, &quot;notes&quot;]
+unique_words = set(words)
+weights = {&quot;python&quot;: 2.0}
+print(len(words))
+print(len(unique_words))
+print(weights[&quot;python&quot;])</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>3
+2
+2.0</samp></pre></details></div><ul aria-label="Key points"><li>Lists preserve order and allow repeats</li><li>Sets keep unique members</li><li>Dictionaries map keys to values; tuples group positions</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Why does unique_words contain only two items?</p><details><summary>Show answer</summary><p>A set stores each distinct value once.</p></details></details>
+<p class="source">src/loader.py · src/search.py · tests/test_loader.py · <a href="python-for-dummies.md#chapter-7">Guide chapter 7</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Choose a collection based on what the data means. Chunks belong in a list because order matters. Query words belong in a set because duplicates should count once. A dictionary pairs each word with its weight. A tuple groups the sorting priorities. Also watch append versus extend: one adds a single object, while the other adds the contents of a collection.</p><p><strong>Ask:</strong> Why does unique_words contain only two items?</p><p><strong>Answer:</strong> A set stores each distinct value once.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 7.</p><h2>Explain the example</h2><ol><li>The list words contains three entries, including a repeated word.</li><li>`set(words)` produces unique entries: python and notes.</li><li>`{&quot;python&quot;: 2.0}` creates a dictionary linking the key python to a number.</li><li>`len(...)` counts entries. `weights[&quot;python&quot;]` retrieves the value stored under that key.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-8" aria-labelledby="title-8" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 08</p>
+    <h1 id="title-8">Conditions and truthiness</h1>
+    <div class="content"><div class="example"><h2>Example: Check for empty text</h2><pre><code>text = &quot;   &quot;
+print(bool(text))
+print(bool(text.strip()))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>True
+False</samp></pre></details></div><ul aria-label="Key points"><li>if runs a block only when its condition is true</li><li>not negates; or accepts either condition</li><li>Empty collections and strings are false in conditions</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Is a string containing three spaces empty?</p><details><summary>Show answer</summary><p>No. It is nonempty until strip removes the spaces.</p></details></details>
+<p class="source">src/loader.py · src/chunker.py · src/cli.py · <a href="python-for-dummies.md#chapter-8">Guide chapter 8</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Conditions are gates. The loader skips an entry if it is not a file or its extension is unsupported. Empty collections behave like false, so “if not results” means there were no results. A string containing spaces is still nonempty; strip removes those spaces for the check. Finally, the short inline if expression chooses a logging level.</p><p><strong>Ask:</strong> Is a string containing three spaces empty?</p><p><strong>Answer:</strong> No. It is nonempty until strip removes the spaces.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 8.</p><h2>Explain the example</h2><ol><li>`text` contains three spaces, so it is a nonempty string.</li><li>`bool(text)` asks for its truth value and returns True.</li><li>`text.strip()` returns a new string with surrounding whitespace removed.</li><li>That new string is empty, so converting it to bool returns False. The original text is unchanged.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-9" aria-labelledby="title-9" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 09</p>
+    <h1 id="title-9">Loops, ranges, and unpacking</h1>
+    <div class="content"><div class="example"><h2>Example: Number a loop</h2><pre><code>for number, start in enumerate(range(0, 7, 3), start=1):
+    print(number, start)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>1 0
+2 3
+3 6</samp></pre></details></div><ul aria-label="Key points"><li>for visits items from an iterable</li><li>enumerate adds a counter; zip pairs collections</li><li>Two loop names unpack a pair</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Why is there no start position 7?</p><details><summary>Show answer</summary><p>range excludes its stop value. With a step of 3, the positions here are 0, 3, and 6.</p></details></details>
+<p class="source">src/chunker.py · src/search.py · src/cli.py · <a href="python-for-dummies.md#chapter-9">Guide chapter 9</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>The chunker needs two numbers: where to start reading and what chunk number to show a person. Range supplies positions zero, three, six in our small example. Enumerate attaches labels one, two, three. Two names on the left unpack each pair. Later, zip pairs each chunk with its counts so the search loop can use both together.</p><p><strong>Ask:</strong> Why is there no start position 7?</p><p><strong>Answer:</strong> range excludes its stop value. With a step of 3, the positions here are 0, 3, and 6.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 9.</p><h2>Explain the example</h2><ol><li>`range(0, 7, 3)` supplies the positions 0, 3, and 6.</li><li>`enumerate(..., start=1)` pairs those positions with the numbers 1, 2, and 3.</li><li>`number, start` unpacks each pair into two names.</li><li>The indented print runs once per pair and displays both values separated by a space.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-10" aria-labelledby="title-10" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 10</p>
+    <h1 id="title-10">Strings, indexes, and slices</h1>
+    <div class="content"><div class="example"><h2>Example: Slice a list</h2><pre><code>words = &quot;one two three four five six seven&quot;.split()
+for start in range(0, len(words), 3):
+    print(&quot; &quot;.join(words[start:start + 4]))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>one two three four
+four five six seven
+seven</samp></pre></details></div><ul aria-label="Key points"><li>Indexes start at zero</li><li>Slices include the start and exclude the stop</li><li>split makes words; join makes text</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>How many chunks does this example produce?</p><details><summary>Show answer</summary><p>Three, including the final one-word chunk.</p></details></details>
+<p class="source">src/chunker.py · tests/test_chunker.py · <a href="python-for-dummies.md#chapter-10">Guide chapter 10</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Count positions from zero. A slice includes the start and stops just before the end. With a window of four and an overlap of one, starts move by three. That creates the first four words, then words four through seven, then a final chunk containing seven alone. This last chunk is easy to overlook, and the project has a test that confirms it.</p><p><strong>Ask:</strong> How many chunks does this example produce?</p><p><strong>Answer:</strong> Three, including the final one-word chunk.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 10.</p><h2>Explain the example</h2><ol><li>`.split()` changes a sentence into a list of seven words.</li><li>The range supplies starting positions 0, 3, and 6.</li><li>`words[start:start + 4]` selects up to four words. Its stop position is excluded.</li><li>`&quot; &quot;.join(...)` combines the selected words with spaces. At start 6, only the word seven remains.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-11" aria-labelledby="title-11" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 11</p>
+    <h1 id="title-11">Classes, instances, and dataclasses</h1>
+    <div class="content"><div class="example"><h2>Example: Create a document</h2><pre><code>from src.models import Document
+
+note = Document(source=&quot;note.txt&quot;, text=&quot;Hello&quot;)
+print(note.source)
+print(note.text)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>note.txt
+Hello</samp></pre></details></div><ul aria-label="Key points"><li>A class defines a kind of object</li><li>Calling the class creates an instance</li><li>@dataclass generates routine record behavior</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>What is note: a class or an instance?</p><details><summary>Show answer</summary><p>An instance of the Document class.</p></details></details>
+<p class="source">src/models.py · Document, DocumentChunk, SearchResult · <a href="python-for-dummies.md#chapter-11">Guide chapter 11</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>A class defines a kind of record, and an instance is one particular record. Document says every document has a source and text. Dataclass writes the repetitive record code for us. Frozen means we cannot normally replace a field after creation. A SearchResult contains a DocumentChunk, so result dot chunk dot source follows the objects to the filename.</p><p><strong>Ask:</strong> What is note: a class or an instance?</p><p><strong>Answer:</strong> An instance of the Document class.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 11.</p><h2>Explain the example</h2><ol><li>The import brings in the project’s Document class.</li><li>`Document(...)` creates one instance, with source and text supplied by name.</li><li>`note.source` reads the instance’s source field.</li><li>`note.text` reads its text field. The two print calls show these values on separate lines.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-12" aria-labelledby="title-12" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 12</p>
+    <h1 id="title-12">Methods, self, and inheritance</h1>
+    <div class="content"><div class="example"><h2>Example: Use an instance method</h2><pre><code>from src.models import DocumentChunk
+from src.search import KeywordRetriever
+
+retriever = KeywordRetriever([DocumentChunk(&quot;a.txt&quot;, 1, &quot;python&quot;)])
+print(len(retriever.chunks))
+print(len(retriever.search(&quot;python&quot;)))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>1
+1</samp></pre></details></div><ul aria-label="Key points"><li>A method is a function attached to a class</li><li>self refers to the current instance</li><li>A subclass can replace inherited behavior</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Do you pass self when calling retriever.search(&quot;python&quot;)?</p><details><summary>Show answer</summary><p>No. Python supplies the instance automatically.</p></details></details>
+<p class="source">src/models.py · Retriever; src/search.py · KeywordRetriever · <a href="python-for-dummies.md#chapter-12">Guide chapter 12</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>The retriever is more than a record: it remembers an index and performs searches. Self means this particular retriever. The initializer saves its chunks and builds counts. The parent class describes the search operation, and the subclass supplies its implementation. The parent is only a convention here; Python does not prevent creating it, but its search method raises an error.</p><p><strong>Ask:</strong> Do you pass self when calling retriever.search(&quot;python&quot;)?</p><p><strong>Answer:</strong> No. Python supplies the instance automatically.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 12.</p><h2>Explain the example</h2><ol><li>`DocumentChunk(...)` creates a passage and square brackets put it in a list.</li><li>`KeywordRetriever(...)` initializes an instance with that list.</li><li>`retriever.chunks` accesses the list stored on the instance; its length is 1.</li><li>`retriever.search(&quot;python&quot;)` calls a method on that same instance. Python supplies self, and the search returns one match.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-13" aria-labelledby="title-13" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 13</p>
+    <h1 id="title-13">Paths and reading files</h1>
+    <div class="content"><div class="example"><h2>Example: Work with a path</h2><pre><code>from pathlib import Path
+
+path = Path(&quot;documents&quot;) / &quot;note.md&quot;
+print(path.suffix)
+print(path.relative_to(&quot;documents&quot;).as_posix())</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>.md
+note.md</samp></pre></details></div><ul aria-label="Key points"><li>Path represents a filesystem path</li><li>rglob searches nested directories</li><li>read_text decodes bytes into a Python string</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Does constructing this Path create the file?</p><details><summary>Show answer</summary><p>No. A Path represents a location. Creating or writing a file is a separate operation.</p></details></details>
+<p class="source">src/loader.py · load_documents · <a href="python-for-dummies.md#chapter-13">Guide chapter 13</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Path gives us operations for filenames and directories. The loader recursively finds entries and sorts them, then filters for supported files. Read text turns UTF-8 bytes into a Python string. The stored source is relative to the collection folder, making printed filenames easier to move between computers. The slash in the tests joins paths rather than dividing numbers.</p><p><strong>Ask:</strong> Does constructing this Path create the file?</p><p><strong>Answer:</strong> No. A Path represents a location. Creating or writing a file is a separate operation.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 13.</p><h2>Explain the example</h2><ol><li>`Path(&quot;documents&quot;)` represents a directory path.</li><li>For Path objects, `/ &quot;note.md&quot;` joins a filename to that path.</li><li>`.suffix` reads the extension, including the leading dot.</li><li>`.relative_to(&quot;documents&quot;)` removes the directory prefix; `.as_posix()` turns the remaining path into text with forward slashes.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-14" aria-labelledby="title-14" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 14</p>
+    <h1 id="title-14">Regular expressions and tokens</h1>
+    <div class="content"><div class="example"><h2>Example: Split text into tokens</h2><pre><code>from src.search import tokenize
+
+print(tokenize(&quot;Python 3.10!&quot;))
+print(tokenize(&quot;Python_3!&quot;))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>[&#x27;python&#x27;, &#x27;3&#x27;, &#x27;10&#x27;]
+[&#x27;python&#x27;, &#x27;3&#x27;]</samp></pre></details></div><ul aria-label="Key points"><li>re.compile prepares a pattern</li><li>[a-z0-9]+ matches runs of ASCII letters or digits</li><li>findall returns all matching strings</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Does the underscore stay inside a token?</p><details><summary>Show answer</summary><p>No. This pattern only matches ASCII letters and digits.</p></details></details>
+<p class="source">src/search.py · TOKEN_PATTERN and tokenize · <a href="python-for-dummies.md#chapter-14">Guide chapter 14</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Tokenization decides what counts as a search word. The pattern means one or more lowercase ASCII letters or digits. Lowercasing makes Python and python match. A decimal point separates three and ten into different tokens. This is literal matching: related words do not automatically match, and accented letters are outside this pattern.</p><p><strong>Ask:</strong> Does the underscore stay inside a token?</p><p><strong>Answer:</strong> No. This pattern only matches ASCII letters and digits.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 14.</p><h2>Explain the example</h2><ol><li>Import the project’s tokenize function so you can try its actual behavior.</li><li>The function lowercases Python before extracting matches.</li><li>The period and exclamation mark are not letters or digits, so they separate or end tokens.</li><li>The underscore is also excluded. That is why the second call returns python and 3 separately.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-15" aria-labelledby="title-15" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 15</p>
+    <h1 id="title-15">Counting words with Counter</h1>
+    <div class="content"><div class="example"><h2>Example: Count repeated words</h2><pre><code>from collections import Counter
+
+counts = Counter([&quot;python&quot;, &quot;python&quot;, &quot;notes&quot;])
+print(counts[&quot;python&quot;])
+print(counts[&quot;missing&quot;])
+print(sum(counts.values()))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>2
+0
+3</samp></pre></details></div><ul aria-label="Key points"><li>Counter maps each item to its frequency</li><li>Per-chunk counts measure repetition</li><li>Document frequency counts chunks containing a word</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Which counts the total tokens: len(counts) or sum(counts.values())?</p><details><summary>Show answer</summary><p>sum(counts.values()) gives 3 tokens. len(counts) gives 2 distinct terms.</p></details></details>
+<p class="source">src/search.py · KeywordRetriever.__init__ · <a href="python-for-dummies.md#chapter-15">Guide chapter 15</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Counter is a word tally. One Counter tells us how often each word occurs in a chunk. A second Counter measures how many chunks contain that word. Those are different questions. The second calculation iterates over keys, so a word repeated ten times in one chunk contributes one to its document frequency.</p><p><strong>Ask:</strong> Which counts the total tokens: len(counts) or sum(counts.values())?</p><p><strong>Answer:</strong> sum(counts.values()) gives 3 tokens. len(counts) gives 2 distinct terms.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 15.</p><h2>Explain the example</h2><ol><li>Counter receives a list containing python twice and notes once.</li><li>`counts[&quot;python&quot;]` looks up python’s frequency: 2.</li><li>A missing Counter key returns 0.</li><li>`.values()` supplies the stored frequencies. `sum(...)` adds 2 and 1 to get 3.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-16" aria-labelledby="title-16" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 16</p>
+    <h1 id="title-16">Comprehensions and generators</h1>
+    <div class="content"><div class="example"><h2>Example: Build and consume values</h2><pre><code>words = [&quot;Python&quot;, &quot;Notes&quot;]
+lowercase = [word.lower() for word in words]
+lengths = (len(word) for word in words)
+print(lowercase)
+print(sum(lengths))</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>[&#x27;python&#x27;, &#x27;notes&#x27;]
+11</samp></pre></details></div><ul aria-label="Key points"><li>[expression for item in items] builds a list</li><li>{key: value for ...} builds a dictionary</li><li>(expression for ...) produces values on demand</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Which expression creates a list immediately?</p><details><summary>Show answer</summary><p>The square-bracket comprehension. The generator supplies lengths as sum consumes them.</p></details></details>
+<p class="source">src/search.py · index construction and score calculation · <a href="python-for-dummies.md#chapter-16">Guide chapter 16</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>These compact expressions are loops in a smaller space. Square brackets build a list immediately. A dictionary comprehension builds key-value entries. A generator feeds one result at a time to something like sum or Counter. Read multiple for clauses from left to right: first choose a chunk’s counts, then visit each key in those counts.</p><p><strong>Ask:</strong> Which expression creates a list immediately?</p><p><strong>Answer:</strong> The square-bracket comprehension. The generator supplies lengths as sum consumes them.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 16.</p><h2>Explain the example</h2><ol><li>The list contains two strings.</li><li>The square-bracket comprehension calls lower on each string and collects both results.</li><li>The parenthesized generator describes how to supply each word’s length when requested.</li><li>`sum(lengths)` consumes lengths 6 and 5 and returns 11. The generator is then exhausted.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-17" aria-labelledby="title-17" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 17</p>
+    <h1 id="title-17">Arithmetic and the search score</h1>
+    <div class="content"><div class="example"><h2>Example: Calculate a score</h2><pre><code>from src.models import DocumentChunk
+from src.search import KeywordRetriever
+
+chunks = [DocumentChunk(&quot;a&quot;, 1, &quot;python python notes&quot;),
+          DocumentChunk(&quot;b&quot;, 1, &quot;notes only&quot;)]
+result = KeywordRetriever(chunks).search(&quot;python&quot;)[0]
+print(f&quot;{result.score:.3f}&quot;)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>1.623</samp></pre></details></div><ul aria-label="Key points"><li>&amp; finds shared terms</li><li>min caps each matching count at three</li><li>Rarity raises weight; length reduces the score</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Is 1.623 a probability?</p><details><summary>Show answer</summary><p>No. It is a relative ranking score, not a confidence percentage.</p></details></details>
+<p class="source">src/search.py · KeywordRetriever.search · <a href="python-for-dummies.md#chapter-17">Guide chapter 17</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>First find shared words. For each shared word, cap its count at three and multiply by its rarity weight. Add those contributions, then divide by the square root of the chunk length. With python python notes and notes only, the first chunk scores about one point six two three for python. That is a ranking score, not a probability. Repeating python in the query does not change it because the query uses a set.</p><p><strong>Ask:</strong> Is 1.623 a probability?</p><p><strong>Answer:</strong> No. It is a relative ranking score, not a confidence percentage.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 17.</p><h2>Explain the example</h2><ol><li>Create two passages so the search can compare word frequencies across them.</li><li>Build a KeywordRetriever and search for python.</li><li>Only passage a contains python, so `[0]` selects that result.</li><li>The f-string displays its stored score rounded to three decimal places. The project formula is explained below.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-18" aria-labelledby="title-18" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 18</p>
+    <h1 id="title-18">Sorting, lambdas, and result limits</h1>
+    <div class="content"><div class="example"><h2>Example: Sort by a key</h2><pre><code>scores = [(&quot;b.txt&quot;, 2.0), (&quot;a.txt&quot;, 2.0), (&quot;c.txt&quot;, 3.0)]
+ranked = sorted(scores, key=lambda item: (-item[1], item[0]))
+print(ranked[:2])</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>[(&#x27;c.txt&#x27;, 3.0), (&#x27;a.txt&#x27;, 2.0)]</samp></pre></details></div><ul aria-label="Key points"><li>lambda defines a small unnamed function</li><li>Tuple keys are compared left to right</li><li>A slice keeps at most limit results</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Why does a.txt come before b.txt?</p><details><summary>Show answer</summary><p>Their scores tie, so the next tuple element, the filename, decides their order.</p></details></details>
+<p class="source">src/search.py · end of KeywordRetriever.search · <a href="python-for-dummies.md#chapter-18">Guide chapter 18</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Sorting asks each result for a comparison key. Lambda is a small function that supplies three priorities. First comes negative score, so larger real scores sort earlier. A tie falls through to filename and then chunk number. Finally, the slice keeps the requested number of results. The early guard is what gives negative limits the intended empty-result behavior.</p><p><strong>Ask:</strong> Why does a.txt come before b.txt?</p><p><strong>Answer:</strong> Their scores tie, so the next tuple element, the filename, decides their order.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 18.</p><h2>Explain the example</h2><ol><li>Each tuple holds a filename and its score.</li><li>The lambda gives sorted a two-part key: negative score first, filename second.</li><li>A score of 3 becomes -3, which sorts before -2. Equal scores fall through to filename order.</li><li>`ranked[:2]` takes the first two results without changing the original scores list.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-19" aria-labelledby="title-19" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 19</p>
+    <h1 id="title-19">Command-line arguments and execution</h1>
+    <div class="content"><div class="example"><h2>Example: Parse command options</h2><pre><code>from src.cli import build_parser
+
+args = build_parser().parse_args([&quot;--verbose&quot;, &quot;search&quot;, &quot;python&quot;, &quot;--limit&quot;, &quot;2&quot;])
+print(args.verbose)
+print(args.query)
+print(args.limit)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>True
+python
+2</samp></pre></details></div><ul aria-label="Key points"><li>argparse converts command text into values</li><li>Global options precede search</li><li>The module guard runs main only as the entry point</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Where does --verbose go relative to search?</p><details><summary>Show answer</summary><p>Before search, because it belongs to the main parser.</p></details></details>
+<p class="source">src/cli.py · build_parser, main, and module guard · <a href="python-for-dummies.md#chapter-19">Guide chapter 19</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Argparse turns the command you type into usable Python values. Type equals int passes the conversion function itself. Verbose is a switch. The search subcommand owns the query and limit. At the bottom, the module guard runs main only when this module is the entry point. Main returns a status number, and SystemExit gives that status to the shell.</p><p><strong>Ask:</strong> Where does --verbose go relative to search?</p><p><strong>Answer:</strong> Before search, because it belongs to the main parser.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 19.</p><h2>Explain the example</h2><ol><li>`build_parser()` creates the parser configured by the project.</li><li>Passing a list to parse_args lets this example supply command-line words directly.</li><li>`--verbose` turns on a flag; search selects the subcommand; python is the query.</li><li>`--limit 2` is converted to an integer. The print calls read the resulting attributes.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-20" aria-labelledby="title-20" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 20</p>
+    <h1 id="title-20">Printing, formatting, and logging</h1>
+    <div class="content"><div class="example"><h2>Example: Format a number</h2><pre><code>score = 1.622891
+print(f&quot;Score: {score:.3f}&quot;)
+print(score)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>Score: 1.623
+1.622891</samp></pre></details></div><ul aria-label="Key points"><li>f-strings insert expression values inside braces</li><li>:.3f displays three decimal places</li><li>Logging separates diagnostics from search output</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Did formatting change the value stored in score?</p><details><summary>Show answer</summary><p>No. It changes only the displayed text.</p></details></details>
+<p class="source">src/cli.py · output; src/loader.py · LOGGER · <a href="python-for-dummies.md#chapter-20">Guide chapter 20</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>An f-string fills in values between braces. The colon dot three f says to show three decimal places. Printing a rounded score does not change the number used for sorting. Logging is for diagnostics. Info summaries remain visible in ordinary runs, while verbose enables the detailed debug messages. Logging placeholders use a different formatting style from f-strings.</p><p><strong>Ask:</strong> Did formatting change the value stored in score?</p><p><strong>Answer:</strong> No. It changes only the displayed text.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 20.</p><h2>Explain the example</h2><ol><li>Assign a decimal number to score.</li><li>The f prefix allows the braces to contain a Python expression.</li><li>Inside the braces, `:.3f` requests three digits after the decimal point.</li><li>The final print displays the original value, showing that formatting did not change it.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-21" aria-labelledby="title-21" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 21</p>
+    <h1 id="title-21">Exceptions and context managers</h1>
+    <div class="content"><div class="example"><h2>Example: Expect an exception</h2><pre><code>import pytest
+from src.chunker import chunk_document
+from src.models import Document
+
+with pytest.raises(ValueError):
+    chunk_document(Document(&quot;note.txt&quot;, &quot;hello&quot;), chunk_size=3, overlap=3)
+print(&quot;Expected error confirmed&quot;)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>Expected error confirmed</samp></pre></details></div><ul aria-label="Key points"><li>raise signals an exceptional condition</li><li>Uncaught exceptions propagate to the caller</li><li>with enters and exits a managed block</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Why is overlap=3 invalid when chunk_size=3?</p><details><summary>Show answer</summary><p>The step would be zero, so the windows would not advance.</p></details></details>
+<p class="source">src/chunker.py · src/models.py · tests/test_chunker.py · <a href="python-for-dummies.md#chapter-21">Guide chapter 21</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>Raising an exception stops the normal path and reports a problem to the caller. The chunker uses ValueError when its settings do not make sense. In the test, with pytest raises sets an expectation around the call. A ValueError makes that expectation pass. No error would make the test fail. The application itself does not catch these chunk-setting errors.</p><p><strong>Ask:</strong> Why is overlap=3 invalid when chunk_size=3?</p><p><strong>Answer:</strong> The step would be zero, so the windows would not advance.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 21.</p><h2>Explain the example</h2><ol><li>Import pytest and the project objects needed for the call.</li><li>`with pytest.raises(ValueError):` starts a block that expects a ValueError.</li><li>The call supplies an overlap equal to its chunk size. The chunker rejects it.</li><li>Pytest catches the expected exception, and execution continues to the print. If no ValueError were raised, the check would fail.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-22" aria-labelledby="title-22" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 22</p>
+    <h1 id="title-22">Tests, fixtures, and assertions</h1>
+    <div class="content"><div class="example"><h2>Example: Check an expectation</h2><pre><code>from src.search import tokenize
+
+assert tokenize(&quot;PYTHON!&quot;) == [&quot;python&quot;]
+print(&quot;Check passed&quot;)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>Check passed</samp></pre></details></div><ul aria-label="Key points"><li>pytest discovers test_ functions</li><li>tmp_path is supplied by pytest</li><li>assert checks an expected condition</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>What happens if an assertion is false?</p><details><summary>Show answer</summary><p>Python raises AssertionError, and pytest reports the test as failed.</p></details></details>
+<p class="source">tests/test_loader.py · tests/test_chunker.py · tests/test_search.py · <a href="python-for-dummies.md#chapter-22">Guide chapter 22</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>A test calls real code and checks what happened. Pytest supplies the temporary directory because the function requests the fixture by name. The list comprehension pulls out exactly the fields the test wants to compare. Other tests check overlap, ranking, and empty input. Tests are executable examples of expected behavior, so they are a useful place to learn the application.</p><p><strong>Ask:</strong> What happens if an assertion is false?</p><p><strong>Answer:</strong> Python raises AssertionError, and pytest reports the test as failed.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 22.</p><h2>Explain the example</h2><ol><li>Call tokenize with uppercase text and punctuation.</li><li>`== [&quot;python&quot;]` compares its result with the expected list.</li><li>`assert` checks that the comparison is true.</li><li>Because it is true, execution reaches print. A false assertion would stop the normal path with AssertionError.</li></ol></aside>
+    </section>
+<section class="slide" id="slide-23" aria-labelledby="title-23" hidden>
+    <p class="eyebrow">ASK MY NOTES / PYTHON LESSON 23</p>
+    <h1 id="title-23">Running and tracing the project</h1>
+    <div class="content"><div class="example"><h2>Example: Trace the full workflow</h2><pre><code>from src.models import Document
+from src.chunker import chunk_documents
+from src.search import KeywordRetriever
+
+notes = [Document(&quot;note.txt&quot;, &quot;python notes are useful&quot;)]
+chunks = chunk_documents(notes)
+results = KeywordRetriever(chunks).search(&quot;python&quot;)
+print(results[0].chunk.text)</code></pre><details class="output"><summary>Show expected output</summary><pre><samp>python notes are useful</samp></pre></details></div><ul aria-label="Key points"><li>Use Python 3.10 or newer</li><li>Run shell commands from the project root</li><li>Trace one value through each function</li></ul></div>
+    <details class="exercise"><summary>Check your understanding</summary><p>Which objects connect chunk_documents to KeywordRetriever?</p><details><summary>Show answer</summary><p>DocumentChunk objects, collected in a list.</p></details></details>
+<p class="source">README.md · pyproject.toml · src/cli.py · <a href="python-for-dummies.md#chapter-23">Guide chapter 23</a></p>
+    <aside class="notes" hidden><h2>Presenter notes</h2><p>These commands run in a terminal from the project root. The virtual environment keeps dependencies together, and the editable install makes local source changes available. Remember that pyproject is configuration, not Python. To finish, trace one search from arguments to documents to chunks to results. Predict the three practice answers before checking the guide: tokens python and three, three chunks, and a set removes repeated query terms.</p><p><strong>Ask:</strong> Which objects connect chunk_documents to KeywordRetriever?</p><p><strong>Answer:</strong> DocumentChunk objects, collected in a list.</p><p>Invite a prediction before revealing the example output. Then connect this example to guide chapter 23.</p><h2>Explain the example</h2><ol><li>Create a list containing one Document, representing a loaded note.</li><li>`chunk_documents(notes)` converts documents into a list of searchable passages.</li><li>`KeywordRetriever(chunks).search(&quot;python&quot;)` prepares the index and searches it.</li><li>Select the first result, access its chunk, and print that chunk’s text. This follows the same data flow as the CLI.</li></ol></aside>
+    </section></main>
+<nav aria-label="Slideshow controls"><button id="prev" aria-label="Previous slide">← Previous</button><span id="counter" role="status" aria-live="polite"></span><button id="next" aria-label="Next slide">Next →</button><span class="spacer"></span><label for="jump">Slide</label><select id="jump"><option value="0">1. The program you are learning</option><option value="1">2. Files, modules, and imports</option><option value="2">3. Indentation, comments, and docstrings</option><option value="3">4. Names, values, and basic types</option><option value="4">5. Functions, arguments, and return values</option><option value="5">6. Type hints describe expected values</option><option value="6">7. Lists, tuples, sets, and dictionaries</option><option value="7">8. Conditions and truthiness</option><option value="8">9. Loops, ranges, and unpacking</option><option value="9">10. Strings, indexes, and slices</option><option value="10">11. Classes, instances, and dataclasses</option><option value="11">12. Methods, self, and inheritance</option><option value="12">13. Paths and reading files</option><option value="13">14. Regular expressions and tokens</option><option value="14">15. Counting words with Counter</option><option value="15">16. Comprehensions and generators</option><option value="16">17. Arithmetic and the search score</option><option value="17">18. Sorting, lambdas, and result limits</option><option value="18">19. Command-line arguments and execution</option><option value="19">20. Printing, formatting, and logging</option><option value="20">21. Exceptions and context managers</option><option value="21">22. Tests, fixtures, and assertions</option><option value="22">23. Running and tracing the project</option></select><button id="notes" aria-pressed="false">Notes (N)</button><button id="fullscreen">Fullscreen (F)</button><button id="print">Print</button></nav>
+<progress id="progress" max="23" value="1" aria-label="Slide progress"></progress>
+<p class="help">← → Navigate · Home / End · N Notes · F Fullscreen · Works offline · Examples run locally in Python · <a href="python-for-dummies.md">Read the guide</a> · <a href="python-for-dummies-script.md">Read the script</a></p>
+<noscript><style>.slide[hidden]{display:block}nav,progress{display:none}</style><p>JavaScript is off. All slides are shown for reading.</p></noscript>
+<script>
+const slides=Array.from(document.querySelectorAll('.slide'));
+const prev=document.querySelector('#prev'),next=document.querySelector('#next'),jump=document.querySelector('#jump'),counter=document.querySelector('#counter'),notes=document.querySelector('#notes'),progress=document.querySelector('#progress');
+let current=0,showNotes=false;
+function fromHash(){const match=location.hash.match(/^#slide-(\d+)$/);return match?Number(match[1])-1:0;}
+function show(index){current=Math.max(0,Math.min(slides.length-1,index));slides.forEach((slide,i)=>{slide.hidden=i!==current;slide.querySelector('.notes').hidden=!showNotes;});counter.textContent=`${current+1} / ${slides.length}`;jump.value=String(current);prev.disabled=current===0;next.disabled=current===slides.length-1;progress.value=current+1;document.title=`${current+1}. ${slides[current].querySelector('h1').textContent} · Python for Dummies`;const hash=`#slide-${current+1}`;if(location.hash!==hash)location.hash=hash;}
+function toggleNotes(){showNotes=!showNotes;notes.setAttribute('aria-pressed',String(showNotes));show(current);}
+async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();}catch{document.querySelector('.help').textContent='Fullscreen is unavailable here. Use your browser’s fullscreen command.';}}
+prev.addEventListener('click',()=>show(current-1));next.addEventListener('click',()=>show(current+1));jump.addEventListener('change',()=>show(Number(jump.value)));notes.addEventListener('click',toggleNotes);document.querySelector('#fullscreen').addEventListener('click',fullscreen);document.querySelector('#print').addEventListener('click',()=>window.print());
+document.addEventListener('keydown',event=>{if(event.altKey||event.ctrlKey||event.metaKey||event.target.matches('input,textarea,select,button,a,summary')||event.target.isContentEditable)return;const actions={ArrowRight:()=>show(current+1),PageDown:()=>show(current+1),ArrowLeft:()=>show(current-1),PageUp:()=>show(current-1),Home:()=>show(0),End:()=>show(slides.length-1),n:toggleNotes,N:toggleNotes,f:fullscreen,F:fullscreen};if(actions[event.key]){event.preventDefault();actions[event.key]();}});
+let printStates=[];window.addEventListener('beforeprint',()=>{printStates=Array.from(document.querySelectorAll('details.output')).map(el=>[el,el.open]);printStates.forEach(([el])=>el.open=true);});window.addEventListener('afterprint',()=>printStates.forEach(([el,open])=>el.open=open));
+window.addEventListener('hashchange',()=>show(fromHash()));show(fromHash());
+</script></body></html>

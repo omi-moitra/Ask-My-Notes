@@ -1,0 +1,28 @@
+# Contents:
+# - Build-system settings for setuptools.
+# - Project metadata and runtime dependency declaration.
+# - Optional development dependency for pytest.
+# - Pytest discovery and import-path configuration.
+# - Setuptools package configuration.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ask-my-notes"
+version = "0.1.0"
+description = "A small local document search application for learning retrieval."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools]
+packages = ["src"]
