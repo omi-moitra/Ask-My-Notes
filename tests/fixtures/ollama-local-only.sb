@@ -1,0 +1,11 @@
+; Contents:
+; - Default access permits local model files and Metal execution.
+; - Network overrides deny external traffic for the daemon and its children.
+; - Loopback sockets support the client API and Ollama's local worker processes.
+; macOS process-level validation profile; not a portable application sandbox.
+(version 1)
+(allow default)
+(deny network*)
+(allow network-bind (local ip "localhost:*"))
+(allow network-inbound (local ip "localhost:*"))
+(allow network-outbound (remote ip "localhost:*"))

@@ -4,7 +4,7 @@ Contents:
     - ``Document``: metadata and text for one source file.
     - ``DocumentChunk``: one searchable window from a source file.
     - ``SearchResult``: a chunk paired with its relevance score.
-    - ``Retriever``: the interface for keyword and future semantic search.
+    - ``Retriever``: the shared interface for keyword, semantic, and hybrid search.
 """
 
 from dataclasses import dataclass
@@ -40,7 +40,8 @@ class SearchResult:
     """A ranked chunk returned by a retriever.
 
     The score is deliberately kept alongside the chunk so callers can show
-    why one passage was ranked above another.
+    why one passage was ranked above another. Keyword scores, cosine similarity,
+    and hybrid reciprocal-rank scores have different scales, not probabilities.
     """
 
     chunk: DocumentChunk
@@ -48,16 +49,17 @@ class SearchResult:
 
 
 class Retriever:
-    """Small interface that future semantic retrievers can implement.
+    """Small interface shared by keyword, local semantic, and hybrid retrieval.
 
-    Keeping this interface narrow means a later embedding retriever can be
-    substituted without changing the ingestion pipeline or CLI formatting.
+    All implementations return original passages through the same shape.
+    Their scores have different meanings and must not be compared directly.
     """
 
     def search(self, query: str, limit: int = 3) -> list[SearchResult]:
         """Return at most ``limit`` ranked results for ``query``.
 
         Concrete retrievers provide the algorithm; this base method only
-        documents the contract shared by all retriever implementations.
+        documents the shared shape. Empty queries and nonpositive limits return
+        no results, but a semantic nearest neighbor need not be relevant.
         """
         raise NotImplementedError

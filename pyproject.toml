@@ -1,7 +1,7 @@
 # Contents:
 # - Build-system settings for setuptools.
 # - Project metadata and runtime dependency declaration.
-# - Optional development dependency for pytest.
+# - Optional development and local semantic-model dependencies.
 # - Pytest discovery and import-path configuration.
 # - Setuptools package configuration.
 
@@ -12,17 +12,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ask-my-notes"
 version = "0.1.0"
-description = "A small local document search application for learning retrieval."
+description = "Local note search and grounded answers for learning RAG."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+# Keep keyword-only installs free of the model stack. Pin the direct adapter
+# dependency; exact transitive versions tested are recorded in the comparison.
+semantic = ["sentence-transformers==5.1.2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# Model checks are explicit: default tests must work without downloads/assets.
+addopts = "-m 'not integration and not generation_integration'"
+markers = [
+    "integration: real cached embedding model; run explicitly with -m integration",
+    "generation_integration: installed local Ollama model; run explicitly with -m generation_integration",
+]
 
 [tool.setuptools]
 packages = ["src"]

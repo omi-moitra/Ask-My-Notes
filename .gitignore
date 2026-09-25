@@ -156,6 +156,8 @@ activemq-data/
 .env
 .envrc
 .venv
+# Separate semantic dependency environment; the original stays keyword-only.
+.venv-semantic/
 env/
 venv/
 ENV/
