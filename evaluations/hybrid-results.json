@@ -1,0 +1,2167 @@
+{
+  "contents": {
+    "metadata": "Top-level run configuration, environment, and corpus hashes",
+    "results": "Per-query evidence labels, top passages, full answer ranks, and changes",
+    "metrics": "Answerable Hit@1/Hit@3 and separate unrelated-return counts"
+  },
+  "explanation": "Fixed labels; full-corpus equal-weight RRF. Scores across methods are not comparable.",
+  "created_utc": "2026-09-23T20:32:41.295931+00:00",
+  "command": ".venv-semantic/bin/python -m evaluations.run_retrieval",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "offline": true,
+  "python": "3.14.3",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "versions": {
+    "sentence-transformers": "5.1.2",
+    "torch": "2.14.0",
+    "transformers": "4.57.6",
+    "huggingface-hub": "0.36.2",
+    "numpy": "2.5.3"
+  },
+  "chunk_size": 120,
+  "overlap": 20,
+  "chunks": 170,
+  "rrf_constant": 60,
+  "candidate_depth": "all unique nonblank chunks in each branch",
+  "corpus_sha256": {
+    "History.md": "f826e94307b483cdf6306468e49160096e31b3f1d69ffeeafb02949c9a84daa3",
+    "python.txt": "b08dea18f6070fdd2b1e6242aeece1d3444f6d1e0ce36b7358aa7c4e155a2844",
+    "retrieval.md": "4958624caaa30de768636c8afef2a9257e530db7c24704ce1883ba619bb3cd8d"
+  },
+  "results": [
+    {
+      "query": "What does a keyword retriever look for?",
+      "evidence": [
+        "words shared by the question and each passage"
+      ],
+      "expected_chunks": [
+        [
+          "retrieval.md",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 2.0055106778117118,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.6510551191464471,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 41,
+          "score": 0.3876154568816154,
+          "text": "borrow Shirley Temple from 20th Century Fox but was declined. Deanna Durbin was then asked but was unavailable. Garland then received the role.[41] Garland was initially outfitted in a blonde wig for the part, but Freed and LeRoy decided against it shortly into filming. Her blue gingham dress was chosen for its blurring effect on her figure, which made her look younger.[42] Shooting commenced on October 13, 1938,[43] and was completed on March 16, 1939,[44] at a final cost of more than $2 million (equivalent to $35 million in 2024).[45] With the conclusion of filming, MGM kept Garland busy with publicity and the shooting of Babes in Arms (also in 1939), directed by Busby Berkeley. She and Rooney were sent"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.6396185147008621,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.2729680514850693,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 102,
+          "score": 0.07632282085700173,
+          "text": "the critic believed her voice was \"vibrant and her musical expression exuberant,\" resonant and distinct, with a \"rich yet sweet\" quality \"that grabs you and pulls you in.\"[181] Garland's voice would often vary to suit the song she was interpreting, ranging from soft, engaging, and tender during ballads to humorous on some of her duets with other artists.[181] Her more joyful, belted performances have been compared to entertainers Sophie Tucker, Ethel Merman, and Al Jolson.[180] Although her musical repertoire consisted largely of cast recordings, show tunes, and traditional pop standards,[182] she was also capable of singing soul, blues and jazz music, which Dowlin compared to singer Elvis Presley.[181] Garland always claimed that her talent as a performer was innate, commenting:"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.03225806451612903,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 139,
+          "score": 0.028381642512077296,
+          "text": "Marriages\". Refinery29. Retrieved November 11, 2024. - Clarke 2001, p. 155. - Mosness, Carissa (October 19, 2024). \"A Look at Judy Garland's 5 Marriages\u2014From Romance to Heartbreak\". Woman's World. Retrieved November 11, 2024. - Wayne 2003, p. 207. - Clarke 2001, p. 211. - Frank 1975, p. 175. - \"Classic Hollywood's Secret: Studio executives Wanted Their Stars to Have Abortions\". Vanity Fair. July 15, 2016. Retrieved May 27, 2019. - \"Till MGM Do Us Part\". Vanity Fair. April 1, 2000. Retrieved May 10, 2022. - Leaming, Barbara (2004) [1985]. Orson Welles: A Biography. Limelight. p. 305. - Hopper, Hedda (September 1954). \"No More Tears for Judy\". Woman's Home Companion. - Clarke 2001, p. 223. - \"AFI|Catalog\". catalog.afi.com. Retrieved November 27,",
+          "keyword_rank": 12,
+          "semantic_rank": 9
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "Why do neighboring text segments repeat some of their content?",
+      "evidence": [
+        "Overlapping chunks reduce the chance"
+      ],
+      "expected_chunks": [
+        [
+          "retrieval.md",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "regression",
+          "top3": "regression"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 86,
+          "score": 0.911863956414137,
+          "text": "their participation in the march on the nation's capital.[citation needed] On September 16, 1963, Garland\u2014along with daughter Liza Minnelli, Carolyn Jones, June Allyson, and Allyson's daughter Pam Powell\u2014held a press conference to protest the previous day's bombing of the 16th Street Baptist Church in Birmingham, Alabama, that had resulted in the death of four young black girls. They expressed their shock and outrage at the attack and requested funds for the families of the victims. During the press conference, Powell and Minnelli both announced their intention to attend the funeral of the victims.[141][142] ### Final years In 1963, Garland sued Sidney Luft for divorce on the grounds of mental cruelty. She also asserted that he had repeatedly struck her while"
+        },
+        {
+          "source": "History.md",
+          "chunk": 112,
+          "score": 0.783738318838374,
+          "text": "believe where she was,\" despite having been a well-established celebrity for over 20 years.[191] Royce believes that fans and audiences insisted on preserving their memory of Garland as Dorothy no matter how much she matured, calling her \"a captive not of her own desire to stay young, but a captive of the public's desire to preserve her that way,\"[191] accounting for why Garland was continually cast in roles significantly younger than her actual age.[191] *Garland relaxing in 1938* But Ruhlmann wrote that the singer's personal life \"contrasted so starkly with the exuberance and innocence of her film roles.\"[182] According to Malony, Garland was one of Hollywood's hardest-working performers during the 1940s, using that as a coping mechanism after her first"
+        },
+        {
+          "source": "History.md",
+          "chunk": 77,
+          "score": 0.7009735804438412,
+          "text": "The Judy Garland Show* In 1961 Garland and CBS settled their contract disputes with the help of her new agent, Freddie Fields, and negotiated a new round of specials. The first, The Judy Garland Show, aired on February 25, 1962,[119] with guests Frank Sinatra and Dean Martin.[120] Following this success, CBS made a $24 million offer (equivalent to $190 million in 2024[50]) to Garland for a weekly television series of her own, also to be called The Judy Garland Show, which was deemed by the press at the time to be \"the biggest talent deal in TV history.\" Although she had said as early as 1955 that she would never do a weekly television series,[121] she was in a financially"
+        }
+      ],
+      "keyword_full_rank": null,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.34470269132604003,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 111,
+          "score": 0.09157896640360093,
+          "text": "for an audience and I used to want to prove it to them by giving them blood. But I have a funny new thing now, a real determination to make people enjoy the show.\"[194] ### Contemporary media Garland faced numerous personal struggles throughout her life.[180] She has been closely associated with her girl-next-door image.[189] Early in her career during the 1930s, common names for Garland were \"America's favorite kid sister\"[183] as well as the title \"Little Miss Showbusiness.\"[195][196] In a review for the Star Tribune, Graydon Royce wrote that Garland's public image remained that of \"a Midwestern girl who couldn't believe where she was,\" despite having been a well-established celebrity for over 20 years.[191] Royce believes that fans and audiences"
+        },
+        {
+          "source": "History.md",
+          "chunk": 34,
+          "score": 0.08957277951911988,
+          "text": "Hour when she learned that her father had been hospitalized with meningitis and that his medical condition had taken a turn for the worse. He died the following morning at age 49, leaving her devastated.[citation needed] Garland's song for the Shell Chateau Hour was her first professional rendition of \"Zing! Went the Strings of My Heart\", a song that became a standard in many of her concerts.[29] She performed at various studio functions and was eventually cast opposite Deanna Durbin in the musical short Every Sunday (1936). The film contrasted her vocal range and swing style with Durbin's operatic soprano and served as an extended screen test for them, as studio executives were questioning the wisdom of having two girl"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 26,
+          "score": 0.027673192771084338,
+          "text": "song-and-dance number called \"That's the Good Old Sunny South\". This was followed by appearances in two Vitaphone shorts the following year: A Holiday in Storyland, featuring Garland's first on-screen solo, and The Wedding of Jack and Jill. They next appeared together in Bubbles (1930). Their final on-screen appearance was in an MGM Technicolor short entitled La Fiesta de Santa Barbara (1935).[15] The trio had toured the vaudeville circuit as \"The Gumm Sisters\" for many years by the time they performed in Chicago at the Oriental Theater with George Jessel in 1934. He encouraged the group to choose a more appealing name after \"Gumm\" was met with laughter from the audience. According to theater legend, their act was once erroneously billed",
+          "keyword_rank": 4,
+          "semantic_rank": 23
+        },
+        {
+          "source": "History.md",
+          "chunk": 107,
+          "score": 0.026785714285714288,
+          "text": "other voice does.\"[188] Bayard also believed that listeners \"find it hard to disentwine the sorrow in her voice from the sorrow that dogged her life,\"[188] a comment echoed by Dowlin: \"Listening to Judy sing ... makes me forget all of the angst and suffering she must have endured.\"[181] The New York Times obituarist observed that during Garland's later performances, whether intentionally or not, she \"brought with her ... all the well-publicized phantoms of her emotional breakdown, her career collapses and comebacks\" on stage,[16] going on to comment that Garland's voice changed and lost some of its quality as she aged but that she retained much of her personality.[16] Contributing to the Irish Independent, Julia Molony observed that by the time",
+          "keyword_rank": 10,
+          "semantic_rank": 20
+        },
+        {
+          "source": "History.md",
+          "chunk": 31,
+          "score": 0.026547116736990152,
+          "text": "days later, Garland and her father were brought for an impromptu audition at Metro-Goldwyn-Mayer Studios in Culver City. Garland performed \"Zing! Went the Strings of My Heart\" and \"Eli, Eli,\" a Yiddish song written in 1896 and regularly performed in vaudeville.[24] The studio immediately signed Garland to a contract with MGM, presumably without a screen test, though she had made a test for the studio several months earlier. The studio did not know what to do with her; aged 13, she was older than the traditional child star but too young for adult roles.[25] *Garland in a publicity photo for Pigskin Parade (1936)* Her physical appearance was a dilemma for MGM. She was only 4 ft 11+1\u20442 in (151 cm)",
+          "keyword_rank": 19,
+          "semantic_rank": 12
+        }
+      ],
+      "hybrid_full_rank": 40,
+      "hybrid_rank": null
+    },
+    {
+      "query": "How can related ideas be found when the wording is different?",
+      "evidence": [
+        "even when the exact words differ"
+      ],
+      "expected_chunks": [
+        [
+          "retrieval.md",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 2.3022629766322553,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 36,
+          "score": 0.765977313662282,
+          "text": "sang a special arrangement of \"You Made Me Love You (I Didn't Want to Do It)\" to Clark Gable at a birthday party that the studio arranged for the actor. Her rendition was so well regarded that she performed the song in the all-star extravaganza Broadway Melody of 1938 (1937), singing to a photograph of Gable.[32] MGM found a winning formula when it paired Garland with Mickey Rooney in a string of what were known as \"backyard musicals\".[33] The duo first appeared together as supporting characters in the B movie Thoroughbreds Don't Cry (1937). Garland was then cast in the fourth in the series of the Hardy Family movies, Love Finds Andy Hardy (1938), as a girl next door to"
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.7271133812285993,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.3407921005789679,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 106,
+          "score": 0.14662201694681262,
+          "text": "Garland had a tendency to imbue her vocals with a paradoxical combination of \"fragility and resilience\" that eventually became a signature trademark of hers,[178] marked with power in her voice, pronounced enunciation, and projection of a sense of vulnerability through her singing and body language.[186] As Michael Bronski remarked in his book Culture Clash: \"There was a hurt in her voice and an immediacy to her performance that gave the impression that it was her pain.\"[187] Louis Bayard of The Washington Post described Garland's voice as \"throbbing,\" believing it to be capable of \"connect[ing] with [audiences] in a way no other voice does.\"[188] Bayard also believed that listeners \"find it hard to disentwine the sorrow in her voice from the"
+        },
+        {
+          "source": "History.md",
+          "chunk": 123,
+          "score": 0.13405156610956648,
+          "text": "E. Dowlin concluded that Garland possessed a distinct \"it\" quality by \"exemplif[ying] the star quality of charisma, musical talent, natural acting ability and, despite what the studio honchos said, good looks (even if they were the girl next door looks).\"[181] Ruhlmann commented that \"the core of her significance as an artist remains her amazing voice and emotional commitment to her songs\" and that \"her career is sometimes viewed more as an object lesson in Hollywood excess than as the remarkable string of multimedia accomplishments it was.\"[182] In 2012, Strassler described Garland as \"more than an icon... Like Charlie Chaplin and Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 29,
+          "score": 0.030117753623188408,
+          "text": "know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name that so sensitive a great actress like that should have; ... and so we called her Judy Garland and I think she's a combination of Helen Hayes and Al Jolson and maybe Jenny Lind and Sarah Bernhardt.[19] A later explanation surfaced when Jessel was a guest on Garland's television show in 1963. He said that he had sent actress Judith Anderson a telegram containing the word \"garland\" and it stuck in his mind.[20] By late 1934 the Gumm Sisters had changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy",
+          "keyword_rank": 9,
+          "semantic_rank": 4
+        },
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 0.028381642512077296,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]",
+          "keyword_rank": 12,
+          "semantic_rank": 9
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What are the steps in the retrieval pipeline?",
+      "evidence": [
+        "loading documents, splitting them into chunks"
+      ],
+      "expected_chunks": [
+        [
+          "retrieval.md",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 2.81360175807527,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.6187481620063965,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.20407125893558664,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 139,
+          "score": 0.11471096352787155,
+          "text": "Marriages\". Refinery29. Retrieved November 11, 2024. - Clarke 2001, p. 155. - Mosness, Carissa (October 19, 2024). \"A Look at Judy Garland's 5 Marriages\u2014From Romance to Heartbreak\". Woman's World. Retrieved November 11, 2024. - Wayne 2003, p. 207. - Clarke 2001, p. 211. - Frank 1975, p. 175. - \"Classic Hollywood's Secret: Studio executives Wanted Their Stars to Have Abortions\". Vanity Fair. July 15, 2016. Retrieved May 27, 2019. - \"Till MGM Do Us Part\". Vanity Fair. April 1, 2000. Retrieved May 10, 2022. - Leaming, Barbara (2004) [1985]. Orson Welles: A Biography. Limelight. p. 305. - Hopper, Hedda (September 1954). \"No More Tears for Judy\". Woman's Home Companion. - Clarke 2001, p. 223. - \"AFI|Catalog\". catalog.afi.com. Retrieved November 27,"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.016129032258064516,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": null,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 139,
+          "score": 0.015873015873015872,
+          "text": "Marriages\". Refinery29. Retrieved November 11, 2024. - Clarke 2001, p. 155. - Mosness, Carissa (October 19, 2024). \"A Look at Judy Garland's 5 Marriages\u2014From Romance to Heartbreak\". Woman's World. Retrieved November 11, 2024. - Wayne 2003, p. 207. - Clarke 2001, p. 211. - Frank 1975, p. 175. - \"Classic Hollywood's Secret: Studio executives Wanted Their Stars to Have Abortions\". Vanity Fair. July 15, 2016. Retrieved May 27, 2019. - \"Till MGM Do Us Part\". Vanity Fair. April 1, 2000. Retrieved May 10, 2022. - Leaming, Barbara (2004) [1985]. Orson Welles: A Biography. Limelight. p. 305. - Hopper, Hedda (September 1954). \"No More Tears for Judy\". Woman's Home Companion. - Clarke 2001, p. 223. - \"AFI|Catalog\". catalog.afi.com. Retrieved November 27,",
+          "keyword_rank": null,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What do type hints help explain?",
+      "evidence": [
+        "expected inputs and outputs"
+      ],
+      "expected_chunks": [
+        [
+          "python.txt",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 1.406800879037635,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 77,
+          "score": 0.8819373744570601,
+          "text": "The Judy Garland Show* In 1961 Garland and CBS settled their contract disputes with the help of her new agent, Freddie Fields, and negotiated a new round of specials. The first, The Judy Garland Show, aired on February 25, 1962,[119] with guests Frank Sinatra and Dean Martin.[120] Following this success, CBS made a $24 million offer (equivalent to $190 million in 2024[50]) to Garland for a weekly television series of her own, also to be called The Judy Garland Show, which was deemed by the press at the time to be \"the biggest talent deal in TV history.\" Although she had said as early as 1955 that she would never do a weekly television series,[121] she was in a financially"
+        },
+        {
+          "source": "History.md",
+          "chunk": 99,
+          "score": 0.4777385301693417,
+          "text": "affairs by her representatives and staff, along with her generosity toward her family and various causes, resulted in her poor financial situation at the end of her life. In her last will, signed and sealed in early 1961, Garland made many generous bequests that could not be fulfilled because her estate had been in debt for many years. Her daughter Liza Minnelli worked to pay off her mother's debts with the help of family friend Frank Sinatra.[171] In 1978, a selection of Garland's personal items was auctioned off by her ex-husband Sidney Luft with the support of their daughter Lorna and son Joey. Almost 500 items, ranging from copper cookware to musical arrangements, were offered for sale; and the auction"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.2783070135195811,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.22131525716203043,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 123,
+          "score": 0.12129219195982173,
+          "text": "E. Dowlin concluded that Garland possessed a distinct \"it\" quality by \"exemplif[ying] the star quality of charisma, musical talent, natural acting ability and, despite what the studio honchos said, good looks (even if they were the girl next door looks).\"[181] Ruhlmann commented that \"the core of her significance as an artist remains her amazing voice and emotional commitment to her songs\" and that \"her career is sometimes viewed more as an object lesson in Hollywood excess than as the remarkable string of multimedia accomplishments it was.\"[182] In 2012, Strassler described Garland as \"more than an icon... Like Charlie Chaplin and Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 110,
+          "score": 0.027777777777777776,
+          "text": "Garland: \"Judy's the greatest entertainer who ever lived\u2014or probably will ever live\u2014an amazing girl,\" and that \"[s]he could do things\u2014anything\u2014without rehearsing and come off perfectly.\"[193] Garland was known for interacting with her audiences during live performances. The New York Times obituarist wrote that she possessed \"a seemingly unquenchable need for her audiences to respond with acclaim and affection. And often, they did, screaming, 'We love you, Judy \u2013 we love you.'\"[16] Garland herself explained: \"A really great reception makes me feel like I have a great big warm heating pad all over me ... I truly have a great love for an audience and I used to want to prove it to them by giving them blood. But I have",
+          "keyword_rank": 12,
+          "semantic_rank": 12
+        },
+        {
+          "source": "History.md",
+          "chunk": 77,
+          "score": 0.02474972191323693,
+          "text": "The Judy Garland Show* In 1961 Garland and CBS settled their contract disputes with the help of her new agent, Freddie Fields, and negotiated a new round of specials. The first, The Judy Garland Show, aired on February 25, 1962,[119] with guests Frank Sinatra and Dean Martin.[120] Following this success, CBS made a $24 million offer (equivalent to $190 million in 2024[50]) to Garland for a weekly television series of her own, also to be called The Judy Garland Show, which was deemed by the press at the time to be \"the biggest talent deal in TV history.\" Although she had said as early as 1955 that she would never do a weekly television series,[121] she was in a financially",
+          "keyword_rank": 2,
+          "semantic_rank": 56
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "How many responsibilities should a function have?",
+      "evidence": [
+        "one clear responsibility"
+      ],
+      "expected_chunks": [
+        [
+          "python.txt",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.957374716032743,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.9502126838558602,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded"
+        },
+        {
+          "source": "History.md",
+          "chunk": 124,
+          "score": 0.8922516863617829,
+          "text": "Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of success, to replicate.\"[173] Garland was posthumously awarded the Grammy Lifetime Achievement Award in 1997.[206] Several of her recordings have been inducted into the Grammy Hall of Fame.[207] These include \"Over the Rainbow,\" which was ranked as the number one movie song of all time in the American Film Institute's \"100 Years...100 Songs\" list; and four more Garland songs are featured on the list: \"Have Yourself a Merry Little Christmas\" (No. 76), \"Get Happy\" (No. 61), \"The Trolley Song\" (No. 26) and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.1860192402564934,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 0.10271152762327984,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        },
+        {
+          "source": "History.md",
+          "chunk": 7,
+          "score": 0.09699094460535754,
+          "text": "yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng) and examination (\u9580\u4e0b\u7701, Menxia Sheng) bureaus instead, but also having Li Jingsui's older brother Li Jingtong (whose name had been changed to Li Jing by this point) oversee all three bureaus. Shortly after, Song's close associate Xia Changtu (\u590f\u660c\u5716) was involved in a corruption scandal, but Song initially did sentence him to death. Li Bian, in anger, personally ordered Xia's death. Song thus resigned his oversight over the executive bureau and was no longer meeting the emperor. Li Bian had to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 124,
+          "score": 0.027500922849760058,
+          "text": "Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of success, to replicate.\"[173] Garland was posthumously awarded the Grammy Lifetime Achievement Award in 1997.[206] Several of her recordings have been inducted into the Grammy Hall of Fame.[207] These include \"Over the Rainbow,\" which was ranked as the number one movie song of all time in the American Film Institute's \"100 Years...100 Songs\" list; and four more Garland songs are featured on the list: \"Have Yourself a Merry Little Christmas\" (No. 76), \"Get Happy\" (No. 61), \"The Trolley Song\" (No. 26) and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as",
+          "keyword_rank": 3,
+          "semantic_rank": 26
+        },
+        {
+          "source": "History.md",
+          "chunk": 110,
+          "score": 0.027119252873563218,
+          "text": "Garland: \"Judy's the greatest entertainer who ever lived\u2014or probably will ever live\u2014an amazing girl,\" and that \"[s]he could do things\u2014anything\u2014without rehearsing and come off perfectly.\"[193] Garland was known for interacting with her audiences during live performances. The New York Times obituarist wrote that she possessed \"a seemingly unquenchable need for her audiences to respond with acclaim and affection. And often, they did, screaming, 'We love you, Judy \u2013 we love you.'\"[16] Garland herself explained: \"A really great reception makes me feel like I have a great big warm heating pad all over me ... I truly have a great love for an audience and I used to want to prove it to them by giving them blood. But I have",
+          "keyword_rank": 4,
+          "semantic_rank": 27
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "Can I verify a retriever without an online service?",
+      "evidence": [
+        "without requiring a web service"
+      ],
+      "expected_chunks": [
+        [
+          "python.txt",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 2.382840951449032,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 1.8636804412133645,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 110,
+          "score": 1.331676695015742,
+          "text": "Garland: \"Judy's the greatest entertainer who ever lived\u2014or probably will ever live\u2014an amazing girl,\" and that \"[s]he could do things\u2014anything\u2014without rehearsing and come off perfectly.\"[193] Garland was known for interacting with her audiences during live performances. The New York Times obituarist wrote that she possessed \"a seemingly unquenchable need for her audiences to respond with acclaim and affection. And often, they did, screaming, 'We love you, Judy \u2013 we love you.'\"[16] Garland herself explained: \"A really great reception makes me feel like I have a great big warm heating pad all over me ... I truly have a great love for an audience and I used to want to prove it to them by giving them blood. But I have"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.17315677303089388,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.14165657543655957,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 91,
+          "score": 0.08821813909581284,
+          "text": "much of her earnings, resulted in her owing around US$500,000 (equivalent to $3,680,000 in 2024) in total to the IRS and to personal creditors.[citation needed] The IRS placed tax liens on her home in Brentwood, Los Angeles, her recording contract with Capitol Records, and any other business deals from which she could derive an income.[152] She was left in a desperate financial situation that saw her sell her Brentwood home at a price far below its value. In February 1967, Garland was cast in the role of Helen Lawson in Valley of the Dolls by 20th Century Fox.[153] According to co-star Patty Duke, she had been hired primarily to augment publicity for the film and was treated poorly on the"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.03225806451612903,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it.",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 97,
+          "score": 0.02854251012145749,
+          "text": "20,000 people lined up to pay their respects at the Frank E. Campbell Funeral Chapel in Manhattan. It remained open all night long to accommodate the overflowing crowd.[166] The next day, her A Star Is Born co-star James Mason gave a eulogy at the funeral, an Episcopal service led by the Rev. Peter Delaney of St Marylebone Parish Church, London, who had officiated at her marriage to Deans three months earlier.[167] The public and press were barred. \"Judy's great gift,\" Mason said in his eulogy, \"was that she could wring tears out of hearts of rock ... She gave so richly and so generously, that there was no currency in which to repay her.\"[168] Garland was interred in a crypt",
+          "keyword_rank": 16,
+          "semantic_rank": 5
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What acts as runnable examples of program behavior?",
+      "evidence": [
+        "Tests are executable examples"
+      ],
+      "expected_chunks": [
+        [
+          "python.txt",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 2.3834160056064095,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "History.md",
+          "chunk": 23,
+          "score": 0.5448516375942715,
+          "text": "three Emmy Awards. In 1997, she was posthumously awarded the Grammy Lifetime Achievement Award. In 1999, the American Film Institute ranked her the eighth-greatest star of classic Hollywood cinema. ### Early life Garland was born Frances Ethel Gumm on June 10, 1922, in Grand Rapids, Minnesota.[2][3] She was the youngest child of vaudevillians Ethel Marion Milne (1896\u20131953) and Francis Avent Gumm (1886\u20131935).[4] She was named after both of her parents and baptized at a local Episcopal church.[5] Her parents had met and married in Wisconsin and then settled in Grand Rapids, where they operated a movie theater showcasing vaudeville acts. She was of Irish, English, Scottish,[6][7] and Huguenot[8][9] ancestry. \"Baby\" (as she was called by her parents and sisters)[10] shared"
+        },
+        {
+          "source": "History.md",
+          "chunk": 134,
+          "score": 0.5147042647037681,
+          "text": "1999, p. 26. - Jessel, George (April 17, 2019). \"Pantages Premiere TV Special on disc 2 of A Star is Born DVD\". Warner Home Video. - \"Episode 12\". The Judy Garland Show. Season 1. Episode 12. November 1, 1963. - \"Program of Comedy Due \u2013 Eddie Conrad Will Head Ebell Vaudeville\". Los Angeles Times. December 7, 1934. p. 15. - Edwards 1975, p. 27. - \"Nuptials Turn Trio to Duet \u2013 Cupid Robs Radio Team \u2013 Suzanne Garland Flies to Reno to Become Bride of Musician\". Los Angeles Times. August 15, 1935. p. A3. - Neibaur, James L. (2022). The Films of Judy Garland. McFarland. p. 4. - Clarke, Gerald (November 11, 2009). \"Chapter 5: The Men of Her Dreams\"."
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.3707397912924525,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model."
+        },
+        {
+          "source": "retrieval.md",
+          "chunk": 1,
+          "score": 0.1412765418411442,
+          "text": "# Retrieval ## Contents - [Retrieval](#retrieval) - [How retrieval works](#how-retrieval-works) ## How retrieval works Retrieval finds useful passages from a larger collection of documents. A keyword retriever looks for words shared by the question and each passage. A future semantic retriever can find related ideas even when the exact words differ. The usual retrieval pipeline is loading documents, splitting them into chunks, indexing the chunks, and ranking the chunks for a query. Overlapping chunks reduce the chance that an important sentence is separated from the context around it."
+        },
+        {
+          "source": "History.md",
+          "chunk": 123,
+          "score": 0.10365989246465483,
+          "text": "E. Dowlin concluded that Garland possessed a distinct \"it\" quality by \"exemplif[ying] the star quality of charisma, musical talent, natural acting ability and, despite what the studio honchos said, good looks (even if they were the girl next door looks).\"[181] Ruhlmann commented that \"the core of her significance as an artist remains her amazing voice and emotional commitment to her songs\" and that \"her career is sometimes viewed more as an object lesson in Hollywood excess than as the remarkable string of multimedia accomplishments it was.\"[182] In 2012, Strassler described Garland as \"more than an icon... Like Charlie Chaplin and Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "python.txt",
+          "chunk": 1,
+          "score": 0.03278688524590164,
+          "text": "ASK MY NOTES SAMPLE NOTE ======================== CONTENTS -------- 1. Readability and the standard library 2. Tests as executable examples 1. Readability and the standard library Python emphasizes readable code and a small standard library. Functions should have one clear responsibility, and type hints make the expected inputs and outputs easier to understand. 2. Tests as executable examples Tests are executable examples. A focused test can describe the behavior of a loader, chunker, or retriever without requiring a web service or a language model.",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 118,
+          "score": 0.030090497737556562,
+          "text": "in front of Grauman's Chinese Theatre in Los Angeles* Garland has been called a triple threat due to her ability to sing, act, and dance,[199] arguably equally well.[200] Doug Strassler, a critic for the New York Press, used the \"triple threat\" description in characterizing her as one who \"bounced between family musicals and adult dramas with a precision and a talent that remains largely unmatched.\"[173] In terms of Garland's acting, Peter Lennon, writing for The Guardian in 1999, identified her as a \"chameleon\" due to her ability to alternate between comedic, musical and dramatic roles, citing The Wizard of Oz, The Clock, A Star is Born, and I Could Go On Singing\u2014her final film role\u2014as prominent examples.[198] Michael Musto, a",
+          "keyword_rank": 5,
+          "semantic_rank": 8
+        },
+        {
+          "source": "History.md",
+          "chunk": 59,
+          "score": 0.028438886647841874,
+          "text": "of 1949, having gained weight, and was cast opposite Gene Kelly in Summer Stock (1950), which took six months to complete. To lose weight, Garland went back on pills and a pattern of behavior resurfaced as she began showing up to the set late or not at all. When principal photography on the film was completed in the spring of 1950, it was decided that Garland needed an additional musical number. She agreed to do it, provided the song was \"Get Happy.\" In addition, she insisted that director Charles Walters choreograph and stage the number. By that time, Garland had lost 15 pounds and looked more slender. \"Get Happy\" was the final segment of the movie to be filmed. When",
+          "keyword_rank": 7,
+          "semantic_rank": 14
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What was Li Jingsui originally called?",
+      "evidence": [
+        "n\u00e9 Xu Jingsui"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          1
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "regression"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 9,
+          "score": 2.1169185158502644,
+          "text": "after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui and Li Jingda, created Li Jingsui (who then was also carrying the titles of Zhongshu Ling (\u4e2d\u66f8\u4ee4), mayor of Jinling, and military governor of Tianxiong Circuit (\u5929\u96c4, headquartered in modern Handan, Hebei) \u2014 a completely honorary title as Tianxiong was under the rule of Southern Tang's northern neighbor Later Jin) the Prince of Qi \u2014 a title that Li Bian and Li Jing successively carried before they became emperor. He also had Li Jingsui take up residence at the eastern palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared"
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 2.104574862425882,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui"
+        },
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 2.0688004455541336,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        }
+      ],
+      "keyword_full_rank": 8,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.650461601600845,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to"
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.6226234354116911,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 0.6205850663664105,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        }
+      ],
+      "semantic_full_rank": 3,
+      "semantic_rank": 3,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.03225806451612903,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 9,
+          "score": 0.03177805800756621,
+          "text": "after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui and Li Jingda, created Li Jingsui (who then was also carrying the titles of Zhongshu Ling (\u4e2d\u66f8\u4ee4), mayor of Jinling, and military governor of Tianxiong Circuit (\u5929\u96c4, headquartered in modern Handan, Hebei) \u2014 a completely honorary title as Tianxiong was under the rule of Southern Tang's northern neighbor Later Jin) the Prince of Qi \u2014 a title that Li Bian and Li Jing successively carried before they became emperor. He also had Li Jingsui take up residence at the eastern palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared",
+          "keyword_rank": 1,
+          "semantic_rank": 5
+        },
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.03177805800756621,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to",
+          "keyword_rank": 5,
+          "semantic_rank": 1
+        }
+      ],
+      "hybrid_full_rank": 5,
+      "hybrid_rank": null
+    },
+    {
+      "query": "Who was Li Jingsui's mother?",
+      "evidence": [
+        "His mother was Xu Zhigao's second wife Lady Song Fujin"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          2
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 3.1243556501874,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's"
+        },
+        {
+          "source": "History.md",
+          "chunk": 9,
+          "score": 2.6803673923675357,
+          "text": "after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui and Li Jingda, created Li Jingsui (who then was also carrying the titles of Zhongshu Ling (\u4e2d\u66f8\u4ee4), mayor of Jinling, and military governor of Tianxiong Circuit (\u5929\u96c4, headquartered in modern Handan, Hebei) \u2014 a completely honorary title as Tianxiong was under the rule of Southern Tang's northern neighbor Later Jin) the Prince of Qi \u2014 a title that Li Bian and Li Jing successively carried before they became emperor. He also had Li Jingsui take up residence at the eastern palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared"
+        },
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 2.4741185165679282,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 0.6658165725788177,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's"
+        },
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.6358510288494857,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to"
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.6253144329364894,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 0.03278688524590164,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.031054405392392875,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to",
+          "keyword_rank": 7,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.031024531024531024,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui",
+          "keyword_rank": 6,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "Why did Xu Jingsui replace his brother as junior regent?",
+      "evidence": [
+        "Xu Jingqian fell ill"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          3
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 3,
+          "score": 5.404078579725155,
+          "text": "Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's titular ruler was Yang Longyan's younger brother Yang Pu, who had taken imperial title by that point; Xu Jingsui's father Xu Zhigao was the regent, stationed at Jinling, with Xu Jingtong also there serving as his deputy. The role that Xu Zhigao formerly had during Xu Wen's regency, as junior regent at the Wu capital Guangling, was held by Xu Jingqian,[5] who was Xu Zhigao's favorite son.[2] However, in 936, Xu Jingqian fell ill, and was removed from the junior regency and recalled to Jinling in hopes of recuperation. Xu Jingsui, then 16, was sent to Guangling to serve as"
+        },
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 5.014369158327235,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's"
+        },
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 3.459902560411642,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 3,
+          "score": 0.7745852000861977,
+          "text": "Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's titular ruler was Yang Longyan's younger brother Yang Pu, who had taken imperial title by that point; Xu Jingsui's father Xu Zhigao was the regent, stationed at Jinling, with Xu Jingtong also there serving as his deputy. The role that Xu Zhigao formerly had during Xu Wen's regency, as junior regent at the Wu capital Guangling, was held by Xu Jingqian,[5] who was Xu Zhigao's favorite son.[2] However, in 936, Xu Jingqian fell ill, and was removed from the junior regency and recalled to Jinling in hopes of recuperation. Xu Jingsui, then 16, was sent to Guangling to serve as"
+        },
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 0.6885267920980327,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's"
+        },
+        {
+          "source": "History.md",
+          "chunk": 4,
+          "score": 0.685697044870738,
+          "text": "regency and recalled to Jinling in hopes of recuperation. Xu Jingsui, then 16, was sent to Guangling to serve as junior regent, carrying the titles of Menxia Shilang (\u9580\u4e0b\u4f8d\u90ce) and Can Zhengshi (\u53c3\u653f\u4e8b), as a de facto chancellor.[6] (Xu Jingqian would not recover, however, and would die in 937.)[7] ### During Southern Tang #### During Li Bian's reign In 937, Yang Pu yielded the throne to Xu Zhigao, ending Wu. Xu Zhigao took the throne as emperor of a new state of Southern Tang. He created Xu Jingsui, who had arrived at Jinling as part of the procession of Wu officials offering the throne to him on Yang's behalf, the Prince of Ji. He also commissioned Xu Jingsui the titles"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 3,
+          "score": 0.03278688524590164,
+          "text": "Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's titular ruler was Yang Longyan's younger brother Yang Pu, who had taken imperial title by that point; Xu Jingsui's father Xu Zhigao was the regent, stationed at Jinling, with Xu Jingtong also there serving as his deputy. The role that Xu Zhigao formerly had during Xu Wen's regency, as junior regent at the Wu capital Guangling, was held by Xu Jingqian,[5] who was Xu Zhigao's favorite son.[2] However, in 936, Xu Jingqian fell ill, and was removed from the junior regency and recalled to Jinling in hopes of recuperation. Xu Jingsui, then 16, was sent to Guangling to serve as",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 0.03225806451612903,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 4,
+          "score": 0.03149801587301587,
+          "text": "regency and recalled to Jinling in hopes of recuperation. Xu Jingsui, then 16, was sent to Guangling to serve as junior regent, carrying the titles of Menxia Shilang (\u9580\u4e0b\u4f8d\u90ce) and Can Zhengshi (\u53c3\u653f\u4e8b), as a de facto chancellor.[6] (Xu Jingqian would not recover, however, and would die in 937.)[7] ### During Southern Tang #### During Li Bian's reign In 937, Yang Pu yielded the throne to Xu Zhigao, ending Wu. Xu Zhigao took the throne as emperor of a new state of Southern Tang. He created Xu Jingsui, who had arrived at Jinling as part of the procession of Wu officials offering the throne to him on Yang's behalf, the Prince of Ji. He also commissioned Xu Jingsui the titles",
+          "keyword_rank": 4,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "When did Xu Zhigao change his name to Li Bian?",
+      "evidence": [
+        "In 939, Xu Zhigao changed"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          6
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 6.472057658395259,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        },
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 4.190483190196011,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 3.6847257812847785,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 0.7252151597263535,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        },
+        {
+          "source": "History.md",
+          "chunk": 7,
+          "score": 0.5737957957615568,
+          "text": "yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng) and examination (\u9580\u4e0b\u7701, Menxia Sheng) bureaus instead, but also having Li Jingsui's older brother Li Jingtong (whose name had been changed to Li Jing by this point) oversee all three bureaus. Shortly after, Song's close associate Xia Changtu (\u590f\u660c\u5716) was involved in a corruption scandal, but Song initially did sentence him to death. Li Bian, in anger, personally ordered Xia's death. Song thus resigned his oversight over the executive bureau and was no longer meeting the emperor. Li Bian had to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan"
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.56230541739111,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 0.03278688524590164,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 7,
+          "score": 0.0315136476426799,
+          "text": "yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng) and examination (\u9580\u4e0b\u7701, Menxia Sheng) bureaus instead, but also having Li Jingsui's older brother Li Jingtong (whose name had been changed to Li Jing by this point) oversee all three bureaus. Shortly after, Song's close associate Xia Changtu (\u590f\u660c\u5716) was involved in a corruption scandal, but Song initially did sentence him to death. Li Bian, in anger, personally ordered Xia's death. Song thus resigned his oversight over the executive bureau and was no longer meeting the emperor. Li Bian had to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan",
+          "keyword_rank": 5,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 2,
+          "score": 0.031054405392392875,
+          "text": "that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was born in 920, during the reign of Yang Longyan the King of Wu.[2] His father, then known as Xu Zhigao, was serving as Wu's junior regent at the Wu capital Guangling (\u5ee3\u9675, in modern Yangzhou, Jiangsu), with his adoptive father (Xu Jingsui's adoptive grandfather) Xu Wen the regent taking up position at Jinling and in actual control of the Wu state.[5] His mother was Xu Zhigao's second wife Lady Song Fujin, who was also the mother of his older brothers Xu Jingtong and Xu Jingqian and younger brother Xu Jingda. Xu Jingsui was the third son overall.[2] By 936, Wu's",
+          "keyword_rank": 2,
+          "semantic_rank": 7
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "Why did Li Jingsui choose the courtesy name Tuishen?",
+      "evidence": [
+        "to show his lack of desire to be heir"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          10
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 10,
+          "score": 3.5255406329693506,
+          "text": "palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared his intention to pass the throne to Li Jingsui and Li Jingda (who took over the title of Prince of Yan). Both Li Jingsui and Li Jingda repeatedly declined their new titles, but were not allowed to. However, Li Jingsui still had no desire to be heir, and decided to take, as his courtesy name, Tuishen \u2014 from the Tao Te Ching passage \"withdraw your body after you complete your accomplishment\" (\u529f\u6210\u540d\u9042\u8eab\u9000, gongchengming suishentui) \u2014 to show his lack of desire to be heir.[2][9] (Li Jing's close associate Feng Yanji wanted to use this opportunity to block off the other"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 3.3597556263931705,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        },
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 3.23164681619898,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 10,
+          "score": 0.6196817668861395,
+          "text": "palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared his intention to pass the throne to Li Jingsui and Li Jingda (who took over the title of Prince of Yan). Both Li Jingsui and Li Jingda repeatedly declined their new titles, but were not allowed to. However, Li Jingsui still had no desire to be heir, and decided to take, as his courtesy name, Tuishen \u2014 from the Tao Te Ching passage \"withdraw your body after you complete your accomplishment\" (\u529f\u6210\u540d\u9042\u8eab\u9000, gongchengming suishentui) \u2014 to show his lack of desire to be heir.[2][9] (Li Jing's close associate Feng Yanji wanted to use this opportunity to block off the other"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 0.5415212500833777,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        },
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.5227301835272311,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 10,
+          "score": 0.03278688524590164,
+          "text": "palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared his intention to pass the throne to Li Jingsui and Li Jingda (who took over the title of Prince of Yan). Both Li Jingsui and Li Jingda repeatedly declined their new titles, but were not allowed to. However, Li Jingsui still had no desire to be heir, and decided to take, as his courtesy name, Tuishen \u2014 from the Tao Te Ching passage \"withdraw your body after you complete your accomplishment\" (\u529f\u6210\u540d\u9042\u8eab\u9000, gongchengming suishentui) \u2014 to show his lack of desire to be heir.[2][9] (Li Jing's close associate Feng Yanji wanted to use this opportunity to block off the other",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 0.03225806451612903,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 6,
+          "score": 0.030798389007344232,
+          "text": "938, it was Xu Jingsui that Xu Zhigao sent to attend to the funeral train. Xu Jingsui was overcome with grief, and those who saw him were touched.[2] In 939, Xu Zhigao changed his surname back to his birth name of Li, and took a new name of Li Bian. His children also changed their names to Li, and Xu Jingsui thus took the name of Li Jingsui. Not long after, Li Jingsui's title was changed to Prince of Shou.[8] In 942, when the senior statesman Song Qiqiu insisted on taking over the executive bureau, Li Bian had Li Jingsui yield the oversight of the executive bureau to him, and instead had Li Jingsui oversee the legislative (\u4e2d\u66f8\u7701, Zhongshu Sheng)",
+          "keyword_rank": 3,
+          "semantic_rank": 7
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "How did Li Jingsui react when Zhang Yi broke his jade cup?",
+      "evidence": [
+        "Instead of becoming angry, Li Jingsui apologized"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          12
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 7.059736767067763,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to"
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 4.625176485111581,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded"
+        },
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 3.6775990177153823,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.7696879294812119,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to"
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.649192072513406,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded"
+        },
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 0.6064383767654966,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 12,
+          "score": 0.03278688524590164,
+          "text": "emperor again, Li Jing withdrew the edict.)[9] In 947, Li Jing formally created Li Jingsui Crown Prince. (Li Jingda received the title of Prince of Qi, and Li Jing's oldest son Li Hongji, previously the Prince of Nanchang, became the Prince of Yan.) There was an occasion when Li Jingsui was meeting with his staff, but was paying attention to jade while staff member Zhang Yi (\u5f35\u6613) wanted to discuss his (Li Jingsui's) behavior. Zhang, in anger, grabbed a jade cup that Li Jingsui was holding and threw it on the ground, breaking it and shocking the entire staff. Instead of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.03225806451612903,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded",
+          "keyword_rank": 2,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 0.031746031746031744,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]",
+          "keyword_rank": 3,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "How was Li Jingsui poisoned after playing polo?",
+      "evidence": [
+        "Yuan gave him milk laced with poison"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          17
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 3.4851810654272213,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 2.48094228992947,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        },
+        {
+          "source": "History.md",
+          "chunk": 9,
+          "score": 2.3857064068195166,
+          "text": "after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui and Li Jingda, created Li Jingsui (who then was also carrying the titles of Zhongshu Ling (\u4e2d\u66f8\u4ee4), mayor of Jinling, and military governor of Tianxiong Circuit (\u5929\u96c4, headquartered in modern Handan, Hebei) \u2014 a completely honorary title as Tianxiong was under the rule of Southern Tang's northern neighbor Later Jin) the Prince of Qi \u2014 a title that Li Bian and Li Jing successively carried before they became emperor. He also had Li Jingsui take up residence at the eastern palace \u2014 traditionally, the residence for the Crown Prince \u2014 thereby effectively designating him as heir. He also publicly declared"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 0.7213079090482598,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]"
+        },
+        {
+          "source": "History.md",
+          "chunk": 16,
+          "score": 0.5824197068278889,
+          "text": "Zhennan to serve as his deputy military governor. However, Li Zhenggu was arrogant and dominant, such that even though Li Jingsui was himself magnanimous and relaxed, he became unable to bear Li Zhenggu as time went by. He considered killing Li Zhenggu and then report to Li Jing to confess, but was urged not to by his close associates. He became unhappy, however.[3] Meanwhile, Li Hongji, as crown prince, had sometimes carried out unlawful deeds. Li Jing, angry, had once caned Li Hongji, and, as he did, stated, \"I will summon Jingsui back!\" There also happened be a time when false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was"
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 0.5717332444080259,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 17,
+          "score": 0.03278688524590164,
+          "text": "false accusations were laid against the son of Li Jingsui's staff member Yuan Congfan (\u8881\u5f9e\u7bc4), such that Li Jingsui was considering executing Yuan's son. When Li Hongji heard of this, he secretly sent Yuan poison to encourage Yuan to poison Li Jingsui. On a day after Li Jingsui returned to his mansion after playing polo and was thirsty, Yuan gave him milk laced with poison. Li Jingsui drank it and died.[3] Li Jing was greatly saddened. His servants, wanting to lessen his sadness, falsely stated to him that when Li Jingsui fell ill, he stated, \"Shangdi is having me replace Xu Jingyang (i.e., the Taoist deity Xu Xun).\" Li Jing believed them, and did not look into the matter further.[2]",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 1,
+          "score": 0.03200204813108039,
+          "text": "# History ## Li Jingsui Li Jingsui [1] (Chinese: \u674e\u666f\u9042; 920[2] \u2013 17 September 958[3][4]), n\u00e9 Xu Jingsui (\u5f90\u666f\u9042), courtesy name Tuishen (\u9000\u8eab), formally Crown Prince Wencheng (\u6587\u6210\u592a\u5f1f), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death. ### During Wu Xu Jingsui was",
+          "keyword_rank": 2,
+          "semantic_rank": 3
+        },
+        {
+          "source": "History.md",
+          "chunk": 8,
+          "score": 0.03055037313432836,
+          "text": "to send Li Jingsui to his mansion to comfort him and promise to make him the military governor of Zhennan Circuit (\u93ae\u5357, headquartered in modern Nanchang, Jiangxi) in order for him to come to the palace, upon which Song was given the Zhennan command.[9] #### During Li Jing's reign Li Bian died in 943.[9] Li Jing, as the oldest son, was expected to be the heir, and while he initially offered the throne to Li Jingsui instead, Li Jingsui earnestly declined, and Li Jing thereafter took the throne.[2] He created Li Jingsui the greater title of Prince of Yan. Shortly after, Li Jing, believing that it was Li Bian's will that he pass the throne in succession to Li Jingsui",
+          "keyword_rank": 4,
+          "semantic_rank": 7
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What was Judy Garland's birth name?",
+      "evidence": [
+        "born Frances Ethel Gumm"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          19
+        ],
+        [
+          "History.md",
+          23
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 29,
+          "score": 2.2087297692605263,
+          "text": "know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name that so sensitive a great actress like that should have; ... and so we called her Judy Garland and I think she's a combination of Helen Hayes and Al Jolson and maybe Jenny Lind and Sarah Bernhardt.[19] A later explanation surfaced when Jessel was a guest on Garland's television show in 1963. He said that he had sent actress Judith Anderson a telegram containing the word \"garland\" and it stuck in his mind.[20] By late 1934 the Gumm Sisters had changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy"
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 2.031792606948696,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        },
+        {
+          "source": "History.md",
+          "chunk": 27,
+          "score": 2.0264965596447273,
+          "text": "name after \"Gumm\" was met with laughter from the audience. According to theater legend, their act was once erroneously billed at a Chicago theater as \"The Glum Sisters\".[16] *The Gumm Sisters, also known as the Garland Sisters, c. 1935: Top row: Mary Jane and Dorothy Virginia Gumm; bottom: Frances Ethel (Judy Garland) Gumm* Several stories persist regarding the origin of their use of the name Garland. One is that it was originated by Jessel after Carole Lombard's character Lily Garland in the film Twentieth Century (1934), which was then playing at the Oriental in Chicago; another is that the girls chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when"
+        }
+      ],
+      "keyword_full_rank": 58,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.7333866853861591,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        },
+        {
+          "source": "History.md",
+          "chunk": 29,
+          "score": 0.7074899455335193,
+          "text": "know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name that so sensitive a great actress like that should have; ... and so we called her Judy Garland and I think she's a combination of Helen Hayes and Al Jolson and maybe Jenny Lind and Sarah Bernhardt.[19] A later explanation surfaced when Jessel was a guest on Garland's television show in 1963. He said that he had sent actress Judith Anderson a telegram containing the word \"garland\" and it stuck in his mind.[20] By late 1934 the Gumm Sisters had changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy"
+        },
+        {
+          "source": "History.md",
+          "chunk": 125,
+          "score": 0.6743705067825008,
+          "text": "and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as Dorothy)[209] and in 2006 (as Vicki Lester from A Star Is Born).[210] On June 10, 2022, the centennial of her birth, she was honored with a perfume named after her, entitled \"Judy\u2014A Garland Fragrance\", created by Vincenzo Spinnato.[211] #### In the media *See also: List of Judy Garland biographies* Subsequent celebrities who have suffered from personal struggles with drug addiction and substance use disorder have been compared to Garland, particularly Michael Jackson.[181] Garland's elder daughter Liza Minnelli had a personal life that was almost parallel to that of her mother's, having struggled with substance use disorder and several unsuccessful marriages.[189]"
+        }
+      ],
+      "semantic_full_rank": 4,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.03252247488101534,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name",
+          "keyword_rank": 2,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 29,
+          "score": 0.03252247488101534,
+          "text": "know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name that so sensitive a great actress like that should have; ... and so we called her Judy Garland and I think she's a combination of Helen Hayes and Al Jolson and maybe Jenny Lind and Sarah Bernhardt.[19] A later explanation surfaced when Jessel was a guest on Garland's television show in 1963. He said that he had sent actress Judith Anderson a telegram containing the word \"garland\" and it stuck in his mind.[20] By late 1934 the Gumm Sisters had changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy",
+          "keyword_rank": 1,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 125,
+          "score": 0.03125763125763126,
+          "text": "and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as Dorothy)[209] and in 2006 (as Vicki Lester from A Star Is Born).[210] On June 10, 2022, the centennial of her birth, she was honored with a perfume named after her, entitled \"Judy\u2014A Garland Fragrance\", created by Vincenzo Spinnato.[211] #### In the media *See also: List of Judy Garland biographies* Subsequent celebrities who have suffered from personal struggles with drug addiction and substance use disorder have been compared to Garland, particularly Michael Jackson.[181] Garland's elder daughter Liza Minnelli had a personal life that was almost parallel to that of her mother's, having struggled with substance use disorder and several unsuccessful marriages.[189]",
+          "keyword_rank": 5,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 18,
+      "hybrid_rank": null
+    },
+    {
+      "query": "Where was Judy Garland born?",
+      "evidence": [
+        "in Grand Rapids, Minnesota"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          23
+        ],
+        [
+          "History.md",
+          24
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "regression",
+          "top3": "regression"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 69,
+          "score": 1.3742371058491278,
+          "text": "engagements, about 30 minutes of footage were cut, sparking outrage among critics and filmgoers. Although the film was still popular, drawing huge crowds and grossing over $6 million (equivalent to $55.4 million in 2024[50]) during its first release, A Star is Born did not make back its costs and ended up losing money. As a result, the secure financial position Garland had expected from the profits did not materialize.[101] Transcona made no more films with Warner.[102] *Garland filming a scene as a restaurant carhop for A Star Is Born (1954)* Garland was nominated for the Academy Award for Best Actress and, in the run-up to the 27th Academy Awards, was generally expected to win for A Star Is Born. She"
+        },
+        {
+          "source": "History.md",
+          "chunk": 65,
+          "score": 1.3715482843353093,
+          "text": "was the beginning of a new life ... Hollywood thought I was through; then came the wonderful opportunity to appear at the London Palladium, where I can truthfully say Judy Garland was reborn.\"[90] Her appearances at the Palladium lasted four weeks, where she received rave reviews and an ovation described by the Palladium manager as the loudest he had ever heard.[91][92] Garland's engagement at the Palace Theatre in Manhattan in October 1951 exceeded all previous records for both the theater and for Garland, and she was called \"one of the greatest personal triumphs in show business history\".[93] She was honored with a Special Tony Award for her contribution to the revival of vaudeville.[94] That same year, she divorced Minnelli,[95] and"
+        },
+        {
+          "source": "History.md",
+          "chunk": 155,
+          "score": 1.2838724609226257,
+          "text": "12, 2010. - Van Gelder, Lawrence (June 28, 1969). \"Judy Garland's Funeral Draws Her Colleagues\". The New York Times. - \"Celebrities & Notables Interred at Ferncliff\". Ferncliff Cemetery. Archived from the original on July 22, 2011. Retrieved June 20, 2011. - Gomez, Patrick; Mizoguchi, Karen (January 26, 2017). \"Judy Garland's Remains Moved From New York Burial Place to L.A.'s Hollywood Forever Cemetery\". People. Archived from the original on September 30, 2019. Retrieved February 6, 2017. - Silverman, Stephen M. (1991). Where there's a will-- : who inherited what and why. New York City: HarperCollins. ISBN 9780060162603 \u2013 via Internet Archive. - Harmetz, Aljean (November 29, 1978). \"Judy Garland Auction Fetches $250,000\". The New York Times. - Strassler, Doug (April 3,"
+        }
+      ],
+      "keyword_full_rank": 46,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 23,
+          "score": 0.6537357367263299,
+          "text": "three Emmy Awards. In 1997, she was posthumously awarded the Grammy Lifetime Achievement Award. In 1999, the American Film Institute ranked her the eighth-greatest star of classic Hollywood cinema. ### Early life Garland was born Frances Ethel Gumm on June 10, 1922, in Grand Rapids, Minnesota.[2][3] She was the youngest child of vaudevillians Ethel Marion Milne (1896\u20131953) and Francis Avent Gumm (1886\u20131935).[4] She was named after both of her parents and baptized at a local Episcopal church.[5] Her parents had met and married in Wisconsin and then settled in Grand Rapids, where they operated a movie theater showcasing vaudeville acts. She was of Irish, English, Scottish,[6][7] and Huguenot[8][9] ancestry. \"Baby\" (as she was called by her parents and sisters)[10] shared"
+        },
+        {
+          "source": "History.md",
+          "chunk": 19,
+          "score": 0.6279861484942827,
+          "text": "Spring and Autumn Annals of the Ten Kingdoms, vol. 19. - Zizhi Tongjian, vols. 280, 281, 282, 283, 286, 294. ## Judy Garland Judy Garland (born Frances Ethel Gumm; June 10, 1922 \u2013 June 22, 1969) was an American actress, singer, and vaudevillian whose career spanned four decades. She is known for her artistic range and strong contralto voice, working in a variety of genres including musicals, comedies, and dramas. Her career and personal life, marked by both public fascination and private struggle, made her a cultural icon. Garland began her career at the age of two, performing with her two older sisters as a vaudeville act called The Gumm Sisters. In 1935, aged 13, she signed a contract with"
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.6210655518771749,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 19,
+          "score": 0.03128054740957967,
+          "text": "Spring and Autumn Annals of the Ten Kingdoms, vol. 19. - Zizhi Tongjian, vols. 280, 281, 282, 283, 286, 294. ## Judy Garland Judy Garland (born Frances Ethel Gumm; June 10, 1922 \u2013 June 22, 1969) was an American actress, singer, and vaudevillian whose career spanned four decades. She is known for her artistic range and strong contralto voice, working in a variety of genres including musicals, comedies, and dramas. Her career and personal life, marked by both public fascination and private struggle, made her a cultural icon. Garland began her career at the age of two, performing with her two older sisters as a vaudeville act called The Gumm Sisters. In 1935, aged 13, she signed a contract with",
+          "keyword_rank": 6,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.030798389007344232,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name",
+          "keyword_rank": 7,
+          "semantic_rank": 3
+        },
+        {
+          "source": "History.md",
+          "chunk": 125,
+          "score": 0.030330882352941176,
+          "text": "and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as Dorothy)[209] and in 2006 (as Vicki Lester from A Star Is Born).[210] On June 10, 2022, the centennial of her birth, she was honored with a perfume named after her, entitled \"Judy\u2014A Garland Fragrance\", created by Vincenzo Spinnato.[211] #### In the media *See also: List of Judy Garland biographies* Subsequent celebrities who have suffered from personal struggles with drug addiction and substance use disorder have been compared to Garland, particularly Michael Jackson.[181] Garland's elder daughter Liza Minnelli had a personal life that was almost parallel to that of her mother's, having struggled with substance use disorder and several unsuccessful marriages.[189]",
+          "keyword_rank": 8,
+          "semantic_rank": 4
+        }
+      ],
+      "hybrid_full_rank": 12,
+      "hybrid_rank": null
+    },
+    {
+      "query": "Which role brought Judy Garland international recognition?",
+      "evidence": [
+        "international recognition for her portrayal of Dorothy Gale"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          20
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 44,
+          "score": 1.7398814091844688,
+          "text": "in Arms. She was the fourth recipient of the award as well as only one of 12 actors ever to be presented with one.[52] After The Wizard of Oz, Garland was one of the most bankable actresses in the United States.[53] #### 1940\u20131946: Adult stardom *Garland as Nellie Kelly in Little Nellie Kelly (1940), which was her first adult role* Garland starred in three films released in 1940: Andy Hardy Meets Debutante, Strike Up the Band, and Little Nellie Kelly. In the last of these, she played her first adult role, a dual role of both mother and daughter.[citation needed] Little Nellie Kelly was purchased from George M. Cohan as a vehicle for her to display both her audience appeal"
+        },
+        {
+          "source": "History.md",
+          "chunk": 164,
+          "score": 1.3573510836801261,
+          "text": "November 30, 2005. Archived from the original on January 6, 2008. Retrieved December 25, 2007. - Fields, Jackie (June 9, 2022). \"Liza Minnelli and Lorna Luft Help Develop a Fragrance in Mom Judy Garland's Honor: 'It Smells Like Mama!'\". People. - Joan E. Dowlin (February 14, 2012). \"Whitney and Judy: Two Parallel Iconic Lives\". Huffington Post. Retrieved May 31, 2026. - Lajohn Joseph (February 11, 2013). \"For Whitney Houston (and Judy Garland before her), it's trouble plus talent that makes a gay icon\". The Independent. Retrieved May 31, 2026. - \"Star of 'Annie' plays Garland in TV version of fantasy life\". The Gazette. Vol. 201. United Press International. November 4, 1978. p. 52. Retrieved February 9, 2015. - Dillard, Brian"
+        },
+        {
+          "source": "History.md",
+          "chunk": 153,
+          "score": 1.343844766761553,
+          "text": "Clarke 2001, p. 412. - DiOrio 1973, p. 204. - Edwards 1975, p. 275. - Clarke 2001, p. 422. - \"Judy Garland The Live Performances. The End of the Rainbow\". Archived from the original on January 26, 2008. Retrieved February 1, 2008. citing the United Press International article \"Judy Took Too Many Pills\" and containing a copy of Garland's death certificate. - Schulberg, Bud (July 11, 1969). \"A Farewell to Judy\". Life. p. 27. - \"Judy Garland Believed Killed by Overdose\". St. Petersburg Times. Times Wire Services. June 24, 1969. p. 2. Retrieved October 26, 2024 \u2013 via Newspapers.com. - Fricke, John (2011). Judy: A Legendary Film Career. Philadelphia, Pennsylvania: Running Press. p. 37. ISBN 978-0-7624-4368-0. - \"Singers: End of"
+        }
+      ],
+      "keyword_full_rank": 4,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 145,
+          "score": 0.6673064583645318,
+          "text": "Chicago Tribune. Retrieved November 27, 2021. - Clarke 2001, p. 326. - \"Judy Garland\". Hollywood Foreign Press Association. Archived from the original on January 11, 2008. Retrieved December 24, 2007. - \"Gay Purr-ee (1962)\". TCM. April 5, 2013.[dead link] - Garland, Judy; Bogarde, Dirk; Klugman, Jack; MacMahon, Aline (October 11, 1963). \"I Could Go on Singing\". IMDb. Retrieved January 31, 2017. - Sanders 1990, p. 24. - \"Judy Garland \u2013 About Judy Garland | American Masters\". PBS. July 7, 2004. Retrieved April 3, 2010. - Frank 1975, pp. 420\u201321. - \"Judy Reigns in Palace as Queen of New York\". UPI. October 31, 1952. - \"Judy Garland Said To Have Hepatitis\". UPI. November 26, 1959. - Clarke 2001, p. 347. -"
+        },
+        {
+          "source": "History.md",
+          "chunk": 117,
+          "score": 0.6453693547754,
+          "text": "highs and great moments in her career. She also had great moments in her personal life. Yes, we lost her at 47 years old. That was tragic. But she was not a tragic figure.\"[198] Ruhlmann argues that Garland actually used the public's opinion of her tragic image to her advantage towards the end of her career.[182] ### Legacy *Main articles: List of awards and nominations received by Judy Garland and Judy Garland as a gay icon* #### Influence *Mickey Rooney watching Garland put her handprint into concrete at Grauman's Chinese Theatre, 1939* *Garland's signature, handprints, and footprints in the concrete in front of Grauman's Chinese Theatre in Los Angeles* Garland has been called a triple threat due to her ability"
+        },
+        {
+          "source": "History.md",
+          "chunk": 21,
+          "score": 0.6383537761614542,
+          "text": "Judgment at Nuremberg (1961), both of which earned her Academy Award nominations. Garland's music career was kickstarted with her signature song \"Over the Rainbow\" from The Wizard of Oz. She recorded 11 studio albums between 1939 and 1962. Her albums Meet Me in St. Louis (1944) and Miss Show Business (1955) peaked in the top ten of the U.S. Billboard 200, while Judy (1956), Alone (1957), and The Garland Touch (1962) reached the top 40. Her live album, Judy at Carnegie Hall (1961), made Garland the first woman to win the Grammy Award for Album of the Year. Also in 1961, she became the first female recipient and youngest honoree of the Golden Globe Cecil B. DeMille Award. Garland developed"
+        }
+      ],
+      "semantic_full_rank": 46,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 164,
+          "score": 0.0315136476426799,
+          "text": "November 30, 2005. Archived from the original on January 6, 2008. Retrieved December 25, 2007. - Fields, Jackie (June 9, 2022). \"Liza Minnelli and Lorna Luft Help Develop a Fragrance in Mom Judy Garland's Honor: 'It Smells Like Mama!'\". People. - Joan E. Dowlin (February 14, 2012). \"Whitney and Judy: Two Parallel Iconic Lives\". Huffington Post. Retrieved May 31, 2026. - Lajohn Joseph (February 11, 2013). \"For Whitney Houston (and Judy Garland before her), it's trouble plus talent that makes a gay icon\". The Independent. Retrieved May 31, 2026. - \"Star of 'Annie' plays Garland in TV version of fantasy life\". The Gazette. Vol. 201. United Press International. November 4, 1978. p. 52. Retrieved February 9, 2015. - Dillard, Brian",
+          "keyword_rank": 2,
+          "semantic_rank": 5
+        },
+        {
+          "source": "History.md",
+          "chunk": 127,
+          "score": 0.028991596638655463,
+          "text": "by Andrea McArdle in Rainbow (1978);[214] Tammy Blanchard (young Judy) and Judy Davis (older Judy) in Life with Judy Garland: Me and My Shadows (2001);[215] and Sigrid Thornton in Peter Allen: Not The Boy Next Door (2015).[216] In 2009, Harvey Weinstein optioned Get Happy: The Life of Judy Garland and planned to create a stage show and film based on the biography. Both were slated to star Anne Hathaway, though the two projects were ultimately shelved.[217] Ren\u00e9e Zellweger played Garland in the biopic Judy (2019), for which she won the Academy Award for Best Actress.[218] On stage, Garland is a character in the musical The Boy from Oz (1998), acted by Chrissy Amphlett in the original Australian production[219] and by",
+          "keyword_rank": 8,
+          "semantic_rank": 10
+        },
+        {
+          "source": "History.md",
+          "chunk": 21,
+          "score": 0.02886002886002886,
+          "text": "Judgment at Nuremberg (1961), both of which earned her Academy Award nominations. Garland's music career was kickstarted with her signature song \"Over the Rainbow\" from The Wizard of Oz. She recorded 11 studio albums between 1939 and 1962. Her albums Meet Me in St. Louis (1944) and Miss Show Business (1955) peaked in the top ten of the U.S. Billboard 200, while Judy (1956), Alone (1957), and The Garland Touch (1962) reached the top 40. Her live album, Judy at Carnegie Hall (1961), made Garland the first woman to win the Grammy Award for Album of the Year. Also in 1961, she became the first female recipient and youngest honoree of the Golden Globe Cecil B. DeMille Award. Garland developed",
+          "keyword_rank": 17,
+          "semantic_rank": 3
+        }
+      ],
+      "hybrid_full_rank": 14,
+      "hybrid_rank": null
+    },
+    {
+      "query": "Which live album made Garland the first woman to win Album of the Year?",
+      "evidence": [
+        "Her live album, Judy at Carnegie Hall (1961)"
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          21
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "tie",
+          "top3": "tie"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 21,
+          "score": 4.059925614476521,
+          "text": "Judgment at Nuremberg (1961), both of which earned her Academy Award nominations. Garland's music career was kickstarted with her signature song \"Over the Rainbow\" from The Wizard of Oz. She recorded 11 studio albums between 1939 and 1962. Her albums Meet Me in St. Louis (1944) and Miss Show Business (1955) peaked in the top ten of the U.S. Billboard 200, while Judy (1956), Alone (1957), and The Garland Touch (1962) reached the top 40. Her live album, Judy at Carnegie Hall (1961), made Garland the first woman to win the Grammy Award for Album of the Year. Also in 1961, she became the first female recipient and youngest honoree of the Golden Globe Cecil B. DeMille Award. Garland developed"
+        },
+        {
+          "source": "History.md",
+          "chunk": 76,
+          "score": 2.5235983263362334,
+          "text": "2014 biography, Judy Garland on Judy Garland: Interviews and Encounters by Randy L. Schmidt.[115][116] Her concert appearance at Carnegie Hall on April 23, 1961, was a considerable highlight, called by many \"the greatest night in show business history.\"[117] The two-record album Judy at Carnegie Hall was certified gold, charting for 95 weeks on Billboard, including 13 weeks at number one. It won four Grammy Awards, including Album of the Year, Best Female Vocal of the Year, Best Album Cover, and Best Engineering Contribution.[118] #### 1961\u20131964: The Judy Garland Show *Dean Martin, Garland and Frank Sinatra on the 1962 television special The Judy Garland Show* In 1961 Garland and CBS settled their contract disputes with the help of her new agent,"
+        },
+        {
+          "source": "History.md",
+          "chunk": 71,
+          "score": 2.246962273540478,
+          "text": "about the greatest one-woman show in modern movie history.\"[104] However, Garland did win the Golden Globe Award for Best Actress in a Musical for her role.[105] Garland's films after A Star Is Born included Judgment at Nuremberg (1961), for which she was Oscar- and Golden Globe-nominated for Best Supporting Actress;[106] the animated feature Gay Purr-ee (1962); and A Child Is Waiting (1963), with Burt Lancaster. Her final film was I Could Go On Singing (1963), with Dirk Bogarde.[107] *Garland in her dressing room at the Greek Theatre (1957)* Beginning in 1955 Garland appeared in a number of television specials. The first was the 1955 debut episode of Ford Star Jubilee, which was the first full-scale color broadcast on CBS and"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 21,
+          "score": 0.5835114281002227,
+          "text": "Judgment at Nuremberg (1961), both of which earned her Academy Award nominations. Garland's music career was kickstarted with her signature song \"Over the Rainbow\" from The Wizard of Oz. She recorded 11 studio albums between 1939 and 1962. Her albums Meet Me in St. Louis (1944) and Miss Show Business (1955) peaked in the top ten of the U.S. Billboard 200, while Judy (1956), Alone (1957), and The Garland Touch (1962) reached the top 40. Her live album, Judy at Carnegie Hall (1961), made Garland the first woman to win the Grammy Award for Album of the Year. Also in 1961, she became the first female recipient and youngest honoree of the Golden Globe Cecil B. DeMille Award. Garland developed"
+        },
+        {
+          "source": "History.md",
+          "chunk": 121,
+          "score": 0.5094228525363496,
+          "text": "Hollywood cinema.[205] In June 1998, in The New York Times, Paglia wrote, \"Garland was a personality on the grand scale who makes our current crop of pop stars look lightweight and evanescent.\"[180] Garland's live performances towards the end of her career are still remembered by fans who attended them as \"peak moments in 20th-century music.\"[183] The New York Times obituarist described Garland as both \"an instinctive actress and comedienne,\" and that her performance style resembled that of \"a music hall performer in an era when music halls were obsolete.\"[16] Close friends of Garland's insisted that she never truly wanted to be a movie star and would have much rather devoted her career entirely to singing and recording records.[185] AllMusic biographer"
+        },
+        {
+          "source": "History.md",
+          "chunk": 124,
+          "score": 0.5067270910792098,
+          "text": "Lucille Ball, she created a template that the powers that be [sic] have forever been trying, with varied levels of success, to replicate.\"[173] Garland was posthumously awarded the Grammy Lifetime Achievement Award in 1997.[206] Several of her recordings have been inducted into the Grammy Hall of Fame.[207] These include \"Over the Rainbow,\" which was ranked as the number one movie song of all time in the American Film Institute's \"100 Years...100 Songs\" list; and four more Garland songs are featured on the list: \"Have Yourself a Merry Little Christmas\" (No. 76), \"Get Happy\" (No. 61), \"The Trolley Song\" (No. 26) and \"The Man That Got Away\" (No. 11).[208] She has twice been honored on U.S. postage stamps, in 1989 (as"
+        }
+      ],
+      "semantic_full_rank": 1,
+      "semantic_rank": 1,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 21,
+          "score": 0.03278688524590164,
+          "text": "Judgment at Nuremberg (1961), both of which earned her Academy Award nominations. Garland's music career was kickstarted with her signature song \"Over the Rainbow\" from The Wizard of Oz. She recorded 11 studio albums between 1939 and 1962. Her albums Meet Me in St. Louis (1944) and Miss Show Business (1955) peaked in the top ten of the U.S. Billboard 200, while Judy (1956), Alone (1957), and The Garland Touch (1962) reached the top 40. Her live album, Judy at Carnegie Hall (1961), made Garland the first woman to win the Grammy Award for Album of the Year. Also in 1961, she became the first female recipient and youngest honoree of the Golden Globe Cecil B. DeMille Award. Garland developed",
+          "keyword_rank": 1,
+          "semantic_rank": 1
+        },
+        {
+          "source": "History.md",
+          "chunk": 76,
+          "score": 0.02832415420928403,
+          "text": "2014 biography, Judy Garland on Judy Garland: Interviews and Encounters by Randy L. Schmidt.[115][116] Her concert appearance at Carnegie Hall on April 23, 1961, was a considerable highlight, called by many \"the greatest night in show business history.\"[117] The two-record album Judy at Carnegie Hall was certified gold, charting for 95 weeks on Billboard, including 13 weeks at number one. It won four Grammy Awards, including Album of the Year, Best Female Vocal of the Year, Best Album Cover, and Best Engineering Contribution.[118] #### 1961\u20131964: The Judy Garland Show *Dean Martin, Garland and Frank Sinatra on the 1962 television special The Judy Garland Show* In 1961 Garland and CBS settled their contract disputes with the help of her new agent,",
+          "keyword_rank": 2,
+          "semantic_rank": 22
+        },
+        {
+          "source": "History.md",
+          "chunk": 64,
+          "score": 0.027972027972027972,
+          "text": "toured for four months to sold-out crowds in Europe.[88] In 1951 she began a four-month concert tour of Britain and Ireland, where she played to sold-out audiences throughout England, Scotland, and Ireland.[89] The successful concert tour was the first of her many comebacks, with performances centered on songs by Al Jolson and the revival of vaudevillian tradition. Garland performed complete shows as tributes to Jolson in her concerts at the London Palladium in April and at New York's Palace Theater later that year.[90] *Garland in a publicity still (1954)* After the Palladium show, Garland said: \"I suddenly knew that this was the beginning of a new life ... Hollywood thought I was through; then came the wonderful opportunity to appear",
+          "keyword_rank": 18,
+          "semantic_rank": 6
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "What song did Garland sing during her first appearance at age two?",
+      "evidence": [
+        "Christmas show to sing a chorus of \"Jingle Bells.\""
+      ],
+      "expected_chunks": [
+        [
+          "History.md",
+          24
+        ]
+      ],
+      "changes": {
+        "keyword": {
+          "top1": "tie",
+          "top3": "tie"
+        },
+        "semantic": {
+          "top1": "gain",
+          "top3": "gain"
+        }
+      },
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 24,
+          "score": 2.750832355002259,
+          "text": "She was of Irish, English, Scottish,[6][7] and Huguenot[8][9] ancestry. \"Baby\" (as she was called by her parents and sisters)[10] shared her family's flair for song and dance. Her first appearance came at the age of two, when she joined her elder sisters Mary Jane \"Suzy/Suzanne\" Gumm (1915\u20131964) and Dorothy Virginia \"Jimmie\" Gumm (1917\u20131977) on the stage of her father's movie theater during a Christmas show to sing a chorus of \"Jingle Bells.\"[11] The Gumm Sisters performed there for the next few years, accompanied by their mother on piano.[10] *Garland's birthplace in Grand Rapids, Minnesota, is now a museum dedicated to her life and career.* Following rumors that Francis Gumm had homosexual inclinations, the family relocated to Lancaster, California in June"
+        },
+        {
+          "source": "History.md",
+          "chunk": 49,
+          "score": 2.3098838265111867,
+          "text": "for her.[61] She had a second abortion in that same year when she became pregnant during an affair with actor Tyrone Power.[62] *Garland singing \"The Trolley Song\" in the Meet Me in St. Louis trailer (1944)* One of Garland's most successful films for MGM was Meet Me in St. Louis (1944), in which she introduced three standards: \"The Trolley Song,\" \"The Boy Next Door,\" and \"Have Yourself a Merry Little Christmas.\" This was one of the first films in her career that gave her the opportunity to be an attractive leading lady. When Vincente Minnelli was assigned to direct the film, he requested that Garland be assigned make-up artist Dorothy Ponedel, who refined Garland's appearance in several ways: extending and"
+        },
+        {
+          "source": "History.md",
+          "chunk": 51,
+          "score": 2.2112307117645833,
+          "text": "filming of Meet Me in St. Louis, Garland and Minnelli had some initial conflicts, but they entered into a relationship and married on June 15, 1945.[65] On March 12, 1946, her daughter Liza was born.[66] The Clock (1945) was Garland's first straight dramatic film, with Robert Walker cast in the main male role. Though the film was critically praised and earned a profit, most movie fans expected her to sing. She did not act again in a non-singing dramatic role for many years.[citation needed] Her other films during this period include The Harvey Girls (1946), in which she introduced the Academy Award-winning song \"On the Atchison, Topeka and the Santa Fe\", Ziegfeld Follies (1946), and Till the Clouds Roll By"
+        }
+      ],
+      "keyword_full_rank": 1,
+      "keyword_rank": 1,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 103,
+          "score": 0.643169748290306,
+          "text": "music, which Dowlin compared to singer Elvis Presley.[181] Garland always claimed that her talent as a performer was innate, commenting: \"Nobody ever taught me what to do onstage.\"[183] Critics agree that even when she debuted as a child,[182] she had always sounded mature for her age,[184] particularly on her earlier recordings.[181] From an early age, Garland had been billed as \"the little girl with the leather lungs,\"[183] a designation the singer later admitted to having felt humiliated by because she would have much preferred to have been known to audiences as a \"pretty\" or \"nice little girl.\"[185] Jessel recalled that even at only 12 years old, Garland's singing voice resembled that of \"a woman with a heart that had been"
+        },
+        {
+          "source": "History.md",
+          "chunk": 121,
+          "score": 0.6083263013086017,
+          "text": "Hollywood cinema.[205] In June 1998, in The New York Times, Paglia wrote, \"Garland was a personality on the grand scale who makes our current crop of pop stars look lightweight and evanescent.\"[180] Garland's live performances towards the end of her career are still remembered by fans who attended them as \"peak moments in 20th-century music.\"[183] The New York Times obituarist described Garland as both \"an instinctive actress and comedienne,\" and that her performance style resembled that of \"a music hall performer in an era when music halls were obsolete.\"[16] Close friends of Garland's insisted that she never truly wanted to be a movie star and would have much rather devoted her career entirely to singing and recording records.[185] AllMusic biographer"
+        },
+        {
+          "source": "History.md",
+          "chunk": 112,
+          "score": 0.6015524947639426,
+          "text": "believe where she was,\" despite having been a well-established celebrity for over 20 years.[191] Royce believes that fans and audiences insisted on preserving their memory of Garland as Dorothy no matter how much she matured, calling her \"a captive not of her own desire to stay young, but a captive of the public's desire to preserve her that way,\"[191] accounting for why Garland was continually cast in roles significantly younger than her actual age.[191] *Garland relaxing in 1938* But Ruhlmann wrote that the singer's personal life \"contrasted so starkly with the exuberance and innocence of her film roles.\"[182] According to Malony, Garland was one of Hollywood's hardest-working performers during the 1940s, using that as a coping mechanism after her first"
+        }
+      ],
+      "semantic_full_rank": 6,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 24,
+          "score": 0.031544957774465976,
+          "text": "She was of Irish, English, Scottish,[6][7] and Huguenot[8][9] ancestry. \"Baby\" (as she was called by her parents and sisters)[10] shared her family's flair for song and dance. Her first appearance came at the age of two, when she joined her elder sisters Mary Jane \"Suzy/Suzanne\" Gumm (1915\u20131964) and Dorothy Virginia \"Jimmie\" Gumm (1917\u20131977) on the stage of her father's movie theater during a Christmas show to sing a chorus of \"Jingle Bells.\"[11] The Gumm Sisters performed there for the next few years, accompanied by their mother on piano.[10] *Garland's birthplace in Grand Rapids, Minnesota, is now a museum dedicated to her life and career.* Following rumors that Francis Gumm had homosexual inclinations, the family relocated to Lancaster, California in June",
+          "keyword_rank": 1,
+          "semantic_rank": 6
+        },
+        {
+          "source": "History.md",
+          "chunk": 112,
+          "score": 0.029206349206349208,
+          "text": "believe where she was,\" despite having been a well-established celebrity for over 20 years.[191] Royce believes that fans and audiences insisted on preserving their memory of Garland as Dorothy no matter how much she matured, calling her \"a captive not of her own desire to stay young, but a captive of the public's desire to preserve her that way,\"[191] accounting for why Garland was continually cast in roles significantly younger than her actual age.[191] *Garland relaxing in 1938* But Ruhlmann wrote that the singer's personal life \"contrasted so starkly with the exuberance and innocence of her film roles.\"[182] According to Malony, Garland was one of Hollywood's hardest-working performers during the 1940s, using that as a coping mechanism after her first",
+          "keyword_rank": 15,
+          "semantic_rank": 3
+        },
+        {
+          "source": "History.md",
+          "chunk": 103,
+          "score": 0.02889344262295082,
+          "text": "music, which Dowlin compared to singer Elvis Presley.[181] Garland always claimed that her talent as a performer was innate, commenting: \"Nobody ever taught me what to do onstage.\"[183] Critics agree that even when she debuted as a child,[182] she had always sounded mature for her age,[184] particularly on her earlier recordings.[181] From an early age, Garland had been billed as \"the little girl with the leather lungs,\"[183] a designation the singer later admitted to having felt humiliated by because she would have much preferred to have been known to audiences as a \"pretty\" or \"nice little girl.\"[185] Jessel recalled that even at only 12 years old, Garland's singing voice resembled that of \"a woman with a heart that had been",
+          "keyword_rank": 20,
+          "semantic_rank": 1
+        }
+      ],
+      "hybrid_full_rank": 1,
+      "hybrid_rank": 1
+    },
+    {
+      "query": "How do I reset my email password?",
+      "evidence": [],
+      "expected_chunks": [],
+      "changes": {},
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 110,
+          "score": 1.2276694275971507,
+          "text": "Garland: \"Judy's the greatest entertainer who ever lived\u2014or probably will ever live\u2014an amazing girl,\" and that \"[s]he could do things\u2014anything\u2014without rehearsing and come off perfectly.\"[193] Garland was known for interacting with her audiences during live performances. The New York Times obituarist wrote that she possessed \"a seemingly unquenchable need for her audiences to respond with acclaim and affection. And often, they did, screaming, 'We love you, Judy \u2013 we love you.'\"[16] Garland herself explained: \"A really great reception makes me feel like I have a great big warm heating pad all over me ... I truly have a great love for an audience and I used to want to prove it to them by giving them blood. But I have"
+        },
+        {
+          "source": "History.md",
+          "chunk": 160,
+          "score": 0.9269740263849757,
+          "text": "on April 4, 2018. Retrieved April 3, 2018. - \"The Untold History of Aretha Franklin's \"Respect\"\". April 8, 2016. - Cain, Steve (April 4, 2023). \"Memorable holiday film Easter Parade recalled 75 years after its release\". GlasgowWorld. Retrieved December 3, 2024. - Nguyen, Vi-An (September 4, 2014). \"'I Didn't Ask to Be a Legend': 12 Fascinating Quotes from Judy Garland on Judy Garland\". Parade. Retrieved April 5, 2018. - Lyons, Gene (July 9, 1993). \"Judy Garland: The Secret Life of a Legend\". Entertainment Weekly. Archived from the original on April 3, 2018. Retrieved April 2, 2018. - Luft, Sid (2018). Judy & I: My Life with Judy Garland. United Kingdom: Omnibus Press. ISBN 978-1787590724 \u2013 via Google Books. - Musto,"
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.8922516863617829,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        }
+      ],
+      "keyword_full_rank": null,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 55,
+          "score": 0.09958394173028742,
+          "text": "she would be able to work only in four- to five-day increments with extended rest periods in between, MGM executive Arthur Freed made the decision to suspend her on July 18, 1948. She was replaced in the film by Ginger Rogers.[74] *Garland in In the Good Old Summertime trailer (1949)* When Garland's suspension was over, she was summoned back to work. She performed two songs as a guest in the Rodgers and Hart biopic Words and Music (1948), which was her last screen appearance with Mickey Rooney. Despite the all-star cast, Words and Music barely broke even at the box office. Having regained her strength during her suspension, Garland was able to return to MGM in the fall of 1948"
+        },
+        {
+          "source": "History.md",
+          "chunk": 129,
+          "score": 0.0931933794758935,
+          "text": "to Garland as \"Judy G\" in her 1996 song \"Not the Red Baron.\" Garland is also the titular subject of Frog's \"Judy Garland\" single from 2015.[224][225][226] Garland has been the subject of over 30 biographies since her death, including the well-received Me and My Shadows: A Family Memoir by her daughter, Lorna Luft, whose memoir was later adapted into the television miniseries Life with Judy Garland: Me and My Shadows, which won Emmy Awards for the two actresses who portrayed her (Tammy Blanchard and Judy Davis).[227] ### Filmography *Main article: List of Judy Garland performances \u00a7 Filmography* ### Discography *Main articles: Judy Garland discography and List of recordings by Judy Garland* #### Studio albums - The Wizard of Oz (with"
+        },
+        {
+          "source": "History.md",
+          "chunk": 47,
+          "score": 0.09093585168006069,
+          "text": "true rarity.\"[38] Garland and Rose moved into a house in Bel Air, Los Angeles, where Rose had room to build miniature trains in the back yard. Though their life together was initially enjoyable, MGM still disapproved of the relationship and allegedly tried to separate them,[56] fearing\u2014along with Garland's mother\u2014that the relationship would ruin Garland's image.[58] In 1941, while Garland was pregnant with Rose's child, she had an abortion at the insistence of her mother and studio executives.[59] According to Woman's World, Rose was even hostile toward Garland.[58] The couple agreed to a trial separation in January 1943 and were divorced in 1944.[60] *Garland and Gene Kelly in a publicity photo for For Me and My Gal (1942)* In her next"
+        }
+      ],
+      "semantic_full_rank": null,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 129,
+          "score": 0.031054405392392875,
+          "text": "to Garland as \"Judy G\" in her 1996 song \"Not the Red Baron.\" Garland is also the titular subject of Frog's \"Judy Garland\" single from 2015.[224][225][226] Garland has been the subject of over 30 biographies since her death, including the well-received Me and My Shadows: A Family Memoir by her daughter, Lorna Luft, whose memoir was later adapted into the television miniseries Life with Judy Garland: Me and My Shadows, which won Emmy Awards for the two actresses who portrayed her (Tammy Blanchard and Judy Davis).[227] ### Filmography *Main article: List of Judy Garland performances \u00a7 Filmography* ### Discography *Main articles: Judy Garland discography and List of recordings by Judy Garland* #### Studio albums - The Wizard of Oz (with",
+          "keyword_rank": 7,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 48,
+          "score": 0.03076923076923077,
+          "text": "in 1944.[60] *Garland and Gene Kelly in a publicity photo for For Me and My Gal (1942)* In her next film, For Me and My Gal (1942), Garland performed with Gene Kelly in his first screen appearance. She was given the \"glamor treatment\" in Presenting Lily Mars (1943), in which she was dressed in \"grown-up\" gowns. Her lightened hair was also pulled up in a stylish fashion. However, no matter how glamorous or beautiful she appeared on screen or in photographs, Garland was never confident about her appearance and never escaped the girl-next-door image that the studio had originally created for her.[61] She had a second abortion in that same year when she became pregnant during an affair with actor",
+          "keyword_rank": 5,
+          "semantic_rank": 5
+        },
+        {
+          "source": "History.md",
+          "chunk": 31,
+          "score": 0.029857397504456328,
+          "text": "days later, Garland and her father were brought for an impromptu audition at Metro-Goldwyn-Mayer Studios in Culver City. Garland performed \"Zing! Went the Strings of My Heart\" and \"Eli, Eli,\" a Yiddish song written in 1896 and regularly performed in vaudeville.[24] The studio immediately signed Garland to a contract with MGM, presumably without a screen test, though she had made a test for the studio several months earlier. The studio did not know what to do with her; aged 13, she was older than the traditional child star but too young for adult roles.[25] *Garland in a publicity photo for Pigskin Parade (1936)* Her physical appearance was a dilemma for MGM. She was only 4 ft 11+1\u20442 in (151 cm)",
+          "keyword_rank": 6,
+          "semantic_rank": 8
+        }
+      ],
+      "hybrid_full_rank": null,
+      "hybrid_rank": null
+    },
+    {
+      "query": "What temperature should I bake sourdough bread at?",
+      "evidence": [],
+      "expected_chunks": [],
+      "changes": {},
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 29,
+          "score": 1.07966625815698,
+          "text": "know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name that so sensitive a great actress like that should have; ... and so we called her Judy Garland and I think she's a combination of Helen Hayes and Al Jolson and maybe Jenny Lind and Sarah Bernhardt.[19] A later explanation surfaced when Jessel was a guest on Garland's television show in 1963. He said that he had sent actress Judith Anderson a telegram containing the word \"garland\" and it stuck in his mind.[20] By late 1934 the Gumm Sisters had changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy"
+        },
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.9502126838558602,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded"
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.8922516863617829,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        }
+      ],
+      "keyword_full_rank": null,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 94,
+          "score": 0.0790815773637644,
+          "text": "of the Town nightclub in London,[157] for which she was paid \u00a32,500 per week.[115] She made her last concert appearance in Copenhagen during March of that year.[158] After her divorce from Herron was finalized on February 11, she married her fifth and final husband, nightclub manager Mickey Deans, at Chelsea Register Office, London, on March 15, 1969.[159] ### Death and funeral On June 22, 1969, Deans found Garland dead in the bathroom of her rented house in Cadogan Lane, Belgravia, London. She was 47 years old. At the inquest, Coroner Gavin Thurston stated that the cause of death was \"an incautious self-overdosage\" of barbiturates; her blood contained the equivalent of ten 1.5-grain (97 mg) Seconal capsules.[160] Thurston stressed that the"
+        },
+        {
+          "source": "History.md",
+          "chunk": 168,
+          "score": 0.0474749284085359,
+          "text": "August 7, 2009."
+        },
+        {
+          "source": "History.md",
+          "chunk": 51,
+          "score": 0.03752491523763271,
+          "text": "filming of Meet Me in St. Louis, Garland and Minnelli had some initial conflicts, but they entered into a relationship and married on June 15, 1945.[65] On March 12, 1946, her daughter Liza was born.[66] The Clock (1945) was Garland's first straight dramatic film, with Robert Walker cast in the main male role. Though the film was critically praised and earned a profit, most movie fans expected her to sing. She did not act again in a non-singing dramatic role for many years.[citation needed] Her other films during this period include The Harvey Girls (1946), in which she introduced the Academy Award-winning song \"On the Atchison, Topeka and the Santa Fe\", Ziegfeld Follies (1946), and Till the Clouds Roll By"
+        }
+      ],
+      "semantic_full_rank": null,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 13,
+          "score": 0.030621785881252923,
+          "text": "of becoming angry, Li Jingsui apologized, and thereafter treated Zhang better.[10] On a subsequent occasion, when Li Jing wanted to send Zhang on an embassy, over the sea, to Liao, Li Jingsui personally wrote a petition to Li Jing urging against it, stating, \"Zhang Yi is man who can support the state. He should be kept around to offer advice day and night. He should not be sent over the unpredictable sea.\" Li Jing, however, responded, \"Zhang Yi is an unusual man, such that even the god of the sea would fear him.\" He sent Zhang on the embassy anyway.[2] By 958, Southern Tang had lost a war against Later Zhou (the successor state to Later Han, which had succeeded",
+          "keyword_rank": 2,
+          "semantic_rank": 9
+        },
+        {
+          "source": "History.md",
+          "chunk": 32,
+          "score": 0.02715098147128967,
+          "text": "Pigskin Parade (1936)* Her physical appearance was a dilemma for MGM. She was only 4 ft 11+1\u20442 in (151 cm) and her \"cute\" or \"girl-next-door\" looks did not match the glamorous persona then required of female leading performers. She was self-conscious and anxious about her appearance. Garland went to school at the studio with actresses such as Ava Gardner and Lana Turner\u2014\"real beauties,\" said Charles Walters, who directed her in a number of films. \"Judy was the big money-maker at the time, a big success, but she was the ugly duckling ... I think it had a very damaging effect on her emotionally for a long time. I think it lasted forever, really.\"[26] Her insecurity was exacerbated by the attitude",
+          "keyword_rank": 9,
+          "semantic_rank": 19
+        },
+        {
+          "source": "History.md",
+          "chunk": 71,
+          "score": 0.02694394213381555,
+          "text": "about the greatest one-woman show in modern movie history.\"[104] However, Garland did win the Golden Globe Award for Best Actress in a Musical for her role.[105] Garland's films after A Star Is Born included Judgment at Nuremberg (1961), for which she was Oscar- and Golden Globe-nominated for Best Supporting Actress;[106] the animated feature Gay Purr-ee (1962); and A Child Is Waiting (1963), with Burt Lancaster. Her final film was I Could Go On Singing (1963), with Dirk Bogarde.[107] *Garland in her dressing room at the Greek Theatre (1957)* Beginning in 1955 Garland appeared in a number of television specials. The first was the 1955 debut episode of Ford Star Jubilee, which was the first full-scale color broadcast on CBS and",
+          "keyword_rank": 19,
+          "semantic_rank": 10
+        }
+      ],
+      "hybrid_full_rank": null,
+      "hybrid_rank": null
+    },
+    {
+      "query": "How do I replace a bicycle tire?",
+      "evidence": [],
+      "expected_chunks": [],
+      "changes": {},
+      "keyword": [
+        {
+          "source": "History.md",
+          "chunk": 110,
+          "score": 1.2276694275971507,
+          "text": "Garland: \"Judy's the greatest entertainer who ever lived\u2014or probably will ever live\u2014an amazing girl,\" and that \"[s]he could do things\u2014anything\u2014without rehearsing and come off perfectly.\"[193] Garland was known for interacting with her audiences during live performances. The New York Times obituarist wrote that she possessed \"a seemingly unquenchable need for her audiences to respond with acclaim and affection. And often, they did, screaming, 'We love you, Judy \u2013 we love you.'\"[16] Garland herself explained: \"A really great reception makes me feel like I have a great big warm heating pad all over me ... I truly have a great love for an audience and I used to want to prove it to them by giving them blood. But I have"
+        },
+        {
+          "source": "History.md",
+          "chunk": 28,
+          "score": 0.8922516863617829,
+          "text": "chose the surname after drama critic Robert Garland.[17] Garland's daughter Lorna Luft stated that her mother selected the name when Jessel announced that the trio \"looked prettier than a garland of flowers\".[18] On a TV special filmed in Hollywood at the Pantages Theatre premiere of A Star Is Born on September 29, 1954, Jessel stated: > I think that I ought to tell the folks that it was I who named Judy Garland, \"Judy Garland.\" Not that it would have made any difference \u2013 you couldn't have hid[den] that great talent if you'd called her \"Tel Aviv Windsor Shell\", you know, but her name when I first met her was Frances Gumm and it wasn't the kind of a name"
+        },
+        {
+          "source": "History.md",
+          "chunk": 61,
+          "score": 0.8922516863617829,
+          "text": "her contract on June 17, 1950, replacing her with Jane Powell.[83] Reputable biographies published following Garland's death stated that after this dismissal, she slightly grazed her neck with a broken glass, requiring only a bandage. At the time, however, the public was informed that a despondent Garland had slashed her throat.[84] \"All I could see ahead was more confusion,\" she later said of this suicide attempt. \"I wanted to black out the future as well as the past. I wanted to hurt myself and everyone who had hurt me.\"[85] In September 1950, after 15 years with the studio, Garland and MGM parted company.[86][87] *Publicity photo of Garland in 1950* #### 1950\u20131952: Radio appearances and stage comeback Garland was a frequent"
+        }
+      ],
+      "keyword_full_rank": null,
+      "keyword_rank": null,
+      "semantic": [
+        {
+          "source": "History.md",
+          "chunk": 31,
+          "score": 0.09481613312982437,
+          "text": "days later, Garland and her father were brought for an impromptu audition at Metro-Goldwyn-Mayer Studios in Culver City. Garland performed \"Zing! Went the Strings of My Heart\" and \"Eli, Eli,\" a Yiddish song written in 1896 and regularly performed in vaudeville.[24] The studio immediately signed Garland to a contract with MGM, presumably without a screen test, though she had made a test for the studio several months earlier. The studio did not know what to do with her; aged 13, she was older than the traditional child star but too young for adult roles.[25] *Garland in a publicity photo for Pigskin Parade (1936)* Her physical appearance was a dilemma for MGM. She was only 4 ft 11+1\u20442 in (151 cm)"
+        },
+        {
+          "source": "History.md",
+          "chunk": 35,
+          "score": 0.08815108620127729,
+          "text": "and served as an extended screen test for them, as studio executives were questioning the wisdom of having two girl singers on the roster.[30] *Garland in the Thoroughbreds Don't Cry trailer (1937)* Garland's first feature-length film was as a loan-out to Fox titled Pigskin Parade, a football-themed musical comedy where she was billed tenth after Stuart Erwin, Jack Haley, Patsy Kelly, Betty Grable, and others. Garland sang three solos, including \"The Texas Tornado\" and \"The Balboa\".[31] *Garland and Mickey Rooney in a publicity photo for Love Finds Andy Hardy (1938)* Garland came to the attention of studio executives when she sang a special arrangement of \"You Made Me Love You (I Didn't Want to Do It)\" to Clark Gable at"
+        },
+        {
+          "source": "History.md",
+          "chunk": 30,
+          "score": 0.07975216433536764,
+          "text": "changed their name to the Garland Sisters.[21] Soon afterward, Frances changed her name to \"Judy,\" inspired by a popular Hoagy Carmichael song.[22] The group broke up by August 1935, when Mary Jane \"Suzanne\" Garland flew to Reno, Nevada, and married musician Lee Kahn, a member of the Jimmy Davis orchestra playing at Cal-Neva Lodge, Lake Tahoe.[23] #### 1935\u20131938: Early years at Metro-Goldwyn-Mayer *Garland in 1935* In September 1935 Louis B. Mayer asked songwriter Burton Lane to go to the Orpheum Theater in downtown Los Angeles to watch the Garland Sisters' vaudeville act and to report back to him. A few days later, Garland and her father were brought for an impromptu audition at Metro-Goldwyn-Mayer Studios in Culver City. Garland performed"
+        }
+      ],
+      "semantic_full_rank": null,
+      "semantic_rank": null,
+      "hybrid": [
+        {
+          "source": "History.md",
+          "chunk": 35,
+          "score": 0.03128054740957967,
+          "text": "and served as an extended screen test for them, as studio executives were questioning the wisdom of having two girl singers on the roster.[30] *Garland in the Thoroughbreds Don't Cry trailer (1937)* Garland's first feature-length film was as a loan-out to Fox titled Pigskin Parade, a football-themed musical comedy where she was billed tenth after Stuart Erwin, Jack Haley, Patsy Kelly, Betty Grable, and others. Garland sang three solos, including \"The Texas Tornado\" and \"The Balboa\".[31] *Garland and Mickey Rooney in a publicity photo for Love Finds Andy Hardy (1938)* Garland came to the attention of studio executives when she sang a special arrangement of \"You Made Me Love You (I Didn't Want to Do It)\" to Clark Gable at",
+          "keyword_rank": 6,
+          "semantic_rank": 2
+        },
+        {
+          "source": "History.md",
+          "chunk": 36,
+          "score": 0.030309988518943745,
+          "text": "sang a special arrangement of \"You Made Me Love You (I Didn't Want to Do It)\" to Clark Gable at a birthday party that the studio arranged for the actor. Her rendition was so well regarded that she performed the song in the all-star extravaganza Broadway Melody of 1938 (1937), singing to a photograph of Gable.[32] MGM found a winning formula when it paired Garland with Mickey Rooney in a string of what were known as \"backyard musicals\".[33] The duo first appeared together as supporting characters in the B movie Thoroughbreds Don't Cry (1937). Garland was then cast in the fourth in the series of the Hardy Family movies, Love Finds Andy Hardy (1938), as a girl next door to",
+          "keyword_rank": 5,
+          "semantic_rank": 7
+        },
+        {
+          "source": "History.md",
+          "chunk": 31,
+          "score": 0.029051670471052088,
+          "text": "days later, Garland and her father were brought for an impromptu audition at Metro-Goldwyn-Mayer Studios in Culver City. Garland performed \"Zing! Went the Strings of My Heart\" and \"Eli, Eli,\" a Yiddish song written in 1896 and regularly performed in vaudeville.[24] The studio immediately signed Garland to a contract with MGM, presumably without a screen test, though she had made a test for the studio several months earlier. The studio did not know what to do with her; aged 13, she was older than the traditional child star but too young for adult roles.[25] *Garland in a publicity photo for Pigskin Parade (1936)* Her physical appearance was a dilemma for MGM. She was only 4 ft 11+1\u20442 in (151 cm)",
+          "keyword_rank": 19,
+          "semantic_rank": 1
+        }
+      ],
+      "hybrid_full_rank": null,
+      "hybrid_rank": null
+    }
+  ],
+  "metrics": {
+    "keyword": {
+      "answerable_queries": 20,
+      "hit_at_1": 0.75,
+      "hit_at_3": 0.75,
+      "unrelated_queries_returning_results": 3,
+      "unrelated_queries": 3
+    },
+    "semantic": {
+      "answerable_queries": 20,
+      "hit_at_1": 0.8,
+      "hit_at_3": 0.85,
+      "unrelated_queries_returning_results": 3,
+      "unrelated_queries": 3
+    },
+    "hybrid": {
+      "answerable_queries": 20,
+      "hit_at_1": 0.75,
+      "hit_at_3": 0.75,
+      "unrelated_queries_returning_results": 3,
+      "unrelated_queries": 3
+    }
+  }
+}

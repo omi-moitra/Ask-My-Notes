@@ -2,7 +2,7 @@
 
 ## Li Jingsui
 
-Li Jingsui[1] (Chinese: 李景遂; 920[2] – 17 September 958[3][4]), né Xu Jingsui (徐景遂), courtesy name Tuishen (退身), formally Crown Prince Wencheng (文成太弟), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death.
+Li Jingsui [1] (Chinese: 李景遂; 920[2] – 17 September 958[3][4]), né Xu Jingsui (徐景遂), courtesy name Tuishen (退身), formally Crown Prince Wencheng (文成太弟), was an imperial prince of the Chinese Five Dynasties and Ten Kingdoms period state Southern Tang. He was a son of Southern Tang's founding emperor Li Bian (Emperor Liezu). During the reign of his brother Li Jing (Emperor Yuanzong), he was initially designated the heir, but, having never embraced that role, repeatedly offered to yield the position to Li Jing's son Li Hongji. Eventually, Li Jing agreed, but Li Hongji, still fearing that Li Jing would change his mind again, had Li Jingsui poisoned to death.
 
 ### During Wu
 
