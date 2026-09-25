@@ -4,7 +4,7 @@ Learn Python one example at a time, using the code in Ask My Notes.
 
 **Companions:** [Presenter script](python-for-dummies-script.md) · [HTML slideshow](python-for-dummies-slideshow.html)
 
-Read the chapters in order for a first lesson, or use the coverage index at the end while reading source code. Every chapter has the same number as its slide and narration segment. Code with comments describing output is illustrative; shortened excerpts are identified. The pipeline arrows and terminal commands are not Python source.
+Read the chapters in order for a first lesson, or use the coverage index at the end while reading source code. Every chapter has the same number as its slide and narration segment. Chapters 1–23 introduce the base Python and keyword workflow; chapters 24–26 explain filtering, semantic retrieval, and hybrid fusion. Code with comments describing output is illustrative; shortened excerpts are identified. The pipeline arrows and terminal commands are not Python source.
 
 ## How to use this tutorial
 
@@ -12,7 +12,7 @@ Start with the short explanation. Run the small example, compare your output, th
 
 **Before you start:** use Python 3.10 or newer. From the project root, activate the existing environment with `source .venv/bin/activate`. If it is not configured yet, follow [the setup instructions](README.md#install). Copy each complete **Try it locally** example into a temporary `.py` file in the project root and run it with `python filename.py`. Each example includes its own imports. Chapter 21 also needs the project's `pytest` development dependency. The HTML deck shows expected output; it does not execute Python in the browser.
 
-**Learning path:** basics (1–6) → collections and control flow (7–10) → objects and files (11–13) → search logic (14–18) → CLI and tests (19–23).
+**Learning path:** basics (1–6) → collections and control flow (7–10) → objects and files (11–13) → search logic (14–18) → CLI and tests (19–23) → stop-word filtering (24) → semantic retrieval (25) → hybrid fusion (26).
 
 ## Lessons
 
@@ -39,6 +39,13 @@ Start with the short explanation. Run the small example, compare your output, th
 21. [Exceptions and context managers](#chapter-21)
 22. [Tests, fixtures, and assertions](#chapter-22)
 23. [Running and tracing the project](#chapter-23)
+24. [Stop-word filtering with frozenset](#chapter-24)
+25. [Semantic search, vectors, and optional dependencies](#chapter-25)
+26. [Hybrid search with reciprocal ranks](#chapter-26)
+
+Testing reference: [Test files](#where-the-tests-live) · [Commands and results](#running-and-reading-test-results)
+
+Reference: [Source coverage](#source-coverage-index) · [Quick syntax](#quick-syntax-reference) · [What you do not need yet](#what-you-do-not-need-yet)
 
 <a id="chapter-1"></a>
 
@@ -78,10 +85,11 @@ The following is a project excerpt or teaching diagram. Read it alongside the ex
 
 ```text
 documents → load_documents → chunk_documents
-          → KeywordRetriever → search → print
+          → selected retriever → search → print
+             keyword (default), semantic, or hybrid (optional model)
 ```
 
-Ask My Notes searches local `.md` and `.txt` files. It returns passages and their filenames; it does not generate answers or call an AI model. The arrows above describe the program, not executable Python.
+Ask My Notes searches local `.md` and `.txt` files. It returns passages and their filenames. Keyword mode uses ordinary Python token matching; optional semantic mode runs a local embedding model. Hybrid combines the two rankings; none of the modes generates answers. The arrows above describe the program, not executable Python.
 
 ### Reading the project code
 
@@ -423,7 +431,7 @@ score: float
 chunks: list[DocumentChunk] = []
 
 def tokenize(text: str) -> list[str]:
-    return TOKEN_PATTERN.findall(text.lower())
+    return [term for term in TOKEN_PATTERN.findall(text.lower()) if term not in STOP_WORDS]
 ```
 
 `text: str` says the parameter is expected to be a string. `-> list[str]` says the function is expected to return a list of strings. `list[DocumentChunk]` describes the expected element type; it is not a request to create chunks. In `chunks: list[DocumentChunk] = []`, the annotation describes the variable and `[]` creates the actual list.
@@ -994,7 +1002,7 @@ The following is a project excerpt or teaching diagram. Read it alongside the ex
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 
 def tokenize(text: str) -> list[str]:
-    return TOKEN_PATTERN.findall(text.lower())
+    return [term for term in TOKEN_PATTERN.findall(text.lower()) if term not in STOP_WORDS]
 
 # tokenize("Python 3.10!")
 # → ["python", "3", "10"]
@@ -1004,9 +1012,9 @@ A **regular expression** is a small pattern language for matching text. `[a-z0-9
 
 ### Reading the project code
 
-The tokenizer lowercases first, then finds matches. Punctuation and spaces separate terms. An underscore is not included. Non-ASCII letters are not included by this pattern either. `"don't"` becomes `['don', 't']`. `retrieval` and `retrieving` remain different words: there is no stemming or synonym handling.
+The tokenizer lowercases first, finds matches, then excludes the fixed stop-word vocabulary. Punctuation and spaces separate terms. An underscore is not included. Non-ASCII letters are not included by this pattern either. `"don't"` becomes `['don', 't']`. `retrieval` and `retrieving` remain different words: there is no stemming or synonym handling.
 
-Chunking uses whitespace words; scoring uses these regex tokens. Those are different boundaries. A chunk containing only punctuation may contain no tokens and therefore cannot match a query.
+Chunking uses whitespace words; keyword scoring uses these filtered regex tokens. Semantic mode instead uses the embedding model’s tokenizer. Those are different boundaries. In keyword mode, a chunk containing only punctuation or stop words has no retained tokens and cannot match. Semantic mode still encodes nonblank text.
 
 > **Remember:** re.compile prepares a pattern.
 
@@ -1064,6 +1072,7 @@ print(sum(counts.values()))
 The following is a project excerpt or teaching diagram. Read it alongside the explanation; it may depend on surrounding code.
 
 ```python
+# tokenize removes stop words before Counter measures occurrences.
 self.term_counts = [Counter(tokenize(chunk.text)) for chunk in chunks]
 
 document_frequency = Counter(
@@ -1224,7 +1233,7 @@ score = sum(
 
 Python arithmetic here uses `+` for addition, `-` for subtraction or negation, `*` for multiplication, and `/` for division. Division produces a float. Parentheses group calculations; function-call parentheses invoke functions. `math.log` is the natural logarithm; `math.sqrt` is square root. `min(counts[term], 3)` caps repeated matches.
 
-For a term, the weight is `log((1 + number_of_chunks) / (1 + chunks_containing_term)) + 1`. Sum the capped count times weight for each matching term, then divide by the square root of the chunk's total token count. A positive match guarantees at least one token, so that denominator is nonzero.
+For a term, the weight is `log((1 + number_of_chunks) / (1 + chunks_containing_term)) + 1`. Sum the capped count times weight for each matching term, then divide by the square root of the chunk's retained-token count. A positive match guarantees at least one token, so that denominator is nonzero.
 
 ### A closer look
 
@@ -1367,9 +1376,9 @@ if __name__ == "__main__":
 
 ### Reading the project code
 
-`add_subparsers(dest="command", required=True)` requires a subcommand and records its name in `args.command`. `add_parser("search")` defines the search subcommand. Its positional `query` is required; `--limit` defaults to three. `parse_args()` reads command-line arguments and returns an object whose attributes include `args.documents`, `args.chunk_size`, and `args.query`. Hyphens in option names become underscores in attribute names.
+`add_subparsers(dest="command", required=True)` requires a subcommand and records its name in `args.command`. `add_parser("search")` defines the search subcommand. Its positional `query` is required; `--limit` defaults to three and `--retriever` defaults to `keyword`. `--model-cache` and `--offline` are options for semantic and hybrid modes. `parse_args()` reads command-line arguments and returns an object whose attributes include `args.documents`, `args.chunk_size`, and `args.query`. Hyphens in option names become underscores in attribute names.
 
-`__name__` is set by Python. It is `"__main__"` when the module runs as the entry point and normally `"src.cli"` when imported. The guard prevents a simple import from launching the CLI. `main()` returns an integer; `raise SystemExit(main())` passes that value to the process exit mechanism. Zero means success; the no-documents branch returns one. No matches still returns zero.
+`__name__` is set by Python. It is `"__main__"` when the module runs as the entry point and normally `"src.cli"` when imported. The guard prevents a simple import from launching the CLI. `main()` returns an integer; `raise SystemExit(main())` passes that value to the process exit mechanism. Zero means success; the no-documents branch returns one. No matches still returns zero. Expected semantic model/dependency errors return one; incompatible CLI options return two. `main()` performs the cross-option check after parsing, so calling `parse_args()` alone does not run that validation.
 
 ### A closer look
 
@@ -1577,7 +1586,44 @@ This shortened loader example omits the unsupported-file setup; the complete tes
 
 `tmp_path` is a **fixture**: pytest sees that parameter name and supplies a temporary `Path` for that test. It is not a built-in Python keyword, and callers outside pytest do not receive it automatically.
 
-The tests use list comprehensions to collect text, chunk numbers, or `(source, text)` tuples. `all(...)` checks that every chunk retains the expected source. Search tests check the result count, order, and the empty-query case. The project currently has five test functions across three files.
+The tests use list comprehensions to collect text, chunk numbers, or `(source, text)` tuples. `all(...)` checks that every chunk retains the expected source. Search tests check the result count, order, and the empty-query case. The project currently runs 60 default cases across six test files, plus five integration cases in a seventh file.
+
+### Where the tests live
+
+A **unit test** gives a small piece of code known inputs and checks the expected result. For example, the hybrid tests supply prepared rankings and check exact reciprocal-rank scores. Fake encoders supply controlled vectors without loading a model. These checks establish behavior; they cannot establish that real questions retrieve useful evidence.
+
+The current suite has **60 default test cases** and **5 separately selected integration cases**. A parametrized test runs the same function with several inputs, so cases and functions are different counts. Integration checks use the actual pinned, cached model and block network access. The separate 23-question evaluation measures retrieval quality against unchanged source-and-evidence labels: hybrid Hit@3 is 75%, versus semantic's 85%, even though the implementation tests pass.
+
+| Test file | What it verifies |
+| --- | --- |
+| [test_loader.py](tests/test_loader.py) | Supported files, recursive loading, original text and source paths |
+| [test_chunker.py](tests/test_chunker.py) | Overlap, source metadata, and invalid settings |
+| [test_search.py](tests/test_search.py) | Keyword ranking, stop words, empty queries, and result limits |
+| [test_semantic.py](tests/test_semantic.py) | Controlled vectors, model adapter behavior, index reuse, and errors |
+| [test_hybrid.py](tests/test_hybrid.py) | Fusion arithmetic, identities, ties, candidate depth, and failures |
+| [test_cli.py](tests/test_cli.py) | Mode selection, arguments, output, diagnostics, and exit statuses |
+| [test_semantic_integration.py](tests/test_semantic_integration.py) | Actual model retrieval and complete/missing offline caches |
+
+### Running and reading test results
+
+Run from the project root with the existing development environments:
+
+```bash
+# Default checks: no model dependency or download needed.
+.venv/bin/python -m pytest -v
+# Focus on the hybrid behavior.
+.venv/bin/python -m pytest tests/test_hybrid.py -v
+# Actual model checks: requires the semantic environment and populated cache.
+.venv-semantic/bin/python -m pytest -m integration -v
+# Quality measurement: writes the separate hybrid evaluation reports.
+.venv-semantic/bin/python -m evaluations.run_retrieval
+```
+
+`-m pytest` runs pytest through the selected Python interpreter; `-v` lists individual cases. Pytest's `-m integration` selects the integration marker. Without that selection, `pyproject.toml` excludes model checks. `PASSED` means an expectation held, `FAILED` means it did not, and `deselected` means a case was intentionally outside that run. A missing required model cache fails an explicit integration run; it is not silently skipped.
+
+A test usually has three steps: **arrange** inputs, **act** by calling the code, then **assert** the expected result. In the loader excerpt, writing the note arranges the input, `load_documents(tmp_path)` performs the action, and the final assertion checks both the path and text. `monkeypatch` temporarily replaces a dependency; `capsys` captures printed output; `caplog` captures logs. Pytest restores these fixtures after each test so cases remain independent.
+
+To read a failure, start with the test name and failed assertion, then compare the expected and actual values. Re-run that case with a selector such as `tests/test_hybrid.py::test_worked_example_uses_order_not_scores`. Investigate the behavior before changing an expectation; weakening a test merely to make it green can hide a bug.
 
 ### A closer look
 
@@ -1646,13 +1692,13 @@ python -m src.cli search "Python" --limit 2
 python -m pytest
 ```
 
-These are **shell commands**, not Python statements. They follow the project's macOS/Linux setup. The virtual environment isolates installed packages. `python -m pip` runs pip through the selected interpreter. `-e` installs the local project in editable mode; `.[dev]` also installs its optional pytest dependency. The application has no external runtime dependencies.
+These are **shell commands**, not Python statements. They follow the project's macOS/Linux setup. The virtual environment isolates installed packages. `python -m pip` runs pip through the selected interpreter. `-e` installs the local project in editable mode; `.[dev]` also installs its optional pytest dependency. The base keyword application has no external runtime dependencies. `.[semantic]` adds the optional local embedding stack; `.[dev,semantic]` installs both extras.
 
 ### Reading the project code
 
-`pyproject.toml` is TOML configuration, not Python source. `[build-system]` selects setuptools; `[project]` declares metadata and Python requirements; `[project.optional-dependencies]` defines `dev`; `[tool.pytest.ini_options]` sets test discovery and import paths; `[tool.setuptools]` includes the `src` package. `README.md`, the notes, this guide, and the narration are Markdown; the slideshow uses HTML, CSS, and JavaScript.
+`pyproject.toml` is TOML configuration, not Python source. `[build-system]` selects setuptools; `[project]` declares metadata and Python requirements; `[project.optional-dependencies]` defines `dev` and `semantic`; `[tool.pytest.ini_options]` sets test discovery and import paths; `[tool.setuptools]` includes the `src` package. `README.md`, the notes, this guide, and the narration are Markdown; the slideshow uses HTML, CSS, and JavaScript.
 
-To trace a search, follow `args.documents` into `load_documents`, its `Document` objects into `chunk_documents`, their `DocumentChunk` objects into `KeywordRetriever`, and the returned `SearchResult` objects into the print loop.
+To trace a search, follow `args.documents` into `load_documents`, its `Document` objects into `chunk_documents`, their `DocumentChunk` objects into the selected retriever, and the returned `SearchResult` objects into the print loop.
 
 ### A closer look
 
@@ -1671,7 +1717,310 @@ DocumentChunk objects, collected in a list.
 
 </details>
 
- [← Previous](#chapter-22) · [All lessons](#lessons)
+ [← Previous](#chapter-22) · [All lessons](#lessons) · [Next →](#chapter-24)
+
+---
+
+<a id="chapter-24"></a>
+
+## 24. Stop-word filtering with frozenset
+
+A stop word is a word the search deliberately ignores. This project excludes a fixed list of 26 common English words. The full vocabulary and its limitations are in [the README](README.md#stop-word-filtering).
+
+### Try it locally: Keep only searchable words
+
+```python
+from src.search import STOP_WORDS, tokenize
+
+# Membership checks ask whether an entire token is in the immutable set.
+print(isinstance(STOP_WORDS, frozenset))
+print("the" in STOP_WORDS)
+# Lowercasing happens before filtering; substrings are never removed.
+print(tokenize("THE theory is useful"))
+print(tokenize("not never no python python 123"))
+# An empty list is a valid result, not an error.
+print(tokenize("the is how"))
+```
+
+**Output**
+
+```text
+True
+True
+['theory', 'useful']
+['not', 'never', 'no', 'python', 'python', '123']
+[]
+```
+
+### Reading the project code
+
+A `frozenset` is a set that cannot be changed in place. It supports fast membership checks such as `term in STOP_WORDS`, but has no `add` or `remove` methods. Uppercase naming marks `STOP_WORDS` as a constant by convention; it does not itself enforce immutability.
+
+The list comprehension in `tokenize` reads: “for each normalized token, keep it if it is not a stop word.” Unlike converting the result to a set, this preserves order and repeated tokens for passage scoring. Query deduplication happens separately in `search`.
+
+```python
+# Shortened project excerpt: TOKEN_PATTERN and STOP_WORDS are defined above it.
+return [term for term in TOKEN_PATTERN.findall(text.lower()) if term not in STOP_WORDS]
+```
+
+Both passages and queries call the same function. Counts and the square-root length penalty use retained tokens. Original passage text, source, and chunk number are unchanged, and chunking still uses original whitespace words. All original chunks contribute to the IDF corpus size, even ones with no searchable tokens. The no-match guard skips such chunks before division, preventing division by zero.
+
+### Check the behavior with assertions
+
+```python
+from src.models import DocumentChunk
+from src.search import KeywordRetriever
+
+# The filler passage shares only excluded words with the question.
+chunks = [
+    DocumentChunk("filler.txt", 1, "how is how is how is"),
+    DocumentChunk("retrieval.md", 1, "retrieval finds useful passages"),
+]
+retriever = KeywordRetriever(chunks)
+assert retriever.search("the is how") == []
+# Dataclass equality compares both the original passage metadata and score.
+assert retriever.search("how is retrieval") == retriever.search("retrieval")
+print([result.chunk.source for result in retriever.search("how is retrieval")])
+```
+
+**Output**
+
+```text
+['retrieval.md']
+```
+
+Before filtering, the filler scored 3.442672 and ranked first. After filtering, only the retrieval passage matches, at 0.702733. See the [measured comparison](README.md#before-and-after-comparison). The stop-word milestone had nine tests; current validation is 60 deterministic tests plus 5 real-model checks.
+
+### Exercise
+
+Why does `theory` survive filtering while `THE` does not? Why keep `not`?
+
+<details>
+<summary>Show answer</summary>
+
+The tokenizer lowercases first and compares whole tokens. `theory` is not in the exclusion set; `the` is. Negation can carry meaning, so `no`, `not`, and `never` remain. Keeping them does not give literal keyword matching an understanding of sentences. The fixed English list can still discard useful words in titles and has no override.
+
+</details>
+
+
+[← Previous](#chapter-23) · [All lessons](#lessons) · [Next →](#chapter-25)
+
+<a id="chapter-25"></a>
+
+## 25. Semantic search, vectors, and optional dependencies
+
+An embedding is a list of numbers representing text. The model learns those numbers; we should not assume a coordinate directly means “bread” or “files.” Similar vector directions can identify paraphrases. This is a second retrieval method, selected with `--retriever semantic`; keyword mode remains the default.
+
+### Try it locally: Normalize a vector
+
+```python
+import math
+
+# Length 5 turns [3, 4] into a unit vector; magnitude no longer affects similarity.
+passage = [3.0, 4.0]
+length = math.sqrt(sum(value * value for value in passage))
+unit = [value / length for value in passage]
+query = [1.0, 0.0]  # Already length one.
+print(unit)
+print(sum(a * b for a, b in zip(unit, query)))
+```
+
+**Output**
+
+```text
+[0.6, 0.8]
+0.6
+```
+
+### Example explained
+
+1. Squaring the components and adding gives 25; its square root is length 5.
+2. The list comprehension divides each component by 5, producing a unit vector.
+3. `zip` pairs corresponding components of the passage and query.
+4. Adding their products gives cosine similarity because both vectors have unit length. Same directions score 1, perpendicular directions 0, and opposite directions -1.
+
+### Try it locally: Inject a fake encoder
+
+```python
+from src.models import DocumentChunk
+from src.semantic import SemanticRetriever
+
+class TeachingEncoder:
+    """Known vectors teach ranking without downloading a model."""
+
+    def encode(self, texts):
+        """Return one vector per original text in the requested order."""
+        vectors = {"save a copy": [1, 0], "bread rises": [0, 1], "recover files": [3, 0]}
+        return [vectors[text] for text in texts]
+
+chunks = [DocumentChunk("backup.md", 1, "save a copy"),
+          DocumentChunk("bread.md", 1, "bread rises")]
+# Supplying the encoder keeps optional model packages out of this example.
+retriever = SemanticRetriever(chunks, encoder=TeachingEncoder())
+for result in retriever.search("recover files", limit=2):
+    print(result.chunk.source, result.score)
+```
+
+**Output**
+
+```text
+backup.md 1.0
+bread.md 0.0
+```
+
+### Reading the project code
+
+`Encoder` is a `Protocol`: it describes an object that has an `encode` method accepting texts and returning vectors. The real adapter and this teaching object satisfy that shape without needing the same parent class. Type hints describe the shape; runtime validation still checks vector counts, dimensions, finite values, and nonzero lengths.
+
+Passing an encoder is **dependency injection**: supply the component the retriever needs instead of hard-coding a model inside every search. A fake teaches and tests ranking, but cannot prove that a real model recognizes paraphrases. That requires the separate integration comparison.
+
+The retriever stores chunks in a tuple so changing the caller's list cannot scramble the index. Passage embeddings are computed once per instance; each query is encoded separately. Model files persist in a disk cache, but passage vectors are rebuilt by each CLI invocation.
+
+### Optional packages and lazy loading
+
+The import of Sentence Transformers is inside the model adapter's load method. Importing `src.semantic` alone uses only the standard library. Empty queries, empty collections, and nonpositive limits return without loading a model. Keeping the optional dependency behind this boundary lets the same base project run with only keyword search.
+
+```bash
+# Terminal commands, not Python statements; first search can download model assets.
+python -m pip install -e '.[dev,semantic]'
+python -m src.cli search "finding information" --retriever semantic
+python -m src.cli search "finding information" --retriever semantic --offline
+```
+
+The default cache is `.cache/ask-my-notes/models`; `--model-cache PATH` selects another. Offline mode loads the pinned revision locally and fails with instructions if assets are missing. It does not silently switch to keyword search. In this workspace the optional stack lives in `.venv-semantic`; use its Python executable for the commands above.
+
+### Model behavior and tests
+
+The real model keeps original sentences, including stop words, and applies its own tokenizer. Its token limit can truncate text, so the adapter warns before encoding. Original text and source metadata still appear in results. Nonblank punctuation and stop-word-only questions are valid model inputs, unlike keyword filtering's empty-result behavior.
+
+The current validation is **60 deterministic tests plus 5 real-model integration checks**. Both predefined paraphrases ranked their expected passage first with semantic search; keyword mode missed them. The unrelated questions still returned neighbors. See [the measured comparison](ai/semantic-search-results.md) for scores and reproducible commands.
+
+### Exercise
+
+Can the fake encoder above prove the downloaded model understands “recover files”? Is a cosine of 0.6 a 60% probability that a passage answers the question?
+
+<details>
+<summary>Show answer</summary>
+
+No to both. The fake proves vector handling and ordering for explicitly chosen inputs. The real model needs its own labeled checks. Cosine is a similarity measure, not calibrated answer confidence; even unrelated questions receive nearest passages because no relevance threshold exists.
+
+</details>
+
+
+### Trace a real semantic search
+
+Use the workspace’s prepared environment and model cache:
+
+```bash
+# Keyword path: no optional model package is needed.
+.venv/bin/python -m src.cli search "finding information" --retriever keyword
+# Semantic path: the pinned model is already cached in this workspace.
+.venv-semantic/bin/python -m src.cli search "finding information" --retriever semantic --offline
+# Default tests use fakes; the explicit integration run uses the actual model.
+.venv/bin/python -m pytest -q
+.venv-semantic/bin/python -m pytest -m integration -s -q
+```
+
+On a fresh checkout, install `.[dev,semantic]` and run the semantic command without `--offline` once to download model assets. Offline mode is an explicit promise not to fetch missing files; an empty cache fails with setup guidance. Never remove `--offline` automatically after a failure.
+
+Follow the values: parsed options select `SemanticRetriever`; original chunks are snapshotted; the first meaningful query loads the adapter and embeds passages; the query is encoded; valid vectors are normalized and compared; sorted `SearchResult` objects reach the unchanged print loop. A later query on the same retriever reuses passage vectors. Starting a new CLI process rebuilds that passage index, while reusing the model files on disk.
+
+[← Previous](#chapter-24) · [All lessons](#lessons) · [Next →](#chapter-26)
+
+---
+
+<a id="chapter-26"></a>
+
+## 26. Hybrid search with reciprocal ranks
+
+Hybrid retrieval combines two ordered lists. We cannot add raw keyword and semantic scores because they mean different things. Instead, a passage receives `1 / (60 + rank)` from each list in which it appears. Ranks start at 1; absent passages contribute nothing.
+
+### Try it locally: Fuse prepared rankings
+
+```python
+from src.hybrid import fuse_rankings
+from src.models import DocumentChunk, SearchResult
+
+# Identity comes from source and chunk number; raw scores are deliberately unrelated.
+a = DocumentChunk("A", 1, "Passage A")
+b = DocumentChunk("B", 1, "Passage B")
+c = DocumentChunk("C", 1, "Passage C")
+keyword = [SearchResult(a, 100), SearchResult(b, 20)]
+semantic = [SearchResult(c, 0.9), SearchResult(a, 0.1)]
+for result in fuse_rankings(keyword, semantic):
+    print(result.chunk.source, f"{result.score:.6f}")
+```
+
+**Output**
+
+```text
+A 0.032522
+C 0.016393
+B 0.016129
+```
+
+### Example explained
+
+1. `DocumentChunk` carries original text and a stable identity: source plus chunk number.
+2. Each `SearchResult` list is already ranked. RRF uses its positions, ignoring the scores 100, 20, 0.9, and 0.1.
+3. A appears first in keyword and second in semantic, receiving `1/61 + 1/62`.
+4. C receives `1/61`, B `1/62`. The output is A, C, B. Changing raw scores without reordering the lists leaves fusion unchanged.
+
+### Reading the project code
+
+`enumerate(branch, start=1)` produces one-based `(rank, result)` pairs. A tuple `(source, chunk_number)` is a dictionary key because these values identify a passage within the snapshot. A separate `seen` set for each branch prevents repeated entries from voting twice. First positions are preserved; duplicates do not renumber later entries.
+
+`setdefault(key, value)` inserts a default only when the key is absent, helping keep the first original chunk. Conflicting text for an existing identity raises `ValueError`; equal text at different identities is allowed. Contributions are collected in lists and added with `math.fsum`, which reduces floating-point summation error. Sorting uses full scores, then filename and chunk number, before taking the final slice.
+
+### Candidate depth and composition
+
+`HybridRetriever` creates and reuses a keyword retriever and a semantic retriever. This is **composition**: a class delegates parts of its work to other objects. Its constructor snapshots unique nonblank chunks. The keyword branch receives a private list; changing the caller's list cannot shift its stored counts. The semantic branch loads its model and caches passage vectors only when needed.
+
+For N eligible chunks, both branches receive `limit=N`, regardless of the user's display limit. A passage below an individual top-one cutoff can rise after fusion. Using the full lists also means requesting one result gives the first result of requesting three. The fusion helper returns a `SearchResult` whose score is RRF, not cosine or keyword weight.
+
+### Try it locally: See fusion hurt relevance
+
+```python
+from src.hybrid import fuse_rankings
+from src.models import DocumentChunk, SearchResult
+
+noise = SearchResult(DocumentChunk("noise.md", 1, "Weak literal match"), 1.0)
+answer = SearchResult(DocumentChunk("answer.md", 1, "Relevant paraphrase"), 0.9)
+# Semantic gets the answer right. Keyword's extra vote promotes the wrong passage.
+semantic = [answer, noise]
+print("semantic:", semantic[0].chunk.source)
+print("hybrid:", fuse_rankings([noise], semantic)[0].chunk.source)
+```
+
+**Output**
+
+```text
+semantic: answer.md
+hybrid: noise.md
+```
+
+The noise passage receives two contributions while the answer receives one. Correct arithmetic does not establish good relevance. On the existing 23-question evaluation, hybrid Hit@3 is 75%, keyword 75%, and semantic 85%. Hybrid improves one semantic miss and regresses on three semantic hits. [The report](evaluations/hybrid-results.md) preserves the labels and explains each outcome.
+
+### Run the actual mode
+
+```bash
+.venv-semantic/bin/python -m src.cli search "finding information" --retriever hybrid --offline
+```
+
+Hybrid reuses the existing semantic extra, pinned model, cache directory, and offline flag. A fresh setup must populate that cache online first. No additional dependency is needed. Blank requests avoid branch searches; nonblank stop-word-only questions may still receive semantic contributions. A failed semantic branch aborts the search instead of returning partial keyword results.
+
+### Exercise
+
+Should changing raw scores without reordering the branch lists change the fused answer? Should identical text in different files be collapsed?
+
+<details>
+<summary>Show answer</summary>
+
+No to both. RRF uses positions rather than raw scores. Identity is filename plus chunk number, so equal text in different files represents distinct passages. Repeated identities vote once per branch. Conflicting text for one identity is an error. A fused score is not a confidence probability, and display rounding must not affect ranking.
+
+</details>
+
+[← Previous](#chapter-25) · [All lessons](#lessons) · [Source coverage](#source-coverage-index)
 
 ---
 
@@ -1683,12 +2032,20 @@ DocumentChunk objects, collected in a list.
 | [src/models.py](src/models.py) | Imports, annotations, decorators, three dataclasses, base class, methods, exceptions | 2, 5–6, 11–12, 21 |
 | [src/loader.py](src/loader.py) | Constants, Path, recursion, sorting, conditions, membership, continue, text methods, append, logging | 4, 7–9, 13, 20 |
 | [src/chunker.py](src/chunker.py) | Functions, defaults, annotations, validation, arithmetic, ranges, enumerate, unpacking, slicing, break, append, extend, return | 3–10, 21 |
-| [src/search.py](src/search.py) | Regex, inheritance, initializer, self, Counter, comprehensions, generators, dictionary methods, set intersection, math, zip, lambda, tuple keys, slices | 6–9, 12, 14–18 |
+| [src/search.py](src/search.py) | Regex, inheritance, initializer, self, Counter, comprehensions, generators, dictionary methods, set intersection, math, zip, lambda, tuple keys, slices | 6–9, 12, 14–18, 24 |
+| [src/semantic.py](src/semantic.py) | Protocol, injected encoder, lazy imports, tuple snapshot, vector validation, normalization, cosine, caching, and errors | 6–8, 11–12, 16–17, 21, 25 |
+| [src/hybrid.py](src/hybrid.py) | Composition, tuple identities, dictionaries, setdefault, per-branch sets, one-based enumerate, fsum, full candidates, and errors | 7–9, 16–18, 21, 26 |
 | [src/cli.py](src/cli.py) | argparse, callables as arguments, attributes, conditional expression, truthiness, f-strings, formatting, main guard, exit status | 2, 4–6, 8–9, 19–20 |
 | [tests/test_chunker.py](tests/test_chunker.py) | Positional and keyword arguments, assertions, comprehensions, all, generator, with, pytest.raises | 5, 10, 16, 21–22 |
 | [tests/test_loader.py](tests/test_loader.py) | Fixture parameter, Path / operator, mkdir, write_text, tuples, comprehension, equality | 7, 13, 22 |
 | [tests/test_search.py](tests/test_search.py) | Lists of objects, constructor/method chaining, indexing, comparisons, empty lists and queries | 7–8, 10–12, 22 |
-| [pyproject.toml](pyproject.toml) | Python version, standard-library runtime, development dependency, package/test settings; TOML rather than Python | 23 |
+| [tests/test_semantic.py](tests/test_semantic.py) | Fake vectors, parametrization, monkeypatch, cache arguments, and truncation checks | 21–22, 25 |
+| [tests/test_hybrid.py](tests/test_hybrid.py) | Prepared rank lists, fake encoders, stable snapshots, limit prefixes, and relevance regression | 21–22, 26 |
+| [evaluations/run_retrieval.py](evaluations/run_retrieval.py) | Fixed labels, evidence phrases, metadata, per-query ranks, and report generation | 22–23, 26 |
+| [tests/test_cli.py](tests/test_cli.py) | Argument validation, fake retriever, exit statuses, and captured output | 19–22, 25 |
+| [tests/test_semantic_integration.py](tests/test_semantic_integration.py) | Integration marker, network-blocking yield fixture, and real-model comparison | 22–23, 25 |
+| [tests/fixtures/semantic_cases.py](tests/fixtures/semantic_cases.py) | Predefined documents and expected source labels | 7, 11, 22, 25 |
+| [pyproject.toml](pyproject.toml) | Python version, base runtime, optional dependency extras, integration marker, package/test settings; TOML rather than Python | 23, 25 |
 
 ## Quick syntax reference
 
@@ -1699,6 +2056,12 @@ DocumentChunk objects, collected in a list.
 | `def f(x):` / `return x` | Define a function / send a result back |
 | `x: str` / `-> int` | Expected value type / expected return type |
 | `[]` / `{a, b}` / `{key: value}` / `(a, b)` | List / set / dictionary / tuple |
+| `frozenset(values)` | Construct an immutable set for membership tests |
+| `class Encoder(Protocol):` | Describe the methods an injected encoder must provide |
+| `def f(x, *, cache=...):` | Require callers to pass cache by keyword |
+| `enumerate(items, start=1)` | Pair each item with its one-based rank |
+| `mapping.setdefault(key, default)` | Keep an existing value or insert a default |
+| `math.fsum(values)` | Sum floating-point contributions accurately |
 | `items[i]` / `items[a:b]` | One item / a slice with an exclusive end |
 | `if`, `not`, `or`, `in`, `not in` | Conditions, negation, alternatives, membership |
 | `for`, `continue`, `break` | Repeat, skip this iteration, stop the loop |
@@ -1714,7 +2077,7 @@ DocumentChunk objects, collected in a list.
 
 ## What you do not need yet
 
-The current source does not use async/await, threading, custom decorators, `yield` functions, database access, HTTP APIs, neural networks, or an LLM SDK. Learn these when a later milestone introduces them. The `...` omission marker in this guide does not appear as a function body in the application.
+You do not need to write neural-network training code, async/await, database access, or an LLM client for this milestone. Semantic mode uses a pretrained neural network through an optional library and may fetch model assets online. The integration tests use a `yield` fixture to check for network attempts after a test finishes. The `...` body in `Encoder.encode` declares a Protocol method shape; concrete encoders provide the implementation. These are distinct from shortened teaching excerpts.
 
 ## Teaching reference
 

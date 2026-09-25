@@ -8,6 +8,35 @@ Companion to [the guide](python-for-dummies.md) and [the HTML slideshow](python-
 
 **Presenter setup:** open the HTML file in a browser. Use Previous/Next or Left/Right arrow keys, Home/End for the first/last slide, N for speaker notes, and F for fullscreen when supported. The Notes button exposes the narration for the current slide. Use the Slide menu to jump to a topic, and expand Show expected output or Check your understanding as you teach. Print produces one slide per page. Terminal commands are for the live demonstration, not something the slideshow executes.
 
+## Contents
+
+- [Slide 1 — The program you are learning](#slide-1--the-program-you-are-learning)
+- [Slide 2 — Files, modules, and imports](#slide-2--files-modules-and-imports)
+- [Slide 3 — Indentation, comments, and docstrings](#slide-3--indentation-comments-and-docstrings)
+- [Slide 4 — Names, values, and basic types](#slide-4--names-values-and-basic-types)
+- [Slide 5 — Functions, arguments, and return values](#slide-5--functions-arguments-and-return-values)
+- [Slide 6 — Type hints describe expected values](#slide-6--type-hints-describe-expected-values)
+- [Slide 7 — Lists, tuples, sets, and dictionaries](#slide-7--lists-tuples-sets-and-dictionaries)
+- [Slide 8 — Conditions and truthiness](#slide-8--conditions-and-truthiness)
+- [Slide 9 — Loops, ranges, and unpacking](#slide-9--loops-ranges-and-unpacking)
+- [Slide 10 — Strings, indexes, and slices](#slide-10--strings-indexes-and-slices)
+- [Slide 11 — Classes, instances, and dataclasses](#slide-11--classes-instances-and-dataclasses)
+- [Slide 12 — Methods, self, and inheritance](#slide-12--methods-self-and-inheritance)
+- [Slide 13 — Paths and reading files](#slide-13--paths-and-reading-files)
+- [Slide 14 — Regular expressions and tokens](#slide-14--regular-expressions-and-tokens)
+- [Slide 15 — Counting words with Counter](#slide-15--counting-words-with-counter)
+- [Slide 16 — Comprehensions and generators](#slide-16--comprehensions-and-generators)
+- [Slide 17 — Arithmetic and the search score](#slide-17--arithmetic-and-the-search-score)
+- [Slide 18 — Sorting, lambdas, and result limits](#slide-18--sorting-lambdas-and-result-limits)
+- [Slide 19 — Command-line arguments and execution](#slide-19--command-line-arguments-and-execution)
+- [Slide 20 — Printing, formatting, and logging](#slide-20--printing-formatting-and-logging)
+- [Slide 21 — Exceptions and context managers](#slide-21--exceptions-and-context-managers)
+- [Slide 22 — Tests, fixtures, and assertions](#slide-22--tests-fixtures-and-assertions)
+- [Slide 23 — Running and tracing the project](#slide-23--running-and-tracing-the-project)
+- [Slide 24 — Stop-word filtering with frozenset](#slide-24--stop-word-filtering-with-frozenset)
+- [Slide 25 — Semantic search, vectors, and optional dependencies](#slide-25--semantic-search-vectors-and-optional-dependencies)
+- [Slide 26 — Hybrid search with reciprocal ranks](#slide-26--hybrid-search-with-reciprocal-ranks)
+
 ## Slide 1 — The program you are learning
 
 **Goal:** Read local notes.
@@ -456,7 +485,7 @@ Hello
 
 **Explain:**
 
-The retriever is more than a record: it remembers an index and performs searches. Self means this particular retriever. The initializer saves its chunks and builds counts. The parent class describes the search operation, and the subclass supplies its implementation. The parent is only a convention here; Python does not prevent creating it, but its search method raises an error.
+The retriever is more than a record: it remembers an index and performs searches. Self means this particular retriever. The keyword initializer saves its chunks and builds counts. The semantic retriever snapshots chunks and postpones encoding until an actual search. The parent class describes the search operation, and the subclass supplies its implementation. The parent is only a convention here; Python does not prevent creating it, but its search method raises an error.
 
 **Show the example — Use an instance method:**
 
@@ -663,7 +692,7 @@ print(sum(lengths))
 
 **Explain:**
 
-First find shared words. For each shared word, cap its count at three and multiply by its rarity weight. Add those contributions, then divide by the square root of the chunk length. With python python notes and notes only, the first chunk scores about one point six two three for python. That is a ranking score, not a probability. Repeating python in the query does not change it because the query uses a set.
+First find shared words. For each shared word, cap its count at three and multiply by its rarity weight. Add those contributions, then divide by the square root of the retained-token count. With python python notes and notes only, the first chunk scores about one point six two three for python. That is a ranking score, not a probability. Repeating python in the query does not change it because the query uses a set.
 
 **Show the example — Calculate a score:**
 
@@ -743,7 +772,7 @@ print(ranked[:2])
 
 **Explain:**
 
-Argparse turns the command you type into usable Python values. Type equals int passes the conversion function itself. Verbose is a switch. The search subcommand owns the query and limit. At the bottom, the module guard runs main only when this module is the entry point. Main returns a status number, and SystemExit gives that status to the shell.
+Argparse turns the command you type into usable Python values. Type equals int passes the conversion function itself. Verbose is a switch. The search subcommand owns the query, limit, retriever choice, and semantic cache/offline options. At the bottom, the module guard runs main only when this module is the entry point. Main returns a status number, and SystemExit gives that status to the shell.
 
 **Show the example — Parse command options:**
 
@@ -900,6 +929,8 @@ Check passed
 **Transition:** Next, we will look at running and tracing the project.
 
 
+**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 60 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
+
 ## Slide 23 — Running and tracing the project
 
 **Goal:** Use Python 3.10 or newer.
@@ -942,3 +973,82 @@ python notes are useful
 
 **Transition:** Invite the learner to open src/cli.py and trace a complete search using the guide.
 
+
+
+## Slide 24 — Stop-word filtering with frozenset
+
+**Goal:** Explain immutable membership checks and filtering without changing source passages.
+
+**Explain:** A frozenset stores unique values and cannot be changed in place. The project uses one for its fixed 26-word stop-word vocabulary. The list comprehension keeps each normalized token only if it is not in that vocabulary. It preserves token order and duplicates, so counts still work.
+
+**Show the example:** Run [chapter 24](python-for-dummies.md#chapter-24). Ask learners to predict each output. `THE theory is useful` becomes `['theory', 'useful']`; `the is how` becomes an empty list. Negation, numbers, and repeated meaningful words remain.
+
+**Connect to the project:** Both queries and passages use this function. Retained tokens determine matching and length normalization; original text and chunk boundaries stay intact. Empty-token chunks are skipped before scoring, but remain in the IDF corpus size.
+
+**Demonstrate:** Query the two-passage example in chapter 24. The filler passage previously ranked first at 3.442672. Now only the retrieval passage matches, at 0.702733. The assertions verify that adding stop words to a query does not change its results or scores. The stop-word milestone had nine tests; current validation is 60 deterministic tests plus 5 real-model checks.
+
+**Ask:** Why does theory survive but THE disappear? Why retain not?
+
+**Answer:** Matching is against complete lowercase tokens. Negation can carry meaning, but retaining it does not make keyword search understand sentence meaning. The fixed English list can remove meaningful title words and has no override.
+
+
+## Slide 25 — Semantic search, vectors, and optional dependencies
+
+**Goal:** Separate vector arithmetic, model behavior, and dependency setup.
+
+**Explain:** A model represents text as numbers. Normalize a vector by dividing by its length, then compare unit vectors with a dot product. Similarity is not a probability. We are still returning passages with sources, not generating answers.
+
+**Show the example:**
+
+```python
+import math
+
+# Length 5 turns [3, 4] into a unit vector; magnitude no longer affects similarity.
+passage = [3.0, 4.0]
+length = math.sqrt(sum(value * value for value in passage))
+unit = [value / length for value in passage]
+query = [1.0, 0.0]  # Already length one.
+print(unit)
+print(sum(a * b for a, b in zip(unit, query)))
+```
+
+**Expected output:**
+
+```text
+[0.6, 0.8]
+0.6
+```
+
+**Explain step by step:** 3 squared plus 4 squared gives 25. Its square root is 5. Dividing gives 0.6 and 0.8. Pair those with 1 and 0 and sum the products to get 0.6.
+
+**Connect to the project:** Run the second [chapter 25 example](python-for-dummies.md#chapter-25). Its fake encoder satisfies the Protocol through an encode method. Dependency injection keeps the example free of model downloads. The retriever validates vectors, snapshots chunks, encodes passages once, and preserves original text.
+
+**Live model setup:** Install the semantic extra, run an online search to populate the pinned cache, then repeat with `--offline`. Explain lazy imports: blank requests do not load the model. Model files persist; passage vectors do not. The workspace's optional dependencies are in `.venv-semantic`.
+
+**Evidence:** 60 deterministic tests and five real-model checks pass. Both predefined paraphrases recovered their expected passage first. Unrelated questions also returned passages, so nearest does not establish relevance. The model keeps stop words and warns when its own token limit truncates input.
+
+**Ask:** Can the fake prove actual paraphrase retrieval? Is 0.6 confidence?
+
+**Answer:** No. The fake tests arithmetic and data flow; real-model checks test the fixed labeled cases. Cosine is similarity, not calibrated confidence.
+
+
+**Follow the real path:** Run the keyword-only environment with `.venv/bin/python -m src.cli search "finding information" --retriever keyword`, then the prepared semantic environment with `.venv-semantic/bin/python -m src.cli search "finding information" --retriever semantic --offline`. On a fresh checkout, install the extra and populate the cache online first. Trace chunks → adapter → passage vectors → query vector → cosine → shared result objects. A new process reuses model files but rebuilds passage vectors.
+
+**Clarify test layers:** Default tests use deterministic fakes. `python -m pytest -m integration -s -q` explicitly uses the actual cached model with network calls blocked. A fake cannot validate model quality, and six labeled queries cannot establish general accuracy.
+
+
+## Slide 26 — Hybrid search with reciprocal ranks
+
+**Goal:** Combine ranked evidence without adding incompatible score scales.
+
+**Show:** Run both [chapter 26 examples](python-for-dummies.md#chapter-26). The first prints A 0.032522, C 0.016393, B 0.016129. The second shows semantic selecting answer.md and hybrid incorrectly promoting noise.md. Neither example needs model dependencies.
+
+**Explain:** enumerate starts at one to represent rank. Each branch has its own seen set, and a tuple of filename and chunk number identifies a passage. setdefault preserves the first original chunk. Repeated identities vote once per branch; conflicting text is an error. fsum adds contributions, then a sort and slice select the final output.
+
+**Connect to the project:** HybridRetriever composes two existing retrievers. It snapshots the inputs, reuses both indexes, and requests all N candidates before limiting fused output. The output limit never changes the branch candidate depth. The shared SearchResult still contains original source text, but its score now means reciprocal-rank agreement.
+
+**Evidence:** The fixed 23-question comparison shows hybrid at 75% Hit@3 and semantic at 85%. Hybrid recovers one semantic miss and loses three semantic hits. The feature remains opt-in; ranking agreement is not proof of relevance.
+
+**Run:** `.venv-semantic/bin/python -m src.cli search "finding information" --retriever hybrid --offline`. Use the existing pinned model cache. Model failure ends the operation without partial keyword results. Blank requests invoke neither branch.
+
+**Ask:** Would rescaling keyword scores change the fused order? No, unless the branch order changes. Why not request only the desired top one from each branch? A lower-ranked agreement may win after fusion, and changing display limits should not change ranking.

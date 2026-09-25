@@ -1,9 +1,27 @@
 # Video script: Learning Ask My Notes, one concept at a time
 
 **Format:** Student-led walkthrough with screen recordings and simple diagrams.  
-**Estimated runtime:** 15–18 minutes at a conversational pace, including pauses.  
+**Estimated runtime:** 25–30 minutes at a conversational pace, including pauses.
 **Delivery:** Curious, professional, and conversational. Read the narration aloud; visual directions and source cues are production notes.  
 **Companion guide:** [concept.md](concept.md). Source cues refer to the same code snapshot as that guide.
+
+## Contents
+
+- [Opening — What am I actually learning here?](#opening--what-am-i-actually-learning-here)
+- [How to use concept.md](#how-to-use-conceptmd)
+- [1. Overlapping chunk boundaries](#1-overlapping-chunk-boundaries)
+- [2. Corpus-dependent inverse document frequency](#2-corpus-dependent-inverse-document-frequency)
+- [3. Balancing relevance, repetition, and passage length](#3-balancing-relevance-repetition-and-passage-length)
+- [4. Tokenization and the limits of literal matching](#4-tokenization-and-the-limits-of-literal-matching)
+- [5. Source provenance and citation stability](#5-source-provenance-and-citation-stability)
+- [6. Pipeline contracts and the path toward RAG](#6-pipeline-contracts-and-the-path-toward-rag)
+- [7. Index lifecycle, consistency, and scaling](#7-index-lifecycle-consistency-and-scaling)
+- [8. Deterministic ranking and floating-point arithmetic](#8-deterministic-ranking-and-floating-point-arithmetic)
+- [9. Validation and failure semantics across layers](#9-validation-and-failure-semantics-across-layers)
+- [10. Testing correctness versus measuring retrieval quality](#10-testing-correctness-versus-measuring-retrieval-quality)
+- [11. Embeddings, cosine similarity, and local model lifecycle](#11-embeddings-cosine-similarity-and-local-model-lifecycle)
+- [12. Rank fusion and candidate depth](#12-rank-fusion-and-candidate-depth)
+- [Closing — How I would keep learning](#closing--how-i-would-keep-learning)
 
 ## Opening — What am I actually learning here?
 
@@ -15,9 +33,9 @@
 
 But once I look at the code, I start running into questions. How big should a passage be? What makes one result more relevant than another? And how do I know where a result came from?
 
-That’s what this walkthrough is about. I’m going to work through the ten concepts in `concept.md`, explain the parts that take a little extra thought, and use small examples to make them easier to follow.
+That’s what this walkthrough is about. I’m going to work through the twelve concepts in `concept.md`, explain the parts that take a little extra thought, and use small examples to make them easier to follow.
 
-One detail to establish first: this version performs keyword search. It returns passages from our notes. Embeddings and generated answers are planned extensions, so I’ll describe those as possible next steps.”
+One detail to establish first: keyword search is the default, while semantic and hybrid modes use the optional local model stack. All three return passages from our notes. Semantic mode uses an embedding model; generated answers remain future work.”
 
 ## How to use concept.md
 
@@ -63,7 +81,7 @@ Stopping after a chunk reaches the end would be a possible improvement if I want
 
 ## 2. Corpus-dependent inverse document frequency
 
-**Source cue:** [src/search.py:34–47](src/search.py#L34).
+**Source cue:** [src/search.py:46–61](src/search.py#L46).
 
 **On screen:** Three chunk cards. Put `notes` on all three and `retrieval` on only one. Reveal:
 
@@ -89,19 +107,19 @@ That connection is the tricky part: chunking affects ranking statistics. To comp
 
 ## 3. Balancing relevance, repetition, and passage length
 
-**Source cue:** [src/search.py:58–75](src/search.py#L58).
+**Source cue:** [src/search.py:72–92](src/search.py#L72).
 
-**On screen:** Reveal the score in three steps: “Count matching terms, capped at 3” → “Multiply by rarity weight” → “Divide by square root of token count.”
+**On screen:** Reveal the score in three steps: “Count matching terms, capped at 3” → “Multiply by rarity weight” → “Divide by square root of retained-token count.”
 
 **Narration:**
 
 “Now I can follow how those weights become a score.
 
-For each matching query term, the program counts its occurrences in the chunk, caps that count at three, and multiplies by the term’s IDF weight. It adds those contributions, then divides by the square root of the chunk’s token count.
+For each matching query term, the program counts its occurrences in the chunk, caps that count at three, and multiplies by the term’s IDF weight. It adds those contributions, then divides by the square root of the chunk’s retained-token count.
 
 Let me use a simple made-up weight of two. If a matching term appears twice, its contribution is four. If that passage contains sixteen tokens, the denominator is four, giving a score of one for this single-term example.
 
-The repetition cap means typing the same word twenty times in a passage doesn’t keep increasing its contribution. Extra tokens still increase the length penalty, though.
+The repetition cap means typing the same word twenty times in a passage doesn’t keep increasing its contribution. Extra retained tokens still increase the length penalty, though.
 
 Query repetition behaves differently: the query becomes a set of unique terms. Searching for ‘Python Python’ has the same effect as searching for ‘Python.’
 
@@ -111,7 +129,7 @@ I also need to read the score correctly. A score of point eight does not mean an
 
 ## 4. Tokenization and the limits of literal matching
 
-**Source cue:** [src/search.py:14–24](src/search.py#L14), [documents/History.md:5](documents/History.md#L5).
+**Source cue:** [src/search.py:15–34](src/search.py#L15), [documents/History.md:5](documents/History.md#L5).
 
 **On screen:** Display illustrative tokenizer outputs:
 
@@ -137,11 +155,19 @@ Another subtlety: the chunker splits on whitespace, while the retriever uses thi
 
 My debugging move is to inspect the tokens for both my query and the passage I expected to find. That tells me whether a match was possible before I investigate the scoring.
 
-A stop-word filter for common words, or a tokenizer that supports more languages, could improve particular cases. Those changes would need consistent handling for queries and passages, plus a rebuilt index.”
+The stop-word filter is now implemented for both queries and passages. A tokenizer that supports more languages remains future work and would also require a rebuilt index.”
+
+**Stop-word demonstration:** Run the README’s controlled comparison for query `how is retrieval`.
+
+**Narration:** “A stop word is a word we deliberately leave out of matching. Our shared tokenizer excludes 26 words, including how, is, and the. THE theory is useful becomes theory and useful. We filter whole tokens, so theory survives. Python stores this vocabulary in a frozenset: an immutable set.
+
+Before filtering, the passage how is how is how is scored 3.442672 and outranked the useful retrieval passage at 0.702733. Now the filler passage cannot match, and the retrieval passage comes first. The original text is still available for display.
+
+We count only retained tokens in the length penalty, but all original chunks still count toward corpus size. A passage with no retained tokens is skipped before division. A query made entirely of stop words returns no results. We preserve no, not, and never, but literal matching still does not understand negation. This fixed English list has no override, so titles containing common words remain a limitation.”
 
 ## 5. Source provenance and citation stability
 
-**Source cue:** [src/models.py:13–47](src/models.py#L13), [src/loader.py:30–35](src/loader.py#L30), [src/cli.py:63–67](src/cli.py#L63).
+**Source cue:** [src/models.py:13–48](src/models.py#L13), [src/loader.py:30–35](src/loader.py#L30), [src/cli.py:91–95](src/cli.py#L91).
 
 **On screen:** Follow a source label through `Document → DocumentChunk → SearchResult`. Show an illustrative label: `notes/example.txt (chunk 2)`.
 
@@ -161,7 +187,7 @@ For the current version, the filename and chunk number help me locate a result. 
 
 ## 6. Pipeline contracts and the path toward RAG
 
-**Source cue:** [src/models.py:50–63](src/models.py#L50), [src/cli.py:48–67](src/cli.py#L48), [PROJECT_OVERVIEW.md:64–66](PROJECT_OVERVIEW.md#L64).
+**Source cue:** [src/models.py:51–65](src/models.py#L51), [src/cli.py:58–95](src/cli.py#L58), [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
 
 **On screen:** Show `Load → Chunk → Retrieve → Print`. Add a dashed future branch from retrieved passages to “Generate an answer.”
 
@@ -171,9 +197,9 @@ For the current version, the filename and chunk number help me locate a result. 
 
 A contract describes what one component promises to another. Here, the retriever’s search method accepts a query and a result limit, then returns search results.
 
-That gives a future retriever a shape to follow. An embedding-based implementation could use a different matching algorithm while returning the same kind of result objects.
+The semantic implementation now follows that shape, using a different matching algorithm while returning the same kind of result objects.
 
-There’s still a connection I would have to change: the command line directly creates a KeywordRetriever. Having a base class doesn’t automatically make the choice configurable. A future factory could choose the implementation, or the caller could supply one.
+The command line now selects keyword, semantic, or hybrid retrieval. All return the same result objects, so the CLI can display passages without knowing how their scores were calculated.
 
 Also, this base class raises NotImplementedError when its search method is called. It doesn’t prevent me from creating an instance in the first place.
 
@@ -183,7 +209,7 @@ As a student, I find it easier to understand and test each stage separately, the
 
 ## 7. Index lifecycle, consistency, and scaling
 
-**Source cue:** [src/search.py:34–47](src/search.py#L34), [src/search.py:63–75](src/search.py#L63), [src/cli.py:47–57](src/cli.py#L47).
+**Source cue:** [src/search.py:46–61](src/search.py#L46), [src/search.py:78–92](src/search.py#L78), [src/cli.py:57–85](src/cli.py#L57).
 
 **On screen:** Align two rows: `Chunk A | Chunk B` and `Counts A | Counts B`. Animate a hypothetical caller reversing only the chunk list, leaving the counts unchanged. Label “Potential mismatch.”
 
@@ -193,7 +219,7 @@ As a student, I find it easier to understand and test each stage separately, the
 
 The important idea is consistency: the chunks and the prepared statistics must describe the same collection at the same moment.
 
-The retriever stores the caller’s chunk list directly. If another part of a future application reordered that list afterward, the stored counts could become associated with the wrong chunks. The code pairs them by position using zip.
+The keyword retriever stores the caller’s chunk list directly. The semantic retriever now protects its index by snapshotting the list into a tuple. If another part of a future application reordered that list afterward, the stored counts could become associated with the wrong chunks. The code pairs them by position using zip.
 
 The current command-line flow creates the retriever and searches immediately, without making that kind of change. But if I reused this class in a longer-running service, I’d want to copy or freeze the collection and replace related index data together when it changes.
 
@@ -203,7 +229,7 @@ For a larger collection, an inverted index could map each term to the chunks con
 
 ## 8. Deterministic ranking and floating-point arithmetic
 
-**Source cue:** [src/loader.py:24–25](src/loader.py#L24), [src/search.py:59–85](src/search.py#L59).
+**Source cue:** [src/loader.py:24–25](src/loader.py#L24), [src/search.py:73–102](src/search.py#L73).
 
 **On screen:** Show the ordering rules: “Higher score first → Source filename → Chunk number.” Then show illustrative scores `0.81234` and `0.81231`, both displayed as `0.812`.
 
@@ -223,7 +249,7 @@ I also need to remember that the command line shows only three decimal places. T
 
 ## 9. Validation and failure semantics across layers
 
-**Source cue:** [src/cli.py:25–33](src/cli.py#L25), [src/cli.py:48–61](src/cli.py#L48), [src/chunker.py:20–23](src/chunker.py#L20), [src/search.py:55–61](src/search.py#L55).
+**Source cue:** [src/cli.py:27–35](src/cli.py#L27), [src/cli.py:58–89](src/cli.py#L58), [src/chunker.py:20–23](src/chunker.py#L20), [src/search.py:69–76](src/search.py#L69).
 
 **On screen:** Three cards: “Invalid settings,” “Unable to load data,” and “Valid search, no matches.” Show current exit codes: no loaded documents → `1`; no matches → `0`.
 
@@ -237,7 +263,7 @@ The command-line parser checks that chunk size is an integer, but a negative int
 
 A non-positive result limit is treated differently: the search method intentionally returns an empty list.
 
-The command line returns exit code one when no documents were loaded, and zero when a completed search finds no matches. Exit codes let a shell or another program distinguish success from a problem.
+The command line returns exit code one when no documents were loaded or an expected semantic dependency/model failure occurs. Invalid semantic-only options in keyword mode return two. A completed search returns zero, including when its result list is empty. Exit codes let a shell or another program distinguish success from a problem.
 
 Some failures still escape as exceptions, including file-reading errors and invalid chunk settings. Also, the collection chunker validates through individual documents, so an empty collection never reaches those checks.
 
@@ -245,25 +271,65 @@ My approach is to define each case explicitly. What should the user see? What sh
 
 ## 10. Testing correctness versus measuring retrieval quality
 
-**Source cue:** [tests/test_loader.py:11–22](tests/test_loader.py#L11), [tests/test_chunker.py:14–31](tests/test_chunker.py#L14), [tests/test_search.py:13–33](tests/test_search.py#L13).
+**Source cue:** [tests/test_loader.py:11–22](tests/test_loader.py#L11), [tests/test_chunker.py:14–31](tests/test_chunker.py#L14), [tests/test_search.py:21–41](tests/test_search.py#L21).
 
-**On screen:** Show the test files beside a proposed evaluation worksheet with columns “Question,” “Expected relevant passage,” and “Found in top 3?” Label the worksheet “Future evaluation.”
+**On screen:** Show the test files beside the recorded six-query comparison in ai/semantic-search-results.md. Point out the expected source, keyword results, and semantic results for each query.
 
 **Narration:**
 
-“The final concept brings everything together: how do I know this works?
+“This concept connects implementation with evidence: how do I know this works?
 
-The project has five focused tests. They check things like loading a nested file, preserving chunk metadata, rejecting invalid overlap, and ranking a matching passage above another result.
+The project has 60 deterministic tests and five explicit model checks, including stop-word filtering, empty-token safety, query equivalence, ties, and retained-token normalization. They check things like loading a nested file, preserving chunk metadata, rejecting invalid overlap, and ranking a matching passage above another result.
 
 Those are useful, concrete examples of expected behavior. But retrieval quality asks another question: when someone asks a real question, does the program return useful evidence?
 
 I need both kinds of checking. For correctness, I can use small cases where I understand the answer exactly. For quality, I need representative questions and passages I’ve labeled as relevant.
 
-There’s a good testing lesson in the empty-query example. It uses an empty index too. To isolate query handling, I’d also test an empty query against a populated index.
+The keyword tests isolate empty and stop-word-only queries against populated indexes. Adding stop words does not change keyword results or scores. Semantic mode keeps those words and tests a different contract.
 
-Then, for a future evaluation, I could record whether relevant evidence appears in the top three results. I’d inspect duplication as well: three overlapping passages might contain almost the same information.
+The fixed six-query comparison now records whether the expected passages appear near the top. Both predefined paraphrases ranked first in semantic mode and were missed by keyword search. A broader evaluation should also inspect duplication: three overlapping passages might contain almost the same information.
 
 That would help me compare chunk sizes or scoring changes using evidence. The current suite checks selected behaviors; a broader retrieval evaluation is still future work.”
+
+**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 60 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
+
+## 11. Embeddings, cosine similarity, and local model lifecycle
+
+**Source cue:** [src/semantic.py](src/semantic.py), [semantic tests](tests/test_semantic.py), and [comparison results](ai/semantic-search-results.md).
+
+**On screen:** Show `[3, 4] → [0.6, 0.8]`; compare against `[1, 0]`. Reveal the dot product `0.6`. Open the two paraphrase rows in the measured comparison.
+
+**Narration:** “The new semantic option turns each passage into a vector. We compare directions using cosine similarity. Dividing by vector length removes magnitude, so a normalized dot product is enough. The coordinates are learned features, not a list of human-readable meanings.
+
+A fake encoder lets me test the arithmetic with tiny vectors: same direction is one, perpendicular is zero, opposite is minus one. It also lets me prove that passages are encoded once and their original sources are preserved. That requires no model download.
+
+Then I need a real model check. Our two predefined paraphrases missed their expected passage with keyword search and ranked it first with semantic search. The unrelated questions also returned passages, which shows why similarity is not confidence and why nearest does not mean relevant.
+
+The model is an optional dependency. Lazy loading means an empty request does not import it or download assets. Cached model files survive between commands, while passage vectors live only in memory. Offline mode loads a pinned local snapshot; our integration tests forbid network connections.
+
+Semantic input keeps stop words and sentence context. The model can truncate long input at its token limit; we warn about that and retain original display text. This still returns passages, not generated answers.”
+
+**Exercise:** If `[3, 4]` and `[30, 40]` point the same way, should their cosine differ? No. Normalization removes magnitude. Could a low-similarity passage still appear in the top three? Yes; no relevance threshold exists.
+
+## 12. Rank fusion and candidate depth
+
+**Source cue:** [src/hybrid.py](src/hybrid.py), [tests/test_hybrid.py](tests/test_hybrid.py), and [the measured evaluation](evaluations/hybrid-results.md).
+
+**On screen:** Show keyword `[A, B]` and semantic `[C, A]`. Label positions 1 and 2, then reveal A's two contributions. Show the diagnostic metrics next to the counterexample.
+
+**Narration:** “Hybrid search does not add a keyword score to a cosine. Their scales differ. We add reciprocal rank contributions instead. First place contributes one divided by sixty-one. Second contributes one divided by sixty-two. A appears in both lists, so it wins this example; then C; then B.
+
+The helper deduplicates by filename and chunk number. Same text in different places remains distinct. A repeated entry within one branch gets no extra vote, and conflicting source text is an error.
+
+Candidate depth matters. We ask each branch for its full list, then apply the final limit. That lets agreement below the output cutoff rise after fusion and makes smaller outputs prefixes of larger ones.
+
+Agreement can also mislead. If irrelevant A has a keyword match and ranks second semantically, it gets two contributions. Relevant B may rank first semantically but have no literal match, getting only one. A can win even though B answers the question.
+
+That happened in our evaluation: hybrid's top-three hit rate is seventy-five percent versus semantic's eighty-five. It recovers one semantic miss and loses three semantic hits. We did not tune labels or constants after seeing those results. It remains an explicit option, not a new default.”
+
+**Ask:** If all raw branch scores change but their orders stay fixed, should hybrid order change? No. If the model fails after keyword finds results, should hybrid return those hits? No: report the model error rather than silently dropping a branch.
+
+**Live command:** `.venv-semantic/bin/python -m src.cli search "finding information" --retriever hybrid --offline`. The existing pinned cache is reused. Show component ranks in `evaluations/hybrid-results.json` to explain results hidden by three-decimal display rounding.
 
 ## Closing — How I would keep learning
 
