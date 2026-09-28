@@ -8,6 +8,7 @@ For project-wide purpose, architecture, AI development guidance, and the roadmap
 
 - [Project structure](#project-structure)
 - [Install](#install)
+- [Dependencies and libraries](#dependencies-and-libraries)
 - [Run a search](#run-a-search)
 - [How retrieval works](#how-retrieval-works)
 - [Semantic search](#semantic-search)
@@ -50,6 +51,84 @@ python -m pip install -e '.[dev]'
 ```
 
 The base keyword application has no runtime dependencies outside the Python standard library. Semantic search requires the optional extra below.
+
+## Dependencies and libraries
+
+[pyproject.toml](pyproject.toml) is the source of truth for declared Python requirements. The base application has no third-party Python runtime dependencies. The tables below cover build tools, optional libraries, model assets, and the standard-library modules imported by the application, tests, and evaluation scripts.
+
+**Direct requirements and external runtime**
+
+| Dependency | Requirement / installation | How it is used |
+| --- | --- | --- |
+| Python | `>=3.10` | Runs the CLI, retrieval, generation adapter, tests, and evaluations. |
+| `pip` | Installation tool; no project version pin | Installs the project and optional extras using the commands in [Install](#install) and [Semantic search](#semantic-search). |
+| `setuptools` | `>=68`, build requirement | Provides the `setuptools.build_meta` packaging backend and editable installation of `src`. |
+| `pytest` | `>=8.0`, optional `dev` extra | Runs `tests/`, including fixtures, monkeypatching, exception assertions, and explicitly selected model integration checks. |
+| `sentence-transformers` | `==5.1.2`, optional `semantic` extra | `SentenceTransformer` in `src/semantic.py` encodes questions and passages into normalized embeddings on CPU. Required for semantic and hybrid retrieval, including the default `ask` mode. Loaded lazily so keyword mode does not require it. |
+| `huggingface-hub` (import: `huggingface_hub`) | Installed transitively by the semantic extra; no direct project pin | Also imported directly in `src/semantic.py`: `snapshot_download(..., local_files_only=True)` resolves the pinned embedding snapshot in offline mode. Supports online model downloads through the model libraries. |
+| `sentence-transformers/all-MiniLM-L6-v2` | Embedding model asset, revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41` | Produces the semantic vectors; cached separately from Python packages under `.cache/ask-my-notes/models` by default. |
+| Ollama | Separate local executable/server; tested with `0.34.3` | Serves answer generation on `127.0.0.1:11434`. `src/local_generator.py` calls its HTTP API using the standard library; no Ollama Python SDK is needed. Required for `ask` when evidence is available. |
+| `qwen2.5:1.5b` | Ollama model asset, Q4_K_M; exact manifest digest enforced | Writes grounded answers and citations from retrieved context. See [Local model setup](#local-model-setup) for the digest, download, and server commands. |
+
+**Transitive Python libraries**
+
+These libraries are installed by the optional model/test stack rather than declared individually by this project. This inventory reflects `.venv-semantic` on 2026-09-28; dependency resolution can differ by platform, Python version, and installation date. Some support upstream library features that this text-only application does not exercise. The [semantic validation report](ai/semantic-search-results.md#setup) records tested versions of the main model libraries; it is not a lockfile.
+
+| Library | Role in the installed stack |
+| --- | --- |
+| `torch` (PyTorch) | Executes the embedding model's tensor operations and CPU inference. |
+| `transformers` | Loads the MiniLM transformer architecture and tokenizer for Sentence Transformers. |
+| `tokenizers` | Implements fast text tokenization for the embedding model. |
+| `numpy` | Provides numerical arrays used by the embedding libraries. The application's final cosine ranking uses its own Python arithmetic. |
+| `scikit-learn`, `scipy` | Supply machine-learning utilities and scientific numerical routines required by Sentence Transformers; the application implements its own retrievers. |
+| `safetensors` | Supports loading model weights in the safetensors format. |
+| `tqdm` | Supplies progress reporting for model loading/download and encoding utilities. |
+| `Pillow` | Supplies image support in Sentence Transformers; this application loads only text notes. |
+| `filelock` | Coordinates access to shared model/cache files. |
+| `fsspec` | Provides filesystem abstractions used by the model stack. |
+| `hf-xet` | Supports Hugging Face's Xet-backed model downloads. |
+| `requests`, `urllib3` | Provide HTTP transport for Hugging Face downloads; the local Ollama adapter uses `http.client` instead. |
+| `certifi`, `charset-normalizer`, `idna` | Support Requests with CA certificates, response text encoding detection, and internationalized domain names, respectively. |
+| `PyYAML` | Parses YAML metadata/configuration in the Hugging Face stack. |
+| `regex` | Provides extended regular-expression support for transformer text processing. |
+| `packaging` | Parses package versions and requirements for compatibility checks in model and test libraries. |
+| `typing_extensions` | Provides typing features used by upstream libraries across Python versions. |
+| `sympy`, `mpmath` | Supply symbolic mathematics and arbitrary-precision arithmetic for PyTorch internals. |
+| `networkx` | Supplies graph utilities for PyTorch internals. |
+| `Jinja2`, `MarkupSafe` | Supply template rendering and safe string handling for upstream tooling; the app builds its prompts directly. |
+| `joblib`, `threadpoolctl` | Supply job execution/caching utilities and native thread-pool control for scikit-learn. |
+| `cloudpickle`, `narwhals` | Support serialization and dataframe interoperability in the installed scikit-learn stack; the application does not directly use these features. |
+| `iniconfig`, `pluggy`, `Pygments` | Support pytest configuration parsing, plugins/fixtures, and syntax-highlighted test output, respectively. |
+
+To inspect all resolved package versions in your own environment:
+
+```bash
+python -m pip list
+python -m pip check
+```
+
+**Python standard library (no separate installation)**
+
+| Module | How the project uses it |
+| --- | --- |
+| `argparse` | Defines CLI commands, flags, validation, and help in `src/cli.py`. |
+| `pathlib` | Finds note files and manages document, model-cache, and evaluation-output paths. |
+| `dataclasses` | Defines documents, chunks, search results, and answer data; serializes evaluation records with `asdict`. |
+| `typing` | Defines `Protocol` interfaces and `Sequence` annotations for encoders, generators, and retrieval inputs. |
+| `collections` | Uses `Counter` for keyword term frequencies. |
+| `re` | Tokenizes keyword queries and passages. |
+| `math` | Computes keyword weights and vector norms, and checks finite scores and generation values. |
+| `logging` | Emits retrieval, model-loading, context, and generation diagnostics. |
+| `json` | Serializes evidence and Ollama requests, parses/validates answers, and reads/writes evaluation data. |
+| `http.client` | Sends bounded HTTP requests to the local Ollama server. |
+| `os` | Reads the `ASK_NOTES_LOCAL_MODEL` environment setting. |
+| `time` | Uses `monotonic` for generation deadlines and evaluation timings. |
+| `datetime` | Timestamps evaluation reports. |
+| `hashlib` | Records content/prompt hashes for reproducible evaluations. |
+| `importlib.metadata`, `platform` | Record installed library versions and runtime/platform details in evaluations and integration checks. |
+| `sys`, `types` | Support test-time module substitution and lightweight `SimpleNamespace` test doubles. |
+| `socket` | Lets integration tests block network access to verify offline behavior. |
+| `venv` | Creates the isolated Python environments shown in the setup commands. |
 
 ## Run a search
 
