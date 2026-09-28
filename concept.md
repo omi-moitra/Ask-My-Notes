@@ -1,6 +1,6 @@
-# Twelve difficult concepts in Ask My Notes
+# Thirteen difficult concepts in Ask My Notes
 
-Ranked by the reasoning needed to understand and safely extend this project. This is a local application with default keyword search, optional semantic embeddings, and opt-in hybrid rank fusion. A small labeled comparison is implemented; answer generation and broad retrieval evaluation remain future work. “How to solve it” below distinguishes the existing approach from suggested improvements. References identify exact lines in the source snapshot reviewed on September 23, 2026; later edits may move them.
+Ranked by the reasoning needed to understand and safely extend this project. This is a local application with default keyword search, optional semantic embeddings, and opt-in hybrid rank fusion. A small labeled comparison is implemented; local answer generation is implemented and broad evaluation remains future work. “How to solve it” below distinguishes the existing approach from suggested improvements. References identify exact lines in the source snapshot reviewed on September 25, 2026; later edits may move them.
 
 ## Contents
 
@@ -18,6 +18,7 @@ Ranked by the reasoning needed to understand and safely extend this project. Thi
 11. [Embeddings, cosine similarity, and local model lifecycle](#11-embeddings-cosine-similarity-and-local-model-lifecycle)
     - [Compare the three retrieval modes](#compare-the-three-retrieval-modes)
 12. [Rank fusion and candidate depth](#12-rank-fusion-and-candidate-depth)
+13. [Grounded generation and citation validation](#13-grounded-generation-and-citation-validation)
 
 - [Finding and running the checks](#finding-and-running-the-checks)
 
@@ -69,23 +70,23 @@ These measured results use query `how is retrieval` against exactly these two ch
 
 ## 5. Source provenance and citation stability
 
-**Where encountered:** Immutable data records in [src/models.py:13–48](src/models.py#L13); relative source paths in [src/loader.py:30–35](src/loader.py#L30); propagation through chunk creation in [src/chunker.py:35–40](src/chunker.py#L35); printed references in [src/cli.py:91–95](src/cli.py#L91).
+**Where encountered:** Immutable data records in [src/models.py:13–48](src/models.py#L13); relative source paths in [src/loader.py:30–35](src/loader.py#L30); propagation through chunk creation in [src/chunker.py:35–40](src/chunker.py#L35); printed references in [src/cli.py:144–148](src/cli.py#L144).
 
 **Why difficult:** Text is transformed from a whole document into normalized windows, but a result must remain traceable to its origin. A relative filename and chunk number identify a passage only within a particular collection and chunking configuration. Editing a document or changing chunk size can change those numbers. The current model does not preserve original line numbers or character offsets.
 
-**How to solve it:** Preserve source metadata at each transformation, as the current loader, chunker, and result wrapper do. Frozen dataclasses prevent ordinary field reassignment. For durable citations in a future answer generator, add document identity/version and original-text offsets before whitespace normalization loses that information. Treat today's displayed chunk references as navigation hints for the current collection, not permanent source-line citations.
+**How to solve it:** Preserve source metadata at each transformation, as the current loader, chunker, and result wrapper do. Frozen dataclasses prevent ordinary field reassignment. For durable citations beyond the current answer generator, add document identity/version and original-text offsets before whitespace normalization loses that information. Treat today's displayed chunk references as navigation hints for the current collection, not permanent source-line citations.
 
 ## 6. Pipeline contracts and the path toward RAG
 
-**Where encountered:** Retriever contract in [src/models.py:51–65](src/models.py#L51); concrete inheritance in [src/search.py:39–47](src/search.py#L39); orchestration in [src/cli.py:58–95](src/cli.py#L58); explicitly unimplemented extensions in [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
+**Where encountered:** Retriever contract in [src/models.py:51–65](src/models.py#L51); concrete inheritance in [src/search.py:39–47](src/search.py#L39); orchestration in [src/cli.py:111–148](src/cli.py#L111); explicitly unimplemented extensions in [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
 
 **Why difficult:** Separating ingestion, chunking, retrieval, and presentation makes later extensions manageable, but an interface alone does not remove all coupling. The CLI now selects `KeywordRetriever`, `SemanticRetriever`, or `HybridRetriever` with `--retriever`, while preserving their shared result shape. The base class raises `NotImplementedError`; it is not an abstract base class that prevents instantiation. Also, retrieving relevant passages is only one stage of retrieval-augmented generation (RAG), not answer generation itself.
 
-**How to solve it:** Follow the current flow `Document -> DocumentChunk -> SearchResult` and preserve the `search(query, limit)` result contract in another retriever. The CLI keeps retriever selection at its boundary; neither implementation owns loading files or rendering results. Introduce answer generation as a separate consumer of retrieved passages and their provenance. Define empty-result, ordering, and limit behavior consistently across implementations, and evaluate retrieval before relying on it to ground generated answers.
+**How to solve it:** Follow the current flow `Document -> DocumentChunk -> SearchResult` and preserve the `search(query, limit)` result contract in another retriever. The CLI keeps retriever selection at its boundary; no retriever implementation owns loading files or rendering results. The answer pipeline is a separate consumer of retrieved passages and their provenance. Define empty-result, ordering, and limit behavior consistently across implementations, and evaluate retrieval before relying on it to ground generated answers.
 
 ## 7. Index lifecycle, consistency, and scaling
 
-**Where encountered:** Whole-file loading in [src/loader.py:23–34](src/loader.py#L23); index initialization in [src/search.py:46–61](src/search.py#L46); full chunk scan in [src/search.py:78–92](src/search.py#L78); per-invocation reconstruction in [src/cli.py:57–85](src/cli.py#L57).
+**Where encountered:** Whole-file loading in [src/loader.py:23–34](src/loader.py#L23); index initialization in [src/search.py:46–61](src/search.py#L46); full chunk scan in [src/search.py:78–92](src/search.py#L78); per-invocation reconstruction in [src/cli.py:110–138](src/cli.py#L110).
 
 **Why difficult:** Precomputing token counts saves repeated tokenization during queries, but requires the counts, IDF statistics, and chunks to describe the same snapshot. In keyword mode, `self.chunks = chunks` retains the caller's mutable list. Semantic mode instead snapshots the collection into a tuple. Mutating the keyword retriever’s caller list later can misalign it with `term_counts`, while `zip` silently stops at the shorter input. Each CLI invocation reloads documents; keyword mode builds counts immediately, while semantic mode builds vectors only when needed. Each actual query scans its passage index.
 
@@ -101,7 +102,7 @@ These measured results use query `how is retrieval` against exactly these two ch
 
 ## 9. Validation and failure semantics across layers
 
-**Where encountered:** CLI argument types in [src/cli.py:27–35](src/cli.py#L27); empty-collection and no-match exit behavior in [src/cli.py:58–89](src/cli.py#L58); chunk parameter checks in [src/chunker.py:20–23](src/chunker.py#L20); early search returns in [src/search.py:69–76](src/search.py#L69); UTF-8 file reads in [src/loader.py:30–34](src/loader.py#L30).
+**Where encountered:** CLI argument types in [src/cli.py:31–39](src/cli.py#L31); empty-collection and no-match exit behavior in [src/cli.py:111–142](src/cli.py#L111); chunk parameter checks in [src/chunker.py:20–23](src/chunker.py#L20); early search returns in [src/search.py:69–76](src/search.py#L69); UTF-8 file reads in [src/loader.py:30–34](src/loader.py#L30).
 
 **Why difficult:** Syntactically valid input can still violate domain rules. `argparse` accepts negative integers, while the chunker rejects invalid sizes/overlap. A non-positive result limit intentionally returns no results. The CLI returns 1 for no loaded documents or expected semantic dependency/model failures, 2 for invalid option combinations, and 0 for a completed search, including an empty result list. Invalid chunk settings and file read/decode errors are not caught by the CLI. Collection-level chunk validation is skipped when `chunk_documents` receives an empty list because validation occurs only inside the per-document call ([src/chunker.py:53–57](src/chunker.py#L53)).
 
@@ -111,7 +112,7 @@ These measured results use query `how is retrieval` against exactly these two ch
 
 **Where encountered:** Loader fixture in [tests/test_loader.py:11–22](tests/test_loader.py#L11); chunk expectations and invalid overlap in [tests/test_chunker.py:14–31](tests/test_chunker.py#L14); ranking and empty-query tests in [tests/test_search.py:21–41](tests/test_search.py#L21); future evaluation scope in [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
 
-**Why difficult:** Sixty deterministic tests and five explicit model checks establish selected behaviors, but do not prove that real questions retrieve useful evidence. The ranking fixture checks one relative ordering. New tests isolate empty queries against populated indexes, verify equivalent filtered queries, and check limits, ties, preserved metadata, and normalization. Overlap can also let several nearly identical passages occupy the top results, making result count a poor proxy for useful coverage.
+**Why difficult:** 122 deterministic tests and five explicit model checks establish selected behaviors, but do not prove that real questions retrieve useful evidence. The ranking fixture checks one relative ordering. New tests isolate empty queries against populated indexes, verify equivalent filtered queries, and check limits, ties, preserved metadata, and normalization. Overlap can also let several nearly identical passages occupy the top results, making result count a poor proxy for useful coverage.
 
 **How to solve it:** Keep small, interpretable fixtures for algorithmic correctness. The suite now covers populated-index empty queries, punctuation-only queries, zero-token chunks, nonpositive limits, and tied scores. Broader invalid-size and ingestion-error coverage can be added separately. Separately build a small set of representative queries with labeled relevant passages and measure how often relevant evidence appears in the top results, including diversity across sources. Use that evaluation to compare chunking and ranking changes. A six-query labeled comparison now checks exact matches, paraphrases, and unrelated questions; a broad quality benchmark remains future work.
 
@@ -120,7 +121,7 @@ These measured results use query `how is retrieval` against exactly these two ch
 
 A **unit test** gives a small piece of code known inputs and checks the expected result. For example, the hybrid tests supply prepared rankings and check exact reciprocal-rank scores. Fake encoders supply controlled vectors without loading a model. These checks establish behavior; they cannot establish that real questions retrieve useful evidence.
 
-The current suite has **60 default test cases** and **5 separately selected integration cases**. A parametrized test runs the same function with several inputs, so cases and functions are different counts. Integration checks use the actual pinned, cached model and block network access. The separate 23-question evaluation measures retrieval quality against unchanged source-and-evidence labels: hybrid Hit@3 is 75%, versus semantic's 85%, even though the implementation tests pass.
+The current suite has **122 default test cases** and **5 separately selected embedding integration cases**. Four additional generation cases exercise local Ollama, with a known quality failure recorded in [RAG results](ai/rag-answer-results.md). A parametrized test runs the same function with several inputs, so cases and functions are different counts. Embedding integration checks use the actual cached model and block all networking. Generation checks allow loopback while blocking external traffic. The separate 23-question evaluation measures retrieval quality against unchanged source-and-evidence labels: hybrid Hit@3 is 75%, versus semantic's 85%, even though the implementation tests pass.
 
 | Test file | What it verifies |
 | --- | --- |
@@ -130,6 +131,10 @@ The current suite has **60 default test cases** and **5 separately selected inte
 | [test_semantic.py](tests/test_semantic.py) | Controlled vectors, model adapter behavior, index reuse, and errors |
 | [test_hybrid.py](tests/test_hybrid.py) | Fusion arithmetic, identities, ties, candidate depth, and failures |
 | [test_cli.py](tests/test_cli.py) | Mode selection, arguments, output, diagnostics, and exit statuses |
+| [test_answering.py](tests/test_answering.py) | Context budgets, strict answers, citations, and orchestration |
+| [test_local_generator.py](tests/test_local_generator.py) | Fixed-loopback transport, model checks, and errors |
+| [test_ask_cli.py](tests/test_ask_cli.py) | Ask arguments, modes, output, and failures |
+| [test_generation_integration.py](tests/test_generation_integration.py) | Real local generation and a retained quality failure |
 | [test_semantic_integration.py](tests/test_semantic_integration.py) | Actual model retrieval and complete/missing offline caches |
 
 Run from the project root with the existing development environments:
@@ -195,3 +200,22 @@ Trace the same query through all three modes before comparing rankings. Scores a
 **A counterexample:** Keyword returns irrelevant A first; semantic returns relevant B first and A second. A receives `1/61 + 1/62`, beating B's `1/61`. This is mathematically correct fusion and worse relevance. A semantic failure is different: the whole hybrid search fails, rather than presenting a partial keyword result as hybrid.
 
 **Measured result:** On the unchanged 23-question set, hybrid Hit@1/Hit@3 is 75%/75%, compared with keyword 75%/75% and semantic 80%/85%. Hybrid recovers one semantic miss but loses three semantic hits. In the six-query fixture its paraphrase answers fall from semantic rank one to hybrid ranks three and two. No labels or constants were adjusted to hide these regressions. Hybrid remains opt-in; three-decimal fusion scores are not confidence probabilities.
+
+
+## 13. Grounded generation and citation validation
+
+**Where encountered:** [answering.py](src/answering.py), [local_generator.py](src/local_generator.py), [answer tests](tests/test_answering.py), [local setup](README.md#local-model-setup), and [the answer evaluation](evaluations/local-answer-results.md).
+
+**Why difficult:** A retriever selects text; a generator writes a new answer from it. Finding a relevant passage does not guarantee the answer uses it accurately. Conversely, a fluent answer can be unsupported. The embedding model (MiniLM) and answer model (Qwen2.5 1.5B through Ollama) perform different jobs and have separate assets. Both run locally; hosted generation is a separately specified future option.
+
+**How to solve it:** Trace `question → retrieval → bounded context → Generator → validation → answer + sources`. The `ask` command defaults to semantic retrieval; `search` retains keyword as default. The `Generator` Protocol lets the same pipeline accept a fake in tests and the real local adapter in use. The application makes at most one generation request and never falls back to a hosted service.
+
+**Context is a contract:** Preserve whole passages and metadata. Deduplicate only repeated source/chunk identities, reject conflicting text, and assign S1, S2, … only after a passage fits. The 12,000-character budget includes serialized JSON metadata and escaping; it is not a token count. Question and output limits plus a conservative token bound prevent unannounced context loss. The model receives separate instructions and a JSON object containing the question and evidence. Instruction-like notes remain data, but a prompt boundary alone cannot guarantee resistance to every injection.
+
+**What citations establish:** An answered response contains claims, each with known citation IDs. Strict Python checks reject unknown IDs, missing citations, duplicate keys/claims, malformed status, and oversized output. The renderer supplies original source names and text itself. This prevents invented citation identities, but cannot prove that a claim follows from the text. Chunk references identify the current collection snapshot, not permanent source lines.
+
+**Abstention versus failure:** Empty retrieval returns the fixed insufficient-evidence message without calling the model. A model can also deliberately abstain. Missing runtime/assets, timeouts, or malformed answers are errors with exit 1; they must not masquerade as abstentions. Invalid CLI input exits 2. A successful answer or abstention exits 0.
+
+**Resources and offline behavior:** The 8 GiB Mac can run this small quantized model. Its weights download once (about 986 MB); the adapter unloads it after each answer. Start Ollama separately with cloud disabled. The adapter contacts only loopback, never pulls assets, and rejects untested/cloud models. `--retrieval-offline` additionally prevents embedding-network access. Process-level network isolation was checked with a macOS sandbox; merely blocking sockets in Python would not cover a separate daemon.
+
+**Measured limits:** The small model can over-abstain beside an injected instruction and ignore one side of a conflict. Read [manual review](evaluations/local-answer-review.md) alongside automated checks. One integration case deliberately retains its failed quality expectation; a green structural test cannot erase a generation miss. No larger model or new machine is necessary to learn the architecture.

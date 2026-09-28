@@ -33,11 +33,12 @@ Ask My Notes is a learning project for building a local document-search applicat
 
 ## End-to-end flow
 
-1. `src.cli` parses the search query and configuration.
+1. `src.cli` parses the search query or ask question and configuration.
 2. `src.loader` walks the document directory and creates `Document` objects.
 3. `src.chunker` converts each document into overlapping `DocumentChunk` objects.
-4. The CLI selects `KeywordRetriever` by default, or `SemanticRetriever` or `HybridRetriever` explicitly. Keyword mode uses filtered token counts; semantic mode embeds original text and ranks by cosine similarity.
-5. The CLI prints sorted `SearchResult` objects with score and citation-friendly metadata.
+4. Search selects `KeywordRetriever` by default; ask defaults to `SemanticRetriever`. Both allow explicit keyword, semantic, or hybrid selection. Keyword mode uses filtered token counts; semantic mode embeds original text and ranks by cosine similarity.
+5. Search prints sorted `SearchResult` objects with score and source metadata.
+6. Ask builds bounded evidence, calls the local generator, validates claims/citations, and prints an answer plus original sources.
 
 The components are deliberately separate so each one can be studied and tested independently.
 

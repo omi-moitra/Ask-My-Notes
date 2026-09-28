@@ -2,9 +2,14 @@
 
 ## Contents
 
+- [Local answer evaluation](#local-answer-evaluation)
 - [Current three-mode comparison](#current-three-mode-comparison)
 - [How to reproduce and read the artifacts](#how-to-reproduce-and-read-the-artifacts)
 - [Historical two-mode run](#historical-two-mode-run)
+
+## Local answer evaluation
+
+The separate [local answer report](local-answer-results.md) tests eight fixed synthetic cases through the new `ask` pipeline. Its [manual review](local-answer-review.md) separates citation validity from factual completeness and records the small model's conflict and over-abstention failures. Run `.venv-semantic/bin/python -m evaluations.run_answers` with the installed local runtime and cached embeddings. It writes `local-answer-results.json` and `.md`, leaving the retrieval reports below unchanged.
 
 ## Current three-mode comparison
 

@@ -5,12 +5,14 @@
     "cases": "Fixed labels, original notes, supplied context, and observed answers"
   },
   "explanation": "Synthetic local RAG evaluation. Human review is separate; do not interpret citation validity as factual support.",
-  "created_utc": "2026-09-25T15:26:44.952207+00:00",
+  "created_utc": "2026-09-25T15:33:16.980875+00:00",
   "configuration": {
     "python": "3.14.3",
     "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
     "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "prompt_sha256": "90291c5655521bba05ef86a3ac3ca3e635718f55b9db3b3f1083f5fb647ae97c",
+    "fixture_sha256": "bd496ecefac70b3d8208157d12f7fd8cf36f9deb44a86673ec411a2b4fe76415",
     "generation_model": "qwen2.5:1.5b",
     "generation_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
     "chunk_size": 120,
@@ -29,11 +31,11 @@
     "answerable": 5,
     "unanswerable": 3,
     "errors": 0,
-    "status_matches": 6,
+    "status_matches": 7,
     "valid_response_structures": 8,
     "answerable_retrieval_coverage": 5,
     "answerable_abstentions": 1,
-    "unanswerable_answered": 1
+    "unanswerable_answered": 0
   },
   "cases": [
     {
@@ -72,7 +74,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 17.648,
+      "elapsed_seconds": 19.432,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -91,10 +93,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 449,
-        "eval_count": 28,
-        "total_duration": 9455945833,
-        "load_duration": 5606158667
+        "prompt_eval_count": 316,
+        "eval_count": 29,
+        "total_duration": 8984318458,
+        "load_duration": 6512343208
       }
     },
     {
@@ -117,9 +119,14 @@
       "status": "answered",
       "claims": [
         {
-          "text": "The garden opens at 09:00 every day and admission costs 4 tokens per visitor.",
+          "text": "The garden opens at 09:00 every day.",
           "citations": [
-            "S1",
+            "S1"
+          ]
+        },
+        {
+          "text": "Admission to the garden costs 4 tokens per visitor.",
+          "citations": [
             "S2"
           ]
         }
@@ -143,7 +150,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 11.719,
+      "elapsed_seconds": 10.23,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -162,10 +169,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 488,
-        "eval_count": 41,
-        "total_duration": 11069952291,
-        "load_duration": 4585219083
+        "prompt_eval_count": 355,
+        "eval_count": 54,
+        "total_duration": 9303696583,
+        "load_duration": 5561623166
       }
     },
     {
@@ -195,7 +202,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 7.594,
+      "elapsed_seconds": 7.638,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -214,10 +221,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 455,
+        "prompt_eval_count": 322,
         "eval_count": 12,
-        "total_duration": 6725337375,
-        "load_duration": 3992547834
+        "total_duration": 7203009000,
+        "load_duration": 5226294583
       }
     },
     {
@@ -232,15 +239,8 @@
       "corpus_sha256": {
         "backup.md": "f025b7cd7e72e689f7d5f53929e087ea9aab3c21dec5571ff464028c8768708b"
       },
-      "status": "answered",
-      "claims": [
-        {
-          "text": "The backup drive's serial number is not provided in the evidence.",
-          "citations": [
-            "S1"
-          ]
-        }
-      ],
+      "status": "insufficient_evidence",
+      "claims": [],
       "error": null,
       "required_sources_cited": true,
       "citation_structure_valid": true,
@@ -253,8 +253,8 @@
         }
       ],
       "retrieval_coverage": true,
-      "status_matches_expectation": false,
-      "elapsed_seconds": 7.009,
+      "status_matches_expectation": true,
+      "elapsed_seconds": 12.692,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -273,10 +273,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 451,
-        "eval_count": 31,
-        "total_duration": 6593236583,
-        "load_duration": 2370604625
+        "prompt_eval_count": 318,
+        "eval_count": 12,
+        "total_duration": 12202610125,
+        "load_duration": 9750839500
       }
     },
     {
@@ -324,7 +324,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 6.113,
+      "elapsed_seconds": 18.004,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -343,10 +343,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 477,
+        "prompt_eval_count": 344,
         "eval_count": 27,
-        "total_duration": 5687443792,
-        "load_duration": 2127358500
+        "total_duration": 17317836667,
+        "load_duration": 12124810042
       }
     },
     {
@@ -378,7 +378,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": false,
-      "elapsed_seconds": 5.195,
+      "elapsed_seconds": 14.2,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -397,10 +397,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 469,
+        "prompt_eval_count": 336,
         "eval_count": 12,
-        "total_duration": 4676283375,
-        "load_duration": 2428410292
+        "total_duration": 13457210459,
+        "load_duration": 11263401125
       }
     },
     {
@@ -420,7 +420,7 @@
       "status": "answered",
       "claims": [
         {
-          "text": "To get erased files back, connect the backup disk and run the recovery utility.",
+          "text": "To restore erased files, connect the backup disk and run the recovery utility.",
           "citations": [
             "S1"
           ]
@@ -439,7 +439,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 5.735,
+      "elapsed_seconds": 8.611,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -458,10 +458,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 450,
-        "eval_count": 34,
-        "total_duration": 5678093459,
-        "load_duration": 2068801834
+        "prompt_eval_count": 317,
+        "eval_count": 33,
+        "total_duration": 7957818042,
+        "load_duration": 4979702542
       }
     },
     {
@@ -491,7 +491,7 @@
       ],
       "retrieval_coverage": true,
       "status_matches_expectation": true,
-      "elapsed_seconds": 4.472,
+      "elapsed_seconds": 8.182,
       "runtime": {
         "model": "qwen2.5:1.5b",
         "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
@@ -510,10 +510,10 @@
         },
         "context_tokens": 16384,
         "output_tokens": 512,
-        "prompt_eval_count": 454,
+        "prompt_eval_count": 321,
         "eval_count": 12,
-        "total_duration": 4369841167,
-        "load_duration": 2110699459
+        "total_duration": 7635238792,
+        "load_duration": 5846502250
       }
     }
   ]

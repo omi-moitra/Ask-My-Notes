@@ -12,7 +12,7 @@ Start with the short explanation. Run the small example, compare your output, th
 
 **Before you start:** use Python 3.10 or newer. From the project root, activate the existing environment with `source .venv/bin/activate`. If it is not configured yet, follow [the setup instructions](README.md#install). Copy each complete **Try it locally** example into a temporary `.py` file in the project root and run it with `python filename.py`. Each example includes its own imports. Chapter 21 also needs the project's `pytest` development dependency. The HTML deck shows expected output; it does not execute Python in the browser.
 
-**Learning path:** basics (1–6) → collections and control flow (7–10) → objects and files (11–13) → search logic (14–18) → CLI and tests (19–23) → stop-word filtering (24) → semantic retrieval (25) → hybrid fusion (26).
+**Learning path:** basics (1–6) → collections and control flow (7–10) → objects and files (11–13) → search logic (14–18) → CLI and tests (19–23) → stop-word filtering (24) → semantic retrieval (25) → hybrid fusion (26) → local grounded answers (27).
 
 ## Lessons
 
@@ -42,6 +42,7 @@ Start with the short explanation. Run the small example, compare your output, th
 24. [Stop-word filtering with frozenset](#chapter-24)
 25. [Semantic search, vectors, and optional dependencies](#chapter-25)
 26. [Hybrid search with reciprocal ranks](#chapter-26)
+27. [Local answers, JSON, and generator protocols](#chapter-27)
 
 Testing reference: [Test files](#where-the-tests-live) · [Commands and results](#running-and-reading-test-results)
 
@@ -89,13 +90,13 @@ documents → load_documents → chunk_documents
              keyword (default), semantic, or hybrid (optional model)
 ```
 
-Ask My Notes searches local `.md` and `.txt` files. It returns passages and their filenames. Keyword mode uses ordinary Python token matching; optional semantic mode runs a local embedding model. Hybrid combines the two rankings; none of the modes generates answers. The arrows above describe the program, not executable Python.
+Ask My Notes searches local `.md` and `.txt` files. It returns passages and their filenames. Keyword mode uses ordinary Python token matching; optional semantic mode runs a local embedding model. Hybrid combines the two rankings. These three retrievers return passages; the separate `ask` command uses them to generate a local answer with citations (chapter 27). The arrows above describe the program, not executable Python.
 
 ### Reading the project code
 
 A **program** is a set of instructions. A **value** is a piece of data, such as text or a number. A **variable** is a name that refers to a value. A **function** groups instructions you can reuse. An **object** bundles data and behavior. You will meet each idea in the order the application needs it.
 
-The application uses Python's standard library. Tests additionally use `pytest`. This guide covers all language constructs in the project's own Python files, including the tests; it does not attempt to teach the internals of Python or installed dependencies.
+Keyword search and the local HTTP adapter use Python's standard library. Semantic retrieval needs the optional embedding stack, and real answer generation needs a separate Ollama process and installed model. Tests additionally use `pytest`. This guide covers all language constructs in the project's own Python files, including the tests; it does not attempt to teach the internals of Python or installed dependencies.
 
 > **Remember:** Read local notes.
 
@@ -1586,13 +1587,13 @@ This shortened loader example omits the unsupported-file setup; the complete tes
 
 `tmp_path` is a **fixture**: pytest sees that parameter name and supplies a temporary `Path` for that test. It is not a built-in Python keyword, and callers outside pytest do not receive it automatically.
 
-The tests use list comprehensions to collect text, chunk numbers, or `(source, text)` tuples. `all(...)` checks that every chunk retains the expected source. Search tests check the result count, order, and the empty-query case. The project currently runs 60 default cases across six test files, plus five integration cases in a seventh file.
+The tests use list comprehensions to collect text, chunk numbers, or `(source, text)` tuples. `all(...)` checks that every chunk retains the expected source. Search tests check the result count, order, and the empty-query case. The project currently runs 122 default cases across nine test files, plus five embedding integration cases and four generation cases in separate files.
 
 ### Where the tests live
 
 A **unit test** gives a small piece of code known inputs and checks the expected result. For example, the hybrid tests supply prepared rankings and check exact reciprocal-rank scores. Fake encoders supply controlled vectors without loading a model. These checks establish behavior; they cannot establish that real questions retrieve useful evidence.
 
-The current suite has **60 default test cases** and **5 separately selected integration cases**. A parametrized test runs the same function with several inputs, so cases and functions are different counts. Integration checks use the actual pinned, cached model and block network access. The separate 23-question evaluation measures retrieval quality against unchanged source-and-evidence labels: hybrid Hit@3 is 75%, versus semantic's 85%, even though the implementation tests pass.
+The current suite has **122 default test cases** and **5 separately selected embedding integration cases**. Four additional generation cases exercise local Ollama; [the results report](ai/rag-answer-results.md) retains a known quality failure. A parametrized test runs the same function with several inputs, so cases and functions are different counts. Embedding integration checks use the actual cached model and block all networking. Generation checks permit the local runtime connection while blocking external traffic. The separate 23-question evaluation measures retrieval quality against unchanged source-and-evidence labels: hybrid Hit@3 is 75%, versus semantic's 85%, even though the implementation tests pass.
 
 | Test file | What it verifies |
 | --- | --- |
@@ -1789,7 +1790,7 @@ print([result.chunk.source for result in retriever.search("how is retrieval")])
 ['retrieval.md']
 ```
 
-Before filtering, the filler scored 3.442672 and ranked first. After filtering, only the retrieval passage matches, at 0.702733. See the [measured comparison](README.md#before-and-after-comparison). The stop-word milestone had nine tests; current validation is 60 deterministic tests plus 5 real-model checks.
+Before filtering, the filler scored 3.442672 and ranked first. After filtering, only the retrieval passage matches, at 0.702733. See the [measured comparison](README.md#before-and-after-comparison). The stop-word milestone had nine tests; current validation is 122 deterministic tests plus 5 embedding checks; local-generation outcomes are recorded separately.
 
 ### Exercise
 
@@ -1893,7 +1894,7 @@ The default cache is `.cache/ask-my-notes/models`; `--model-cache PATH` selects 
 
 The real model keeps original sentences, including stop words, and applies its own tokenizer. Its token limit can truncate text, so the adapter warns before encoding. Original text and source metadata still appear in results. Nonblank punctuation and stop-word-only questions are valid model inputs, unlike keyword filtering's empty-result behavior.
 
-The current validation is **60 deterministic tests plus 5 real-model integration checks**. Both predefined paraphrases ranked their expected passage first with semantic search; keyword mode missed them. The unrelated questions still returned neighbors. See [the measured comparison](ai/semantic-search-results.md) for scores and reproducible commands.
+The current validation is **122 deterministic tests plus 5 embedding integration checks, with local-generation outcomes recorded separately**. Both predefined paraphrases ranked their expected passage first with semantic search; keyword mode missed them. The unrelated questions still returned neighbors. See [the measured comparison](ai/semantic-search-results.md) for scores and reproducible commands.
 
 ### Exercise
 
@@ -2020,7 +2021,112 @@ No to both. RRF uses positions rather than raw scores. Identity is filename plus
 
 </details>
 
-[← Previous](#chapter-25) · [All lessons](#lessons) · [Source coverage](#source-coverage-index)
+[← Previous](#chapter-25) · [All lessons](#lessons) · [Next →](#chapter-27)
+
+---
+
+<a id="chapter-27"></a>
+
+## 27. Local answers, JSON, and generator protocols
+
+`search` returns existing passages. `ask` adds a local generator that writes an answer from selected passages, then Python validates the response and displays citations. The default `ask` retriever is semantic, while `search` stays keyword. We can learn this workflow with a fake generator and no runtime or downloads.
+
+### Try it locally: Answer with a fake generator
+
+```python
+from src.answering import answer_question, render_answer
+from src.models import DocumentChunk
+from src.search import KeywordRetriever
+
+class DemoGenerator:
+    # This fake tests plumbing; it does not understand the question.
+    def generate(self, question, context):
+        return '{"status":"answered","claims":[{"text":"Backups run Friday.","citations":["S1"]}]}'
+
+notes = [DocumentChunk("backup.md", 1, "Backups run Friday.")]
+answer = answer_question("When do backups run?", KeywordRetriever(notes), DemoGenerator())
+print(render_answer(answer))
+```
+
+**Output**
+
+```text
+Backups run Friday. [S1]
+
+Sources:
+[S1] backup.md (chunk 1)
+   Backups run Friday.
+```
+
+### Example explained
+
+1. `KeywordRetriever(notes)` prepares a tiny collection; it returns the matching original chunk.
+2. `answer_question` builds bounded evidence and assigns the passage the request-local ID S1.
+3. `DemoGenerator` has the `generate(question, context)` method required by the `Generator` Protocol. It need not inherit from it: matching the required method shape is structural typing.
+4. The fake returns a JSON string. `json.loads` turns it into Python dictionaries/lists; it does not execute the text as code. `json.dumps` performs the reverse conversion when building a request.
+5. Validation checks status, claims, citation IDs, duplicate fields, and bounds. Frozen dataclasses hold the validated result.
+6. Rendering adds the source name, chunk number, and original text from the application's context. The model does not supply those display paths.
+
+### Try it locally: Reject an invented citation
+
+```python
+from src.answering import AnswerError, build_context, validate_answer
+from src.models import DocumentChunk, SearchResult
+
+context = build_context([SearchResult(DocumentChunk("note.md", 1, "A fact."), 1.0)])
+raw = '{"status":"answered","claims":[{"text":"A fact.","citations":["S99"]}]}'
+try:
+    validate_answer(raw, context)
+except AnswerError:
+    print("Rejected an unknown citation")
+```
+
+**Output**
+
+```text
+Rejected an unknown citation
+```
+
+### Reading the project code
+
+A `Protocol` describes what methods a collaborator must offer. This lets tests supply fakes while production uses `LocalGenerator`. The local adapter uses standard-library `http.client` to speak HTTP to Ollama on 127.0.0.1:11434. It does not need a Python Ollama SDK, API key, or hosted account. The separate Ollama process and model weights do need setup.
+
+`with`/`finally` cleanup patterns keep resources bounded; the adapter closes its HTTP connection in `finally`, even on an error. `monotonic()` measures elapsed time without relying on wall-clock changes. Byte limits bound response reads. The constructor validates settings without connecting; only `generate` contacts the runtime. A model preflight verifies the name, manifest digest, local GGUF weights, and lack of remote metadata before sending a question.
+
+`build_context` uses source/chunk tuples for identity. It serializes metadata and text, tests the character budget, and includes only complete passages. JSON escaping keeps quotes, newlines, and instruction-like text inside data fields. Character count is not token count; the adapter applies a conservative byte/token bound and reserves room for output. Notes are data, not instructions, but even a clear prompt cannot guarantee correct model behavior.
+
+### Failure versus insufficient evidence
+
+An empty retrieval result returns the fixed insufficient-evidence message without a model call. A valid model abstention also succeeds. Invalid citations, malformed JSON, unavailable runtime, missing weights, and timeouts raise `AnswerError`; the CLI prints a concise error and exits 1. Bad arguments exit 2. No retry, hosted fallback, or partial answer is emitted.
+
+Known IDs prove provenance, not truth. A model can cite S1 yet misread it, omit a conflicting S2, or refuse a supported question. The fixed answer evaluation records these cases. The small model's injection-adjacent question remains a failed quality check, rather than weakening the expected result to claim success.
+
+### Run the real local model
+
+Follow [local setup](README.md#local-model-setup) first. In this workspace, use:
+
+```bash
+.venv-semantic/bin/python -m src.cli ask "How does retrieval work?" --retrieval-offline
+# Base environment: no embedding dependency, but still requires local Ollama.
+.venv/bin/python -m src.cli ask "How does retrieval work?" --retriever keyword
+# Default tests use fakes; this explicit run uses installed local models.
+.venv-semantic/bin/python -m pytest -m generation_integration -q
+```
+
+Ollama 0.34.3 runs pinned Qwen2.5 1.5B weights on this 8 GiB Mac. The embedding model and generation model are separate. Setup downloads about 986 MB of generation weights; answering never pulls them. The runtime is loopback-only with cloud disabled; generation releases its model after each answer. `--retrieval-offline` separately prevents embedding-network checks. The integration client and the server need separate network controls because they are separate processes.
+
+### Exercise
+
+If `validate_answer` accepts a citation, has it proved the model's claim is correct? Can the fake example prove the real model follows grounding instructions?
+
+<details>
+<summary>Show answer</summary>
+
+No to both. Validation checks structure and citation membership. A fake proves the workflow behaves as specified. Real-model checks and manual comparison against original evidence measure factual support, completeness, and abstention.
+
+</details>
+
+[← Previous](#chapter-26) · [All lessons](#lessons) · [Source coverage](#source-coverage-index)
 
 ---
 
@@ -2028,6 +2134,11 @@ No to both. RRF uses positions rather than raw scores. Identity is filename plus
 
 | File | What this guide explains | Chapters |
 | --- | --- | --- |
+| [src/answering.py](src/answering.py) | Protocol, frozen records, bounded JSON context, strict validation, citations | 11, 21–22, 27 |
+| [src/local_generator.py](src/local_generator.py) | Local HTTP, deadlines, bytes, finally cleanup, model preflight, JSON schema | 19–22, 27 |
+| [tests/test_answering.py](tests/test_answering.py), [test_local_generator.py](tests/test_local_generator.py), [test_ask_cli.py](tests/test_ask_cli.py) | Fake collaborators, transport failures, grounded-answer contracts | 22, 27 |
+| [tests/test_generation_integration.py](tests/test_generation_integration.py) | Actual local models, loopback-only client networking, quality expectations | 22, 27 |
+| [evaluations/run_answers.py](evaluations/run_answers.py) | Recording wrapper, hashes, observed versus expected answers | 27 |
 | [src/__init__.py](src/__init__.py) | Package marker and module docstring | 2–3 |
 | [src/models.py](src/models.py) | Imports, annotations, decorators, three dataclasses, base class, methods, exceptions | 2, 5–6, 11–12, 21 |
 | [src/loader.py](src/loader.py) | Constants, Path, recursion, sorting, conditions, membership, continue, text methods, append, logging | 4, 7–9, 13, 20 |
@@ -2077,7 +2188,7 @@ No to both. RRF uses positions rather than raw scores. Identity is filename plus
 
 ## What you do not need yet
 
-You do not need to write neural-network training code, async/await, database access, or an LLM client for this milestone. Semantic mode uses a pretrained neural network through an optional library and may fetch model assets online. The integration tests use a `yield` fixture to check for network attempts after a test finishes. The `...` body in `Encoder.encode` declares a Protocol method shape; concrete encoders provide the implementation. These are distinct from shortened teaching excerpts.
+You do not need neural-network training, async/await, or a database for this milestone. The small local HTTP client is now part of the project and is explained in chapter 27. Semantic mode uses a pretrained neural network through an optional library and may fetch model assets online. The integration tests use a `yield` fixture to check for network attempts after a test finishes. The `...` body in `Encoder.encode` declares a Protocol method shape; concrete encoders provide the implementation. These are distinct from shortened teaching excerpts.
 
 ## Teaching reference
 

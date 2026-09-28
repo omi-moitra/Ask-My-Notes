@@ -37,6 +37,8 @@ Companion to [the guide](python-for-dummies.md) and [the HTML slideshow](python-
 - [Slide 25 — Semantic search, vectors, and optional dependencies](#slide-25--semantic-search-vectors-and-optional-dependencies)
 - [Slide 26 — Hybrid search with reciprocal ranks](#slide-26--hybrid-search-with-reciprocal-ranks)
 
+- [Slide 27 — Local answers, JSON, and generator protocols](#slide-27--local-answers-json-and-generator-protocols)
+
 ## Slide 1 — The program you are learning
 
 **Goal:** Read local notes.
@@ -929,7 +931,7 @@ Check passed
 **Transition:** Next, we will look at running and tracing the project.
 
 
-**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 60 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
+**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 122 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
 
 ## Slide 23 — Running and tracing the project
 
@@ -985,7 +987,7 @@ python notes are useful
 
 **Connect to the project:** Both queries and passages use this function. Retained tokens determine matching and length normalization; original text and chunk boundaries stay intact. Empty-token chunks are skipped before scoring, but remain in the IDF corpus size.
 
-**Demonstrate:** Query the two-passage example in chapter 24. The filler passage previously ranked first at 3.442672. Now only the retrieval passage matches, at 0.702733. The assertions verify that adding stop words to a query does not change its results or scores. The stop-word milestone had nine tests; current validation is 60 deterministic tests plus 5 real-model checks.
+**Demonstrate:** Query the two-passage example in chapter 24. The filler passage previously ranked first at 3.442672. Now only the retrieval passage matches, at 0.702733. The assertions verify that adding stop words to a query does not change its results or scores. The stop-word milestone had nine tests; current validation is 122 deterministic tests plus 5 real-model checks.
 
 **Ask:** Why does theory survive but THE disappear? Why retain not?
 
@@ -1025,7 +1027,7 @@ print(sum(a * b for a, b in zip(unit, query)))
 
 **Live model setup:** Install the semantic extra, run an online search to populate the pinned cache, then repeat with `--offline`. Explain lazy imports: blank requests do not load the model. Model files persist; passage vectors do not. The workspace's optional dependencies are in `.venv-semantic`.
 
-**Evidence:** 60 deterministic tests and five real-model checks pass. Both predefined paraphrases recovered their expected passage first. Unrelated questions also returned passages, so nearest does not establish relevance. The model keeps stop words and warns when its own token limit truncates input.
+**Evidence:** 122 deterministic tests and five real-model checks pass. Both predefined paraphrases recovered their expected passage first. Unrelated questions also returned passages, so nearest does not establish relevance. The model keeps stop words and warns when its own token limit truncates input.
 
 **Ask:** Can the fake prove actual paraphrase retrieval? Is 0.6 confidence?
 
@@ -1052,3 +1054,18 @@ print(sum(a * b for a, b in zip(unit, query)))
 **Run:** `.venv-semantic/bin/python -m src.cli search "finding information" --retriever hybrid --offline`. Use the existing pinned model cache. Model failure ends the operation without partial keyword results. Blank requests invoke neither branch.
 
 **Ask:** Would rescaling keyword scores change the fused order? No, unless the branch order changes. Why not request only the desired top one from each branch? A lower-ranked agreement may win after fusion, and changing display limits should not change ranking.
+
+
+## Slide 27 — Local answers, JSON, and generator protocols
+
+**Goal:** Follow retrieval into one generated, validated answer with source citations.
+
+**Show:** Run both chapter 27 examples. The fake generator prints “Backups run Friday. [S1]” and the original source. The second rejects S99. Neither example needs a running model.
+
+**Explain:** The Protocol is a method contract, not a model. JSON is data serialization, not Python execution. A frozen Context retains exact evidence; Claim and Answer hold validated output. The runtime adapter closes sockets with finally, uses monotonic deadlines, and never follows redirects or proxies. The client and server are separate processes, so offline validation must cover both.
+
+**Runtime walkthrough:** MiniLM embeds notes for semantic retrieval; Qwen generates text through Ollama. Use the README setup with cloud disabled and installed assets. Ask defaults to semantic; search still defaults to keyword. Keep download/setup separate from normal inference. No hosted API fee is involved, but local RAM, disk, and time are used.
+
+**Practice:** Can a known S1 citation still be misleading? Yes: it could ignore a conflicting S2. The small model also over-abstains in an injection-adjacent case, and that quality test remains failed. Show the manual evaluation, not just a passing JSON validator.
+
+**Connect:** Trace `answer_question`, `LocalGenerator.generate`, `validate_answer`, and `render_answer`. Explain that an unavailable server is an error; insufficient evidence is a distinct successful outcome. There is no automatic fallback or retry.

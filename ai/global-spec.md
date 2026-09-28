@@ -51,7 +51,8 @@ CLI configuration + local files
     -> loader -> Document objects
     -> chunker -> DocumentChunk objects
     -> selected Retriever -> SearchResult objects
-    -> CLI display with passage text and source metadata
+    -> search: CLI display with passage text and source metadata
+    -> ask: bounded context -> local Generator -> validation -> answer + sources
 ```
 
 | Location | Responsibility |
@@ -61,6 +62,9 @@ CLI configuration + local files
 | `src/models.py` | Shared `Document`, `DocumentChunk`, `SearchResult`, and `Retriever` contracts. |
 | `src/search.py` | Keyword tokenization, stop-word filtering, indexing, and ranking. |
 | `src/semantic.py` | Encoder boundary, optional model/cache lifecycle, vector validation, and cosine ranking. |
+| `src/hybrid.py` | Full-corpus reciprocal rank fusion and stable identities. |
+| `src/answering.py` | Context budgets, Generator contract, answer validation, and citations. |
+| `src/local_generator.py` | Fixed-loopback Ollama requests and pinned local-model preflight. |
 | `src/cli.py` | Arguments, component wiring, expected error handling, and display. |
 | `tests/` | Deterministic behavior checks and explicitly selected real-model checks. |
 | `evaluations/` | Labeled questions, evaluation runner, and recorded results. |

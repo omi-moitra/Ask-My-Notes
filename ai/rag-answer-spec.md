@@ -1,6 +1,7 @@
 # Feature Spec: Grounded Answers with Citations
 
-Status: Draft — local generation selected; runtime/model choice pending; `ask` is not implemented.
+Status: Implementation delivered — deterministic/offline checks verified; generation-quality acceptance remains open.
+Updated: 2026-09-25
 Created: 2026-09-23
 
 ## Contents
@@ -29,7 +30,7 @@ Reranking is deferred. The current 23-question diagnostic gives semantic Hit@3 o
 
 - Add a single-question `ask` subcommand with semantic retrieval by default and explicit keyword/hybrid alternatives.
 - Reuse existing ingestion, chunking, retrieval, source metadata, and local embedding cache.
-- Introduce an injectable generator interface and one local generator adapter after the runtime/model choice is settled.
+- Introduce an injectable generator interface and one local Ollama generator adapter.
 - Build bounded context, a grounding instruction, and a question; validate structured answers before displaying them.
 - Render claim-level citations and a source list with original relative paths, chunk numbers, and supporting passage text.
 - Handle insufficient evidence, configuration errors, provider errors, and malformed output distinctly.
@@ -48,7 +49,9 @@ Reranking is deferred. The current 23-question diagnostic gives semantic Hit@3 o
 
 **Selected:** local answer generation on the user's Mac. Both embeddings and answer generation run locally. Normal answering must not send questions, note passages, or their metadata to a remote service. No hosted API account or per-request API payment is required; local computation still uses memory, disk, electricity, and time.
 
-**Open decision:** the local runtime and generation model. Before implementing the adapter, inspect the machine's available memory and disk, verify a suitable runtime/model against its official documentation, and record the exact tested runtime version, model identifier and digest (where available), quantization, license, context capacity, installation steps, timeout, and output budget. Do not assume every MacBook Air can run the same model comfortably. Measure actual latency and memory use with the selected configuration.
+**Selected runtime/model:** Ollama 0.34.3 with `qwen2.5:1.5b`, Q4_K_M, Apache 2.0; manifest `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`. The 986 MB model was tested on this Apple M1 with 8 GiB RAM. Runtime/model setup, measured memory/latency, and official references are recorded in [implementation results](rag-answer-results.md). No larger model was downloaded.
+
+The adapter enforces the model digest and uses 16,384 context tokens, 512 output tokens, and a 120-second deadline. `ASK_NOTES_LOCAL_MODEL` defaults to the supported tag and rejects other names. The only endpoint is 127.0.0.1:11434; proxies and redirects cannot change it. Python uses the standard library. Ollama is a separately started service with cloud features disabled. Tests also isolate the daemon at the OS network boundary.
 
 Separate initial setup from inference. Downloading runtime/model assets can require internet access and substantial disk space. Document model size before setup. Normal `ask` must use installed assets and must not silently pull models, check for updates, enable cloud-backed models, or fall back to a hosted service. Missing assets produce setup guidance.
 
@@ -60,10 +63,10 @@ The injectable `Generator` boundary must remain independent of runtime details s
 
 ## CLI behavior
 
-These are proposed commands, not currently available commands:
+These commands are implemented; install/start the documented local runtime first:
 
 ```bash
-# Semantic retrieval is the proposed ask default; its dependencies are required.
+# Semantic retrieval is the ask default; its dependencies are required.
 python -m src.cli ask "How does retrieval work?" --retrieval-offline
 # A keyword alternative avoids the embedding model, but still needs a generator.
 python -m src.cli ask "How does retrieval work?" --retriever keyword
@@ -71,7 +74,7 @@ python -m src.cli ask "How does retrieval work?" --retriever keyword
 python -m src.cli --documents documents ask "How does retrieval work?" --limit 3
 ```
 
-`ask` accepts `--retriever keyword|semantic|hybrid` and a positive `--limit` (default 3). This limit controls candidate passages, not answer sentences. Keep existing global chunking and verbosity options. Preserve all `search` behavior and its keyword default.
+`ask` accepts `--retriever keyword|semantic|hybrid` and a `--limit` from 1 through 20 (default 3). This limit controls candidate passages, not answer sentences. Keep existing global chunking and verbosity options. Preserve all `search` behavior and its keyword default.
 
 For `ask`, use a clearly named `--retrieval-offline` flag with `--model-cache` for semantic/hybrid retrieval. Reject these flags in keyword mode. Answer generation always uses local, preinstalled assets. With semantic/hybrid retrieval, `--retrieval-offline` additionally prevents embedding-model downloads or network checks; without it, the existing embedding loader may access its model repository. Keyword retrieval needs no model download. Existing `search --offline` remains unchanged. Do not add an ambiguous `ask --offline` alias. Help must distinguish local generation from offline retrieval.
 
@@ -88,7 +91,7 @@ Suggested responsibilities: `src/answering.py` owns context, answer types, orche
 
 Context construction must be deterministic. Preserve ranking order; collapse repeated `(source, chunk_number)` identities only when text matches, and reject conflicting text. Keep equal text at different identities distinct. Assign request-local citation IDs `S1`, `S2`, and so on to the passages actually included. IDs and chunk numbers are not durable document identifiers.
 
-Use a documented total context character budget (initial proposal: 12,000 characters including serialized passage metadata). Include whole passages in rank order while they fit; skip oversized passages rather than silently truncating evidence. Record omissions in debug counts. If none fit, report a context-budget error without calling the generator. Enforce a separate question-size cap and generation output budget. Character limits are reproducible bounds, not exact model token counts; the adapter must handle model context-limit errors clearly.
+Use a documented total context character budget (12,000 characters including serialized passage metadata). Include whole passages in rank order while they fit; skip oversized passages rather than silently truncating evidence. Record omissions in debug counts. If none fit, report a context-budget error without calling the generator. Enforce a 2,000-character question cap, 512-token generation budget, at most 6 claims, 1,000 characters per claim, and an 8,000-character response ceiling. Character limits are reproducible bounds, not exact model token counts; the adapter must handle model context-limit errors clearly.
 
 Separate system instructions, the question, and serialized evidence. Treat passage text and filenames as untrusted data even when they contain instruction-like text or delimiter characters. Encode them safely in a structured evidence block. The generator must not execute commands or follow instructions found in notes. This separation reduces confusion but is not a security guarantee.
 
@@ -138,14 +141,14 @@ Store implementation evidence in `ai/rag-answer-results.md`, including actual te
 
 ## Definition of done
 
-- [ ] Select and document the local runtime, tested model/digest, hardware requirements, configuration, dependencies, and offline behavior.
-- [ ] Implement the generator boundary, bounded context, structured response validation, and citation rendering.
-- [ ] Add `ask`, preserving existing `search` behavior and optional-dependency isolation.
-- [ ] Handle abstention, invalid input, provider failures, and diagnostics as specified.
-- [ ] Pass all existing and new deterministic checks without network/model downloads.
-- [ ] Pass existing offline retrieval integration checks without altering their labels.
-- [ ] Run explicitly selected local-generation checks with synthetic notes and verify no external inference traffic; record real outcomes.
-- [ ] Run and review the separate grounded-answer evaluation, preserving historical artifacts.
-- [ ] Update project docs and all six learning companions with comments and TOCs.
-- [ ] Verify teaching outputs, links, slide navigation, JavaScript, and source snapshots; document visual limitations.
-- [ ] Review the final diff and record implementation validation before marking this spec implemented.
+- [x] Select and document the local runtime, tested model/digest, hardware requirements, configuration, dependencies, and offline behavior.
+- [x] Implement the generator boundary, bounded context, structured response validation, and citation rendering.
+- [x] Add `ask`, preserving existing `search` behavior and optional-dependency isolation.
+- [x] Handle abstention, invalid input, provider failures, and diagnostics as specified.
+- [x] Pass all existing and new deterministic checks without network/model downloads.
+- [x] Pass existing offline retrieval integration checks without altering their labels.
+- [ ] Pass every local-generation quality expectation. Checks ran under verified external-network isolation: three pass, while the injection-adjacent supported answer still abstains. Preserve this failure for follow-up.
+- [x] Run and review the separate grounded-answer evaluation, preserving historical artifacts.
+- [x] Update project docs and all six learning companions with comments and TOCs.
+- [x] Verify teaching outputs, links, slide navigation, JavaScript, and source snapshots; document visual limitations.
+- [x] Review the implementation diff and record actual validation, retaining the outstanding quality gate rather than declaring full acceptance.

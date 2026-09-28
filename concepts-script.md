@@ -1,7 +1,7 @@
 # Video script: Learning Ask My Notes, one concept at a time
 
 **Format:** Student-led walkthrough with screen recordings and simple diagrams.  
-**Estimated runtime:** 25–30 minutes at a conversational pace, including pauses.
+**Estimated runtime:** 30–35 minutes at a conversational pace, including pauses.
 **Delivery:** Curious, professional, and conversational. Read the narration aloud; visual directions and source cues are production notes.  
 **Companion guide:** [concept.md](concept.md). Source cues refer to the same code snapshot as that guide.
 
@@ -21,6 +21,7 @@
 - [10. Testing correctness versus measuring retrieval quality](#10-testing-correctness-versus-measuring-retrieval-quality)
 - [11. Embeddings, cosine similarity, and local model lifecycle](#11-embeddings-cosine-similarity-and-local-model-lifecycle)
 - [12. Rank fusion and candidate depth](#12-rank-fusion-and-candidate-depth)
+- [13. Grounded generation and citation validation](#13-grounded-generation-and-citation-validation)
 - [Closing — How I would keep learning](#closing--how-i-would-keep-learning)
 
 ## Opening — What am I actually learning here?
@@ -33,9 +34,9 @@
 
 But once I look at the code, I start running into questions. How big should a passage be? What makes one result more relevant than another? And how do I know where a result came from?
 
-That’s what this walkthrough is about. I’m going to work through the twelve concepts in `concept.md`, explain the parts that take a little extra thought, and use small examples to make them easier to follow.
+That’s what this walkthrough is about. I’m going to work through the thirteen concepts in `concept.md`, explain the parts that take a little extra thought, and use small examples to make them easier to follow.
 
-One detail to establish first: keyword search is the default, while semantic and hybrid modes use the optional local model stack. All three return passages from our notes. Semantic mode uses an embedding model; generated answers remain future work.”
+One detail to establish first: keyword search is the default, while semantic and hybrid modes use the optional local model stack. All three return passages from our notes. Semantic mode uses an embedding model; local answers with citations are now available through ask.”
 
 ## How to use concept.md
 
@@ -167,7 +168,7 @@ We count only retained tokens in the length penalty, but all original chunks sti
 
 ## 5. Source provenance and citation stability
 
-**Source cue:** [src/models.py:13–48](src/models.py#L13), [src/loader.py:30–35](src/loader.py#L30), [src/cli.py:91–95](src/cli.py#L91).
+**Source cue:** [src/models.py:13–48](src/models.py#L13), [src/loader.py:30–35](src/loader.py#L30), [src/cli.py:144–148](src/cli.py#L144).
 
 **On screen:** Follow a source label through `Document → DocumentChunk → SearchResult`. Show an illustrative label: `notes/example.txt (chunk 2)`.
 
@@ -187,9 +188,9 @@ For the current version, the filename and chunk number help me locate a result. 
 
 ## 6. Pipeline contracts and the path toward RAG
 
-**Source cue:** [src/models.py:51–65](src/models.py#L51), [src/cli.py:58–95](src/cli.py#L58), [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
+**Source cue:** [src/models.py:51–65](src/models.py#L51), [src/cli.py:111–148](src/cli.py#L111), [future extensions](PROJECT_OVERVIEW.md#future-extension-points).
 
-**On screen:** Show `Load → Chunk → Retrieve → Print`. Add a dashed future branch from retrieved passages to “Generate an answer.”
+**On screen:** Show `Load → Chunk → Retrieve → Print`. Show the implemented ask branch from retrieved passages to “Generate and validate a local answer.”
 
 **Narration:**
 
@@ -203,13 +204,13 @@ The command line now selects keyword, semantic, or hybrid retrieval. All return 
 
 Also, this base class raises NotImplementedError when its search method is called. It doesn’t prevent me from creating an instance in the first place.
 
-RAG stands for retrieval-augmented generation. A future generation stage would use retrieved passages as context for an answer. That stage doesn’t exist here yet.
+RAG stands for retrieval-augmented generation. The ask generation stage now uses retrieved passages as context for an answer. Search continues to return passages.
 
 As a student, I find it easier to understand and test each stage separately, then follow the data between them. It gives me a clear place to look when something goes wrong.”
 
 ## 7. Index lifecycle, consistency, and scaling
 
-**Source cue:** [src/search.py:46–61](src/search.py#L46), [src/search.py:78–92](src/search.py#L78), [src/cli.py:57–85](src/cli.py#L57).
+**Source cue:** [src/search.py:46–61](src/search.py#L46), [src/search.py:78–92](src/search.py#L78), [src/cli.py:110–138](src/cli.py#L110).
 
 **On screen:** Align two rows: `Chunk A | Chunk B` and `Counts A | Counts B`. Animate a hypothetical caller reversing only the chunk list, leaving the counts unchanged. Label “Potential mismatch.”
 
@@ -249,7 +250,7 @@ I also need to remember that the command line shows only three decimal places. T
 
 ## 9. Validation and failure semantics across layers
 
-**Source cue:** [src/cli.py:27–35](src/cli.py#L27), [src/cli.py:58–89](src/cli.py#L58), [src/chunker.py:20–23](src/chunker.py#L20), [src/search.py:69–76](src/search.py#L69).
+**Source cue:** [src/cli.py:31–39](src/cli.py#L31), [src/cli.py:111–142](src/cli.py#L111), [src/chunker.py:20–23](src/chunker.py#L20), [src/search.py:69–76](src/search.py#L69).
 
 **On screen:** Three cards: “Invalid settings,” “Unable to load data,” and “Valid search, no matches.” Show current exit codes: no loaded documents → `1`; no matches → `0`.
 
@@ -279,7 +280,7 @@ My approach is to define each case explicitly. What should the user see? What sh
 
 “This concept connects implementation with evidence: how do I know this works?
 
-The project has 60 deterministic tests and five explicit model checks, including stop-word filtering, empty-token safety, query equivalence, ties, and retained-token normalization. They check things like loading a nested file, preserving chunk metadata, rejecting invalid overlap, and ranking a matching passage above another result.
+The project has 122 deterministic tests and five explicit model checks, including stop-word filtering, empty-token safety, query equivalence, ties, and retained-token normalization. They check things like loading a nested file, preserving chunk metadata, rejecting invalid overlap, and ranking a matching passage above another result.
 
 Those are useful, concrete examples of expected behavior. But retrieval quality asks another question: when someone asks a real question, does the program return useful evidence?
 
@@ -291,7 +292,7 @@ The fixed six-query comparison now records whether the expected passages appear 
 
 That would help me compare chunk sizes or scoring changes using evidence. The current suite checks selected behaviors; a broader retrieval evaluation is still future work.”
 
-**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 60 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
+**Testing walkthrough:** Open `tests/test_hybrid.py` and read `test_worked_example_uses_order_not_scores`. Identify arranged rankings, the fusion call, and assertions. Then show `tests/test_semantic_integration.py`: it uses the real cached model. Explain that 122 default cases and five integration cases count parametrized inputs, not just functions. Run `.venv/bin/python -m pytest -v`; show how `PASSED`, `FAILED`, and `deselected` differ. For real-model checks use `.venv-semantic/bin/python -m pytest -m integration -v` with the cache prepared. Finally show `evaluations/hybrid-results.md`: passing correctness checks coexists with hybrid's 75% Hit@3 versus semantic's 85%. Ask the learner which evidence answers “does it work as specified?” and which answers “does it retrieve the right passage?”
 
 ## 11. Embeddings, cosine similarity, and local model lifecycle
 
@@ -330,6 +331,22 @@ That happened in our evaluation: hybrid's top-three hit rate is seventy-five per
 **Ask:** If all raw branch scores change but their orders stay fixed, should hybrid order change? No. If the model fails after keyword finds results, should hybrid return those hits? No: report the model error rather than silently dropping a branch.
 
 **Live command:** `.venv-semantic/bin/python -m src.cli search "finding information" --retriever hybrid --offline`. The existing pinned cache is reused. Show component ranks in `evaluations/hybrid-results.json` to explain results hidden by three-decimal display rounding.
+
+## 13. Grounded generation and citation validation
+
+**On screen:** Show `retrieve → context → generate → validate → answer + sources`. Open guide chapter 27 and the local setup instructions.
+
+**Narration:** “There are two local models. MiniLM represents passage meaning for retrieval. Qwen writes the answer. S1 is our label for a passage in one request; it is not a label the model may invent. We serialize original passages as JSON, keep whole passages within a budget, and give instructions separately.
+
+The model returns claims and citation IDs. Python checks their shape and membership before anything is printed. A fake generator tests this plumbing without running Ollama. But validation cannot tell us whether the explanation is true. We review the cited text too.
+
+The small model runs on this Mac, but it still misses some answers and can mishandle contradictions. One local-generation quality test remains failed; we keep it visible. The answer evaluation distinguishes this from a broken citation or a server error.
+
+Downloads are setup. Inference is local. Start the runtime with cloud disabled, and use retrieval-offline with cached embeddings. No hosted API call or fee is involved.”
+
+**Ask:** Does a valid S1 citation prove its claim? No: it proves the source exists in this request. Does an unavailable runtime count as insufficient evidence? No: it is an operational error.
+
+**Show:** Run the two fake-generator examples in chapter 27; use the real ask command only with the already installed runtime. Point to the original source paragraph and judge the claim yourself.
 
 ## Closing — How I would keep learning
 
